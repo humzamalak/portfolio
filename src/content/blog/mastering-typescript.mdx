@@ -1,0 +1,208 @@
+---
+title: "Mastering TypeScript: Advanced Patterns and Best Practices"
+excerpt: "Explore advanced TypeScript patterns, utility types, and best practices to write more robust and maintainable code."
+date: "2024-08-30"
+tags: ["TypeScript", "Programming", "Best Practices", "Web Development"]
+readingTime: 12
+author: "Humza Malak"
+---
+
+# Mastering TypeScript: Advanced Patterns and Best Practices
+
+TypeScript has become the standard for building large-scale JavaScript applications. Let's dive into advanced patterns and best practices that will make your code more robust and maintainable.
+
+## Advanced Type Patterns
+
+### 1. Conditional Types
+
+Conditional types allow you to create types that depend on other types:
+
+```typescript
+type NonNullable<T> = T extends null | undefined ? never : T;
+
+type Result = NonNullable<string | null | undefined>; // string
+
+type IsString<T> = T extends string ? true : false;
+type Test1 = IsString<"hello">; // true
+type Test2 = IsString<123>; // false
+```
+
+### 2. Mapped Types
+
+Transform existing types into new ones:
+
+```typescript
+type Readonly<T> = {
+  readonly [P in keyof T]: T[P];
+};
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+
+type ReadonlyUser = Readonly<User>;
+// Result:
+// {
+//   readonly id: number;
+//   readonly name: string;
+//   readonly email: string;
+// }
+```
+
+### 3. Template Literal Types
+
+Create string literal types with dynamic parts:
+
+```typescript
+type EventName<T extends string> = `${T}Changed`;
+type UserEvents = EventName<'user'>; // "userChanged"
+
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type ApiEndpoint = `/${string}`;
+type FullUrl = `${HttpMethod} ${ApiEndpoint}`;
+
+// Valid: "GET /users", "POST /auth/login"
+// Invalid: "PATCH /users" (PATCH not in HttpMethod)
+```
+
+## Utility Types Deep Dive
+
+### 1. Pick and Omit
+
+Select or exclude properties from types:
+
+```typescript
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  createdAt: Date;
+}
+
+// Pick specific properties
+type UserPublic = Pick<User, 'id' | 'name' | 'email'>;
+
+// Omit sensitive properties
+type UserWithoutPassword = Omit<User, 'password'>;
+
+// Combine them
+type UserUpdate = Pick<User, 'name' | 'email'>;
+```
+
+### 2. Record and Partial
+
+Create object types with specific keys or make all properties optional:
+
+```typescript
+// Record: object with specific key and value types
+type UserRoles = Record<string, 'admin' | 'user' | 'guest'>;
+
+const roles: UserRoles = {
+  'user-1': 'admin',
+  'user-2': 'user',
+  'guest-1': 'guest'
+};
+
+// Partial: make all properties optional
+type PartialUser = Partial<User>;
+
+const userUpdate: PartialUser = {
+  name: 'John Doe'
+  // email and other properties are optional
+};
+```
+
+## Best Practices
+
+### 1. Use Strict Null Checks
+
+Enable strict null checks in your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "strict": true
+  }
+}
+```
+
+### 2. Prefer Interfaces for Object Shapes
+
+```typescript
+// Good: Interface for object shapes
+interface User {
+  id: number;
+  name: string;
+}
+
+// Good: Type for unions, intersections, etc.
+type UserStatus = 'active' | 'inactive' | 'pending';
+type UserWithStatus = User & { status: UserStatus };
+```
+
+### 3. Use Generic Constraints
+
+```typescript
+// Constrain generic types
+function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+const user = { name: 'John', age: 30 };
+const name = getProperty(user, 'name'); // string
+const age = getProperty(user, 'age'); // number
+// const invalid = getProperty(user, 'invalid'); // Error!
+```
+
+## Advanced Function Types
+
+### 1. Function Overloads
+
+```typescript
+function processData(data: string): string;
+function processData(data: number): number;
+function processData(data: string | number): string | number {
+  if (typeof data === 'string') {
+    return data.toUpperCase();
+  } else {
+    return data * 2;
+  }
+}
+
+const result1 = processData('hello'); // string
+const result2 = processData(42); // number
+```
+
+### 2. Higher-Order Functions
+
+```typescript
+type AsyncFunction<T> = (...args: any[]) => Promise<T>;
+
+function withRetry<T>(
+  fn: AsyncFunction<T>,
+  retries: number = 3
+): AsyncFunction<T> {
+  return async (...args: any[]): Promise<T> => {
+    try {
+      return await fn(...args);
+    } catch (error) {
+      if (retries > 0) {
+        return withRetry(fn, retries - 1)(...args);
+      }
+      throw error;
+    }
+  };
+}
+
+const fetchWithRetry = withRetry(fetch, 3);
+```
+
+## Conclusion
+
+TypeScript's advanced features enable you to write more expressive and type-safe code. By mastering these patterns and following best practices, you'll create more maintainable applications that catch errors at compile time rather than runtime.
+
+Remember: TypeScript is not just about adding types—it's about creating a better development experience and catching bugs early in the development cycle.
