@@ -1,67 +1,60 @@
-// src/data/skills.ts
-import { SiAmazon, SiKubernetes, SiDocker, SiHelm, SiJenkins, SiTerraform, SiAnsible, SiGithubactions, SiGitlab, SiPrometheus, SiGrafana, SiElastic, SiVault, SiPython, SiGo } from "react-icons/si";
-import { FaLock } from "react-icons/fa";
-
-export type Skill = {
+export interface Skill {
   name: string;
-  icon: React.ComponentType<{ className?: string }>;
-  level: number; // 1-10
+  icon: string;
   years: number;
-};
+  proficiency: number;
+}
 
-export type SkillsByCategory = {
-  category: string;
+export interface SkillCategory {
+  name: string;
   skills: Skill[];
-};
+}
 
-export const skills: SkillsByCategory[] = [
+export const skills: SkillCategory[] = [
   {
-    category: "Cloud",
+    name: "Cloud",
     skills: [
-      { name: "AWS", icon: SiAmazon, level: 9, years: 5 },
-      { name: "Kubernetes", icon: SiKubernetes, level: 9, years: 4 },
-      { name: "Docker", icon: SiDocker, level: 9, years: 5 },
-      { name: "Helm", icon: SiHelm, level: 8, years: 3 },
-    ],
+      { name: "AWS", icon: "aws", years: 5, proficiency: 9 },
+      { name: "Kubernetes", icon: "kubernetes", years: 4, proficiency: 8 },
+      { name: "Docker", icon: "docker", years: 6, proficiency: 9 },
+      { name: "Azure", icon: "azure", years: 3, proficiency: 7 },
+      { name: "GCP", icon: "gcp", years: 2, proficiency: 6 }
+    ]
   },
   {
-    category: "CI/CD",
+    name: "CI/CD",
     skills: [
-      { name: "Jenkins", icon: SiJenkins, level: 9, years: 5 },
-      { name: "GitHub Actions", icon: SiGithubactions, level: 8, years: 3 },
-      { name: "GitLab CI", icon: SiGitlab, level: 8, years: 3 },
-    ],
+      { name: "GitHub Actions", icon: "github", years: 4, proficiency: 8 },
+      { name: "Jenkins", icon: "jenkins", years: 5, proficiency: 8 },
+      { name: "GitLab CI", icon: "gitlab", years: 3, proficiency: 7 },
+      { name: "CircleCI", icon: "circleci", years: 2, proficiency: 6 }
+    ]
   },
   {
-    category: "Infrastructure as Code",
+    name: "IaC",
     skills: [
-      { name: "Terraform", icon: SiTerraform, level: 9, years: 4 },
-      { name: "Ansible", icon: SiAnsible, level: 8, years: 3 },
-      // CloudFormation doesn't have an icon → use AWS icon
-      { name: "CloudFormation", icon: SiAmazon, level: 7, years: 3 },
-    ],
+      { name: "Terraform", icon: "terraform", years: 4, proficiency: 8 },
+      { name: "Ansible", icon: "ansible", years: 3, proficiency: 7 },
+      { name: "CloudFormation", icon: "aws", years: 3, proficiency: 7 },
+      { name: "Pulumi", icon: "pulumi", years: 2, proficiency: 6 }
+    ]
   },
   {
-    category: "Monitoring",
+    name: "Monitoring",
     skills: [
-      { name: "Prometheus", icon: SiPrometheus, level: 8, years: 3 },
-      { name: "Grafana", icon: SiGrafana, level: 8, years: 3 },
-      { name: "ELK Stack", icon: SiElastic, level: 7, years: 2 },
-    ],
+      { name: "Prometheus", icon: "prometheus", years: 4, proficiency: 8 },
+      { name: "Grafana", icon: "grafana", years: 4, proficiency: 8 },
+      { name: "Datadog", icon: "datadog", years: 3, proficiency: 7 },
+      { name: "ELK Stack", icon: "elastic", years: 3, proficiency: 7 }
+    ]
   },
   {
-    category: "Security",
+    name: "Security",
     skills: [
-      { name: "HashiCorp Vault", icon: SiVault, level: 8, years: 3 },
-      { name: "Compliance & IAM", icon: FaLock, level: 8, years: 4 },
-    ],
-  },
-  {
-    category: "Scripting",
-    skills: [
-      { name: "Python", icon: SiPython, level: 9, years: 5 },
-      { name: "Go", icon: SiGo, level: 7, years: 2 },
-      { name: "Bash", icon: SiGo, level: 9, years: 5 },
-    ],
-  },
+      { name: "OAuth", icon: "oauth", years: 5, proficiency: 9 },
+      { name: "JWT", icon: "jwt", years: 4, proficiency: 8 },
+      { name: "SSL/TLS", icon: "ssl", years: 4, proficiency: 8 },
+      { name: "Vault", icon: "vault", years: 3, proficiency: 7 }
+    ]
+  }
 ];
