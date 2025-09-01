@@ -1,3 +1,4 @@
+import { LayoutWrapper } from '@/components/layout-wrapper';
 import { getAllBlogPosts } from '@/lib/blog';
 import { FiArrowLeft, FiClock, FiTag, FiCalendar } from 'react-icons/fi';
 import Link from 'next/link';
@@ -14,22 +15,22 @@ export default function BlogIndexPage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-white">
+    <LayoutWrapper>
       <div className="max-w-4xl mx-auto px-4 py-16">
         {/* Header */}
         <div className="mb-12">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-8 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md px-2 py-1"
           >
             <FiArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
           
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
             Technical Blog
           </h1>
-          <p className="text-xl text-neutral-300">
+          <p className="text-xl text-foreground-muted">
             Exploring the latest in web development, TypeScript, and modern technologies
           </p>
         </div>
@@ -39,14 +40,14 @@ export default function BlogIndexPage() {
           {posts.map((post) => (
             <article
               key={post.slug}
-              className="bg-neutral-800 rounded-xl p-6 hover:bg-neutral-750 transition-colors"
+              className="bg-background-secondary border border-border rounded-xl p-6 hover:bg-background-tertiary transition-colors"
             >
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Thumbnail */}
                 {post.thumbnail && (
                   <div className="flex-shrink-0">
-                    <div className="w-32 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                      <div className="text-white text-2xl font-bold opacity-80">
+                    <div className="w-32 h-24 bg-gradient-to-br from-primary to-primary/60 rounded-lg flex items-center justify-center">
+                      <div className="text-primary-foreground text-2xl font-bold opacity-80">
                         {post.title.charAt(0)}
                       </div>
                     </div>
@@ -60,7 +61,7 @@ export default function BlogIndexPage() {
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-1 bg-neutral-700 text-xs text-neutral-300 rounded-full"
+                        className="px-2 py-1 bg-background text-xs text-foreground-muted rounded-full border border-border"
                       >
                         <FiTag className="inline mr-1 w-3 h-3" />
                         {tag}
@@ -69,19 +70,19 @@ export default function BlogIndexPage() {
                   </div>
 
                   {/* Title */}
-                  <h2 className="text-2xl font-bold mb-3 hover:text-blue-400 transition-colors">
-                    <Link href={`/blog/${post.slug}`}>
+                  <h2 className="text-2xl font-bold mb-3 hover:text-primary transition-colors">
+                    <Link href={`/blog/${post.slug}`} className="focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md">
                       {post.title}
                     </Link>
                   </h2>
 
                   {/* Excerpt */}
-                  <p className="text-neutral-300 mb-4 leading-relaxed">
+                  <p className="text-foreground-muted mb-4 leading-relaxed">
                     {post.excerpt}
                   </p>
 
                   {/* Meta */}
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-400">
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-foreground-muted">
                     {post.author && (
                       <span>By {post.author}</span>
                     )}
@@ -103,12 +104,12 @@ export default function BlogIndexPage() {
         {/* Empty State */}
         {posts.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-neutral-400 text-lg">
+            <p className="text-foreground-muted text-lg">
               No blog posts available yet. Check back soon!
             </p>
           </div>
         )}
       </div>
-    </div>
+    </LayoutWrapper>
   );
 }

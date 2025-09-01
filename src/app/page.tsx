@@ -1,5 +1,4 @@
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+import { LayoutWrapper } from "@/components/layout-wrapper";
 import Hero from "@/app/(sections)/hero/Hero";
 import ExperienceTimeline from "@/app/(sections)/experience/ExperienceTimeline";
 import SkillsMatrix from "@/app/(sections)/skills/SkillsMatrix";
@@ -9,17 +8,30 @@ import ContactSection from "@/app/(sections)/contact/ContactSection";
 
 export default function HomePage() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen">
+    <LayoutWrapper>
+      <section id="hero">
         <Hero />
+      </section>
+      
+      <section id="experience">
         <ExperienceTimeline />
+      </section>
+      
+      <section id="skills">
         <SkillsMatrix />
+      </section>
+      
+      <section id="metrics">
         <MetricsDashboard />
+      </section>
+      
+      <section id="blog">
         <TechnicalBlog />
+      </section>
+      
+      <section id="contact">
         <ContactSection />
-      </main>
-      <Footer />
-    </>
+      </section>
+    </LayoutWrapper>
   );
 }

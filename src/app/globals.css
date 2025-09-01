@@ -5,6 +5,7 @@
   /* Light mode colors */
   --background: 0 0% 100%;
   --background-secondary: 0 0% 98%;
+  --background-tertiary: 0 0% 95%;
   --foreground: 0 0% 9%;
   --foreground-secondary: 0 0% 20%;
   --foreground-muted: 0 0% 45%;
@@ -42,6 +43,7 @@
   /* Dark mode colors */
   --background: 0 0% 4%;
   --background-secondary: 0 0% 6%;
+  --background-tertiary: 0 0% 8%;
   --foreground: 0 0% 98%;
   --foreground-secondary: 0 0% 85%;
   --foreground-muted: 0 0% 65%;
@@ -67,6 +69,30 @@ body {
 *:focus-visible {
   outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
+}
+
+/* Screen reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
 }
 
 /* Reduced motion support */
