@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Analytics, GoogleAnalytics } from "@/components/analytics";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -10,6 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://humzamalak.com'),
   title: "Humza Malak - Full Stack Developer Portfolio",
   description: "Senior Full Stack Developer specializing in React, Node.js, and cloud technologies. Building scalable web applications with modern technologies.",
   keywords: ["Full Stack Developer", "React", "Node.js", "TypeScript", "Cloud", "DevOps"],
@@ -132,6 +134,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Analytics />
+          <GoogleAnalytics />
         </ThemeProvider>
       </body>
     </html>

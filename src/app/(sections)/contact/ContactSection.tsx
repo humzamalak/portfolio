@@ -82,6 +82,15 @@ const ContactSection = () => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
+    // Track form submission for analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'submit', {
+        event_category: 'contact_form',
+        event_label: 'portfolio_contact',
+        value: 1
+      });
+    }
+
     try {
       // Mock API call - replace with actual API endpoint
       const response = await fetch('/api/contact', {
@@ -205,7 +214,7 @@ const ContactSection = () => {
           variants={itemVariants}
           className="bg-neutral-800 rounded-2xl p-6 shadow-md"
         >
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4" data-analytics="contact">
             {/* Name Field */}
             <div>
               <label htmlFor="name" className="block text-sm font-medium mb-2">
