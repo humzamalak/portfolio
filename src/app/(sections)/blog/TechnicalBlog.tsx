@@ -14,7 +14,7 @@ export default function TechnicalBlog({ initialPosts }: TechnicalBlogProps) {
   return (
     <section
       id="blog"
-      className="w-full bg-neutral-900 text-white py-16 px-4"
+      className="w-full bg-background text-foreground py-16 px-4"
       aria-label="Technical Blog"
     >
       <BlogClient posts={posts} tags={tags} />

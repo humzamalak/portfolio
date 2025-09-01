@@ -59,7 +59,7 @@ export default function BlogPostContent({ content }: BlogPostContentProps) {
     return (
       <div
         dangerouslySetInnerHTML={{ __html: processedContent }}
-        className="[&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-8 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-3 [&>h2]:mt-6 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mb-2 [&>h3]:mt-4 [&>h4]:text-lg [&>h4]:font-bold [&>h4]:mb-2 [&>h4]:mt-4 [&>p]:mb-4 [&>p]:leading-relaxed [&>li]:ml-4 [&>li]:mb-1 [&>.code-block]:bg-neutral-800 [&>.code-block]:p-4 [&>.code-block]:rounded-lg [&>.code-block]:my-4 [&>.code-block]:font-mono [&>.code-block]:text-sm"
+        className="[&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-8 [&>h1]:text-foreground [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-3 [&>h2]:mt-6 [&>h2]:text-foreground [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mb-2 [&>h3]:mt-4 [&>h3]:text-foreground [&>h4]:text-lg [&>h4]:font-bold [&>h4]:mb-2 [&>h4]:mt-4 [&>h4]:text-foreground [&>p]:mb-4 [&>p]:leading-relaxed [&>p]:text-foreground [&>li]:ml-4 [&>li]:mb-1 [&>li]:text-foreground [&>.code-block]:bg-background-tertiary [&>.code-block]:p-4 [&>.code-block]:rounded-lg [&>.code-block]:my-4 [&>.code-block]:font-mono [&>.code-block]:text-sm [&>.code-block]:text-foreground"
       />
     );
   };

@@ -19,12 +19,12 @@ export default function BlogCard({ post }: BlogCardProps) {
   };
 
   return (
-    <article className="group bg-neutral-800 rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-105">
+    <article className="group bg-background-secondary rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-105">
       <Link href={`/blog/${post.slug}`} className="block">
         {/* Thumbnail */}
         {post.thumbnail && (
-          <div className="aspect-video bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-            <div className="text-white text-4xl font-bold opacity-80">
+          <div className="aspect-video bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center">
+            <div className="text-primary-foreground text-4xl font-bold opacity-80">
               {post.title.charAt(0)}
             </div>
           </div>
@@ -37,7 +37,7 @@ export default function BlogCard({ post }: BlogCardProps) {
             {post.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="px-2 py-1 bg-neutral-700 text-xs text-neutral-300 rounded-full"
+                className="px-2 py-1 bg-background-tertiary text-xs text-foreground-muted rounded-full"
               >
                 {tag}
               </span>
@@ -45,17 +45,17 @@ export default function BlogCard({ post }: BlogCardProps) {
           </div>
 
           {/* Title */}
-          <h3 className="text-xl font-bold mb-3 group-hover:text-blue-400 transition-colors">
+          <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-primary-500 transition-colors">
             {post.title}
           </h3>
 
           {/* Excerpt */}
-          <p className="text-neutral-300 text-sm leading-relaxed mb-4 line-clamp-3">
+          <p className="text-foreground-muted text-sm leading-relaxed mb-4 line-clamp-3">
             {post.excerpt}
           </p>
 
           {/* Meta */}
-          <div className="flex items-center justify-between text-sm text-neutral-400">
+          <div className="flex items-center justify-between text-sm text-foreground-muted">
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1">
                 <FiClock className="w-3 h-3" />

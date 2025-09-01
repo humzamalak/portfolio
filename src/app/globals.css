@@ -13,6 +13,11 @@
   --input: 0 0% 90%;
   --ring: 221 83% 53%;
   
+  /* Foreground colors for different backgrounds */
+  --primary-foreground: 0 0% 100%;
+  --secondary-foreground: 0 0% 100%;
+  --red-foreground: 0 0% 100%;
+  
   /* Custom color palette */
   --primary-50: 213 100% 96%;
   --primary-100: 214 95% 93%;
@@ -50,6 +55,11 @@
   --border: 0 0% 15%;
   --input: 0 0% 15%;
   --ring: 217 91% 60%;
+  
+  /* Foreground colors for different backgrounds */
+  --primary-foreground: 0 0% 100%;
+  --secondary-foreground: 0 0% 100%;
+  --red-foreground: 0 0% 100%;
 }
 
 * {

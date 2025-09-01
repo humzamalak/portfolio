@@ -48,13 +48,13 @@ export default function BlogSearch({ posts, tags, onFilterChange }: BlogSearchPr
     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
       {/* Search Bar */}
       <div className="relative flex-1 max-w-md">
-        <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
+        <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground-muted" />
         <input
           type="text"
           placeholder="Search blog posts..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full pl-10 pr-4 py-2 bg-background-tertiary border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-foreground placeholder-foreground-muted"
         />
       </div>
 
@@ -66,8 +66,8 @@ export default function BlogSearch({ posts, tags, onFilterChange }: BlogSearchPr
             onClick={() => handleTagClick(tag)}
             className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
               selectedTag === tag
-                ? 'bg-blue-600 text-white'
-                : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'
+                ? 'bg-primary-600 text-primary-foreground'
+                : 'bg-background-tertiary text-foreground-muted hover:bg-background-secondary'
             }`}
           >
             <FiTag className="inline mr-1" />
@@ -80,7 +80,7 @@ export default function BlogSearch({ posts, tags, onFilterChange }: BlogSearchPr
       {(selectedTag || searchQuery) && (
         <button
           onClick={clearFilters}
-          className="px-4 py-2 text-sm text-neutral-400 hover:text-white transition-colors"
+          className="px-4 py-2 text-sm text-foreground-muted hover:text-foreground transition-colors"
         >
           Clear filters
         </button>

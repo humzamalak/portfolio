@@ -7,9 +7,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary-600 text-white hover:bg-primary-500 hover:scale-105 focus:ring-primary-500 active:scale-95 shadow-soft",
-        secondary: "bg-secondary-600 text-white hover:bg-secondary-500 hover:scale-105 focus:ring-secondary-500 active:scale-95 shadow-soft",
-        outline: "border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white hover:scale-105 focus:ring-primary-500 active:scale-95",
+        default: "bg-primary-600 text-primary-foreground hover:bg-primary-500 hover:scale-105 focus:ring-primary-500 active:scale-95 shadow-soft",
+        secondary: "bg-secondary-600 text-secondary-foreground hover:bg-secondary-500 hover:scale-105 focus:ring-secondary-500 active:scale-95 shadow-soft",
+        outline: "border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-primary-foreground hover:scale-105 focus:ring-primary-500 active:scale-95",
         ghost: "text-foreground hover:bg-background-secondary hover:scale-105 focus:ring-primary-500 active:scale-95",
       },
       size: {

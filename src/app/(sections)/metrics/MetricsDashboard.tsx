@@ -45,42 +45,42 @@ ChartJS.register(
   Filler
 );
 
-// Chart.js configuration for dark theme
+// Chart.js configuration for theme-aware colors
 const chartConfig = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
     legend: {
       labels: {
-        color: "#ffffff",
+        color: "hsl(var(--foreground))",
         font: {
           size: 12,
         },
       },
     },
     tooltip: {
-      backgroundColor: "rgba(0, 0, 0, 0.8)",
-      titleColor: "#ffffff",
-      bodyColor: "#ffffff",
-      borderColor: "#374151",
+      backgroundColor: "hsla(var(--background), 0.95)",
+      titleColor: "hsl(var(--foreground))",
+      bodyColor: "hsl(var(--foreground))",
+      borderColor: "hsl(var(--border))",
       borderWidth: 1,
     },
   },
   scales: {
     x: {
       ticks: {
-        color: "#9ca3af",
+        color: "hsl(var(--foreground-muted))",
       },
       grid: {
-        color: "#374151",
+        color: "hsl(var(--border))",
       },
     },
     y: {
       ticks: {
-        color: "#9ca3af",
+        color: "hsl(var(--foreground-muted))",
       },
       grid: {
-        color: "#374151",
+        color: "hsl(var(--border))",
       },
     },
   },
@@ -141,7 +141,7 @@ const KPICard = ({ metric }: { metric: KPIMetric }) => {
       DollarSign: FaDollarSign,
     };
     const IconComponent = icons[iconName as keyof typeof icons] || FaServer;
-    return <IconComponent className="w-8 h-8 text-blue-400" />;
+    return <IconComponent className="w-8 h-8 text-primary-400" />;
   };
 
   return (
@@ -150,7 +150,7 @@ const KPICard = ({ metric }: { metric: KPIMetric }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.6 }}
-      className="rounded-2xl bg-neutral-800 p-6 shadow-md flex flex-col items-center gap-4 hover:bg-neutral-700 transition-colors"
+      className="rounded-2xl bg-background-secondary p-6 shadow-md flex flex-col items-center gap-4 hover:bg-background-tertiary transition-colors"
       aria-label={`${metric.value}${metric.suffix || ""} ${metric.label.toLowerCase()} achieved`}
     >
       {getIcon(metric.icon)}
@@ -160,7 +160,7 @@ const KPICard = ({ metric }: { metric: KPIMetric }) => {
           prefix={metric.prefix}
           suffix={metric.suffix}
         />
-        <p className="text-neutral-400 text-sm mt-2">{metric.label}</p>
+        <p className="text-foreground-muted text-sm mt-2">{metric.label}</p>
       </div>
     </motion.div>
   );
@@ -177,8 +177,8 @@ const ResponsibilityGrowthChart = () => {
       {
         label: "Responsibilities",
         data: responsibilityGrowth.map(item => item.responsibilities),
-        backgroundColor: "rgba(59, 130, 246, 0.8)",
-        borderColor: "rgba(59, 130, 246, 1)",
+        backgroundColor: "hsla(var(--primary-500), 0.8)",
+        borderColor: "hsl(var(--primary-500))",
         borderWidth: 2,
         borderRadius: 8,
       },
@@ -211,8 +211,8 @@ const TechAdoptionChart = () => {
       {
         label: "Tools Adopted",
         data: techAdoptionTimeline.map(item => item.cumulative),
-        borderColor: "rgba(16, 185, 129, 1)",
-        backgroundColor: "rgba(16, 185, 129, 0.1)",
+        borderColor: "hsl(var(--secondary-500))",
+        backgroundColor: "hsla(var(--secondary-500), 0.1)",
         borderWidth: 3,
         fill: true,
         tension: 0.4,
@@ -246,7 +246,7 @@ const ToolUsageChart = () => {
       {
         data: toolUsageBreakdown.map(item => item.percentage),
         backgroundColor: toolUsageBreakdown.map(item => item.color),
-        borderColor: "rgba(0, 0, 0, 0.1)",
+        borderColor: "hsl(var(--background))",
         borderWidth: 2,
       },
     ],
@@ -278,7 +278,7 @@ const ToolUsageChart = () => {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
             <div className="text-2xl font-bold">100%</div>
-            <div className="text-sm text-neutral-400">DevOps Focus</div>
+            <div className="text-sm text-foreground-muted">DevOps Focus</div>
           </div>
         </div>
       </div>
@@ -291,7 +291,7 @@ export default function MetricsDashboard() {
   return (
     <section
       id="metrics"
-      className="w-full bg-neutral-950 text-white py-16 px-4"
+      className="w-full bg-background text-foreground py-16 px-4"
       aria-label="Interactive Metrics Dashboard"
     >
       <div className="max-w-6xl mx-auto flex flex-col gap-12">

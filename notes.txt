@@ -1,0 +1,1 @@
+Add your actual headshot image to the public/ directory as humza-headshot.png

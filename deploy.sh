@@ -101,3 +101,4 @@ echo "4. Add your custom domain"
 echo "5. Deploy!"
 
 print_status "For detailed instructions, see DEPLOYMENT.md"
+

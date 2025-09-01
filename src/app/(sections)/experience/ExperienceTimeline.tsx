@@ -50,10 +50,10 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
       className="relative"
     >
       {/* Timeline line */}
-      <div className="absolute left-6 top-8 bottom-0 w-0.5 bg-neutral-600 md:left-1/2 md:transform md:-translate-x-1/2" />
+      <div className="absolute left-6 top-8 bottom-0 w-0.5 bg-border md:left-1/2 md:transform md:-translate-x-1/2" />
       
       {/* Timeline dot */}
-      <div className="absolute left-4 top-6 w-4 h-4 bg-blue-500 rounded-full border-4 border-neutral-900 md:left-1/2 md:transform md:-translate-x-1/2" />
+      <div className="absolute left-4 top-6 w-4 h-4 bg-primary-500 rounded-full border-4 border-background md:left-1/2 md:transform md:-translate-x-1/2" />
       
       {/* Content card */}
       <div className="ml-16 md:ml-0 md:w-5/12 md:mb-8">
@@ -61,29 +61,29 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
         <div className={`md:${index % 2 === 0 ? 'mr-auto' : 'ml-auto'} md:${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
           <motion.div
             whileHover={{ scale: 1.02 }}
-            className="bg-neutral-800 rounded-lg p-6 shadow-lg border border-neutral-700 hover:border-blue-500 transition-colors duration-300"
+            className="bg-background-secondary rounded-lg p-6 shadow-lg border border-border hover:border-primary-500 transition-colors duration-300"
           >
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
-                  <FaBuilding className="text-blue-400 text-lg" />
-                  <h3 className="text-xl font-bold text-white">{role.company}</h3>
+                  <FaBuilding className="text-primary-400 text-lg" />
+                  <h3 className="text-xl font-bold text-foreground">{role.company}</h3>
                 </div>
-                <h4 className="text-lg font-semibold text-blue-300 mb-2">{role.role}</h4>
+                <h4 className="text-lg font-semibold text-primary-300 mb-2">{role.role}</h4>
                 
                 {/* Location and Duration */}
-                <div className="flex items-center gap-4 text-sm text-neutral-300 mb-3">
+                <div className="flex items-center gap-4 text-sm text-foreground-muted mb-3">
                   <div className="flex items-center gap-1">
-                    <FaMapMarkerAlt className="text-neutral-400" />
+                    <FaMapMarkerAlt className="text-foreground-muted" />
                     <span>{role.location}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaCalendarAlt className="text-neutral-400" />
+                    <FaCalendarAlt className="text-foreground-muted" />
                     <span>
                       {formatDate(role.startDate)} - {role.current ? 'Present' : formatDate(role.endDate!)}
                     </span>
-                    <span className="text-neutral-400">({formatDuration(role.startDate, role.endDate)})</span>
+                    <span className="text-foreground-muted">({formatDuration(role.startDate, role.endDate)})</span>
                   </div>
                 </div>
               </div>
@@ -91,7 +91,7 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
               {/* Expand/Collapse button */}
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="ml-4 p-2 text-neutral-400 hover:text-white transition-colors"
+                className="ml-4 p-2 text-foreground-muted hover:text-foreground transition-colors"
                 aria-label={isExpanded ? "Collapse details" : "Expand details"}
                 aria-expanded={isExpanded}
               >
@@ -100,11 +100,11 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
             </div>
 
             {/* Description */}
-            <p className="text-neutral-300 mb-4 leading-relaxed">{role.description}</p>
+            <p className="text-foreground mb-4 leading-relaxed">{role.description}</p>
 
             {/* Tech Stack */}
             <div className="mb-4">
-              <h5 className="text-sm font-semibold text-neutral-400 mb-2 flex items-center gap-2">
+              <h5 className="text-sm font-semibold text-foreground-muted mb-2 flex items-center gap-2">
                 <FaCode />
                 Tech Stack
               </h5>
@@ -115,7 +115,7 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.3, delay: (index * 0.2) + (techIndex * 0.1) }}
-                    className="px-3 py-1 bg-neutral-700 text-neutral-200 text-sm rounded-full border border-neutral-600 hover:border-blue-500 transition-colors"
+                    className="px-3 py-1 bg-background-tertiary text-foreground text-sm rounded-full border border-border hover:border-primary-500 transition-colors"
                   >
                     {tech}
                   </motion.span>
@@ -131,8 +131,8 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
               className="overflow-hidden"
             >
               {/* Metrics */}
-              <div className="mb-4 pt-4 border-t border-neutral-700">
-                <h5 className="text-sm font-semibold text-neutral-400 mb-3 flex items-center gap-2">
+              <div className="mb-4 pt-4 border-t border-border">
+                <h5 className="text-sm font-semibold text-foreground-muted mb-3 flex items-center gap-2">
                   <FaChartLine />
                   Key Metrics & Achievements
                 </h5>
@@ -143,14 +143,14 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
                       initial={{ opacity: 0, x: -20 }}
                       animate={isExpanded ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                       transition={{ duration: 0.3, delay: metricIndex * 0.1 }}
-                      className="bg-neutral-700 p-3 rounded-lg border border-neutral-600"
+                      className="bg-background-tertiary p-3 rounded-lg border border-border"
                     >
-                      <div className="text-2xl font-bold text-blue-400">
+                      <div className="text-2xl font-bold text-primary-400">
                         {metric.value}{metric.unit}
                       </div>
-                      <div className="text-xs text-neutral-400">{metric.label}</div>
+                      <div className="text-xs text-foreground-muted">{metric.label}</div>
                       {metric.improvement && (
-                        <div className="text-xs text-green-400 mt-1">{metric.improvement}</div>
+                        <div className="text-xs text-secondary-400 mt-1">{metric.improvement}</div>
                       )}
                     </motion.div>
                   ))}
@@ -159,7 +159,7 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
 
               {/* Achievements */}
               <div className="mb-4">
-                <h5 className="text-sm font-semibold text-neutral-400 mb-3 flex items-center gap-2">
+                <h5 className="text-sm font-semibold text-foreground-muted mb-3 flex items-center gap-2">
                   <FaStar />
                   Key Achievements
                 </h5>
@@ -170,9 +170,9 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
                       initial={{ opacity: 0, x: -20 }}
                       animate={isExpanded ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                       transition={{ duration: 0.3, delay: achievementIndex * 0.1 }}
-                      className="flex items-start gap-2 text-sm text-neutral-300"
+                      className="flex items-start gap-2 text-sm text-foreground"
                     >
-                      <span className="text-blue-400 mt-1">•</span>
+                      <span className="text-primary-400 mt-1">•</span>
                       <span>{achievement}</span>
                     </motion.li>
                   ))}
@@ -181,7 +181,7 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
 
               {/* Highlights */}
               <div>
-                <h5 className="text-sm font-semibold text-neutral-400 mb-3">Highlights</h5>
+                <h5 className="text-sm font-semibold text-foreground-muted mb-3">Highlights</h5>
                 <div className="flex flex-wrap gap-2">
                   {role.highlights.map((highlight, highlightIndex) => (
                     <motion.span
@@ -189,7 +189,7 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={isExpanded ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                       transition={{ duration: 0.3, delay: highlightIndex * 0.1 }}
-                      className="px-2 py-1 bg-blue-900/30 text-blue-300 text-xs rounded border border-blue-700/50"
+                      className="px-2 py-1 bg-primary-900/30 text-primary-300 text-xs rounded border border-primary-700/50"
                     >
                       {highlight}
                     </motion.span>
@@ -208,7 +208,7 @@ export default function ExperienceTimeline() {
   return (
     <section
       id="experience"
-      className="w-full bg-neutral-900 text-white py-16 px-4"
+      className="w-full bg-background text-foreground py-16 px-4"
       aria-label="Professional Experience Timeline"
     >
       <div className="max-w-6xl mx-auto flex flex-col">
@@ -226,7 +226,7 @@ export default function ExperienceTimeline() {
         {/* Timeline Container */}
         <div className="relative">
           {/* Desktop Timeline Line */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-neutral-600 transform -translate-x-1/2" />
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-border transform -translate-x-1/2" />
           
           {/* Timeline Items */}
           <div className="space-y-8">

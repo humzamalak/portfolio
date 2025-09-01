@@ -167,7 +167,7 @@ const ContactSection = () => {
   return (
     <section 
       id="contact" 
-      className="w-full bg-neutral-900 text-white py-16 px-4"
+      className="w-full bg-background text-foreground py-16 px-4"
       aria-label="Contact Section"
     >
       <motion.div 
@@ -180,7 +180,7 @@ const ContactSection = () => {
         {/* Heading */}
         <motion.h2 
           variants={itemVariants}
-          className="text-3xl md:text-4xl font-bold text-center mb-8"
+          className="text-3xl md:text-4xl font-bold text-center mb-8 text-foreground"
         >
           Get In Touch
         </motion.h2>
@@ -192,8 +192,8 @@ const ContactSection = () => {
         >
           <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
             isAvailable 
-              ? 'bg-green-700 text-white' 
-              : 'bg-red-700 text-white'
+              ? 'bg-secondary-600 text-secondary-foreground' 
+              : 'bg-red-600 text-red-foreground'
           }`}>
             {isAvailable ? (
               <>
@@ -212,12 +212,12 @@ const ContactSection = () => {
         {/* Contact Form */}
         <motion.div 
           variants={itemVariants}
-          className="bg-neutral-800 rounded-2xl p-6 shadow-md"
+          className="bg-background-secondary rounded-2xl p-6 shadow-md"
         >
           <form onSubmit={handleSubmit} className="flex flex-col gap-4" data-analytics="contact">
             {/* Name Field */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-2">
+              <label htmlFor="name" className="block text-sm font-medium mb-2 text-foreground">
                 Name *
               </label>
               <input
@@ -226,9 +226,9 @@ const ContactSection = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 rounded-md bg-neutral-700 border ${
-                  errors.name ? 'border-red-500' : 'border-neutral-600'
-                } text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                className={`w-full px-4 py-3 rounded-md bg-background-tertiary border ${
+                  errors.name ? 'border-red-500' : 'border-border'
+                } text-foreground placeholder-foreground-muted focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent`}
                 placeholder="Your name"
               />
               {errors.name && (
@@ -238,7 +238,7 @@ const ContactSection = () => {
 
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
+              <label htmlFor="email" className="block text-sm font-medium mb-2 text-foreground">
                 Email *
               </label>
               <input
@@ -248,9 +248,9 @@ const ContactSection = () => {
                 value={formData.email}
                 onChange={handleInputChange}
                 required
-                className={`w-full px-4 py-3 rounded-md bg-neutral-700 border ${
-                  errors.email ? 'border-red-500' : 'border-neutral-600'
-                } text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                className={`w-full px-4 py-3 rounded-md bg-background-tertiary border ${
+                  errors.email ? 'border-red-500' : 'border-border'
+                } text-foreground placeholder-foreground-muted focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent`}
                 placeholder="your.email@example.com"
               />
               {errors.email && (
@@ -260,7 +260,7 @@ const ContactSection = () => {
 
             {/* Inquiry Type Field */}
             <div>
-              <label htmlFor="inquiryType" className="block text-sm font-medium mb-2">
+              <label htmlFor="inquiryType" className="block text-sm font-medium mb-2 text-foreground">
                 Inquiry Type
               </label>
               <select
@@ -268,7 +268,7 @@ const ContactSection = () => {
                 name="inquiryType"
                 value={formData.inquiryType}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-md bg-neutral-700 border border-neutral-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-md bg-background-tertiary border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 {inquiryTypes.map(type => (
                   <option key={type.value} value={type.value}>
@@ -280,7 +280,7 @@ const ContactSection = () => {
 
             {/* Message Field */}
             <div>
-              <label htmlFor="message" className="block text-sm font-medium mb-2">
+              <label htmlFor="message" className="block text-sm font-medium mb-2 text-foreground">
                 Message *
               </label>
               <textarea
@@ -290,9 +290,9 @@ const ContactSection = () => {
                 onChange={handleInputChange}
                 required
                 rows={5}
-                className={`w-full px-4 py-3 rounded-md bg-neutral-700 border ${
-                  errors.message ? 'border-red-500' : 'border-neutral-600'
-                } text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical`}
+                className={`w-full px-4 py-3 rounded-md bg-background-tertiary border ${
+                  errors.message ? 'border-red-500' : 'border-border'
+                } text-foreground placeholder-foreground-muted focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-vertical`}
                 placeholder="Tell me about your project or inquiry..."
               />
               {errors.message && (
@@ -308,34 +308,34 @@ const ContactSection = () => {
               whileTap={{ scale: 0.98 }}
               className={`px-6 py-3 rounded-md font-medium transition-colors ${
                 isSubmitting 
-                  ? 'bg-gray-600 cursor-not-allowed' 
-                  : 'bg-blue-600 hover:bg-blue-700'
-              } text-white`}
+                  ? 'bg-foreground-muted cursor-not-allowed' 
+                  : 'bg-primary-600 hover:bg-primary-700'
+              } text-primary-foreground`}
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
             </motion.button>
 
             {/* Status Messages */}
             {submitStatus === 'success' && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="p-3 rounded-md bg-green-700 text-white text-sm"
-                role="status"
-                aria-live="polite"
-              >
+                          <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="p-3 rounded-md bg-secondary-600 text-secondary-foreground text-sm"
+              role="status"
+              aria-live="polite"
+            >
                 ✅ Your message has been sent! I&apos;ll get back to you soon.
               </motion.div>
             )}
 
             {submitStatus === 'error' && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="p-3 rounded-md bg-red-700 text-white text-sm"
-                role="status"
-                aria-live="polite"
-              >
+                          <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="p-3 rounded-md bg-red-600 text-red-foreground text-sm"
+              role="status"
+              aria-live="polite"
+            >
                 ❌ Something went wrong. Please try again or reach out via email.
               </motion.div>
             )}
@@ -355,7 +355,7 @@ const ContactSection = () => {
             custom={0}
             variants={socialVariants}
             whileHover={{ scale: 1.1, y: -2 }}
-            className="w-8 h-8 text-gray-400 hover:text-blue-400 transition-colors"
+            className="w-8 h-8 text-foreground-muted hover:text-primary-500 transition-colors"
           >
             <FaGithub className="w-full h-full" />
           </motion.a>
@@ -368,7 +368,7 @@ const ContactSection = () => {
             custom={1}
             variants={socialVariants}
             whileHover={{ scale: 1.1, y: -2 }}
-            className="w-8 h-8 text-gray-400 hover:text-blue-400 transition-colors"
+            className="w-8 h-8 text-foreground-muted hover:text-primary-500 transition-colors"
           >
             <FaLinkedin className="w-full h-full" />
           </motion.a>
