@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Analytics, GoogleAnalytics } from "@/components/analytics";
+import { AnalyticsWrapper } from "@/components/analytics";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -58,6 +58,40 @@ export const metadata: Metadata = {
   },
 };
 
+// Structured data constants to ensure consistency
+const PERSON_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Humza Malak",
+  jobTitle: "Senior Full Stack Developer",
+  description: "Senior Full Stack Developer specializing in React, Node.js, and cloud technologies.",
+  url: "https://humzamalak.com",
+  sameAs: [
+    "https://github.com/humzamalak",
+    "https://www.linkedin.com/in/humza-m-64607514b/",
+  ],
+  knowsAbout: [
+    "React", "Node.js", "TypeScript", "Cloud Computing", "DevOps",
+    "PostgreSQL", "Supabase", "Next.js", "TailwindCSS"
+  ],
+  worksFor: {
+    "@type": "Organization",
+    name: "Freelance/Contract"
+  }
+};
+
+const WEBSITE_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Humza Malak Portfolio",
+  description: "Senior Full Stack Developer Portfolio",
+  url: "https://humzamalak.com",
+  author: {
+    "@type": "Person",
+    name: "Humza Malak"
+  }
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -75,26 +109,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Humza Malak",
-              jobTitle: "Senior Full Stack Developer",
-              description: "Senior Full Stack Developer specializing in React, Node.js, and cloud technologies.",
-              url: "https://humzamalak.com",
-              sameAs: [
-                "https://github.com/humzamalak",
-                "https://www.linkedin.com/in/humza-m-64607514b/",
-              ],
-              knowsAbout: [
-                "React", "Node.js", "TypeScript", "Cloud Computing", "DevOps",
-                "PostgreSQL", "Supabase", "Next.js", "TailwindCSS"
-              ],
-              worksFor: {
-                "@type": "Organization",
-                name: "Freelance/Contract"
-              }
-            })
+            __html: JSON.stringify(PERSON_SCHEMA)
           }}
         />
         
@@ -102,22 +117,13 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "Humza Malak Portfolio",
-              description: "Senior Full Stack Developer Portfolio",
-              url: "https://humzamalak.com",
-              author: {
-                "@type": "Person",
-                name: "Humza Malak"
-              }
-            })
+            __html: JSON.stringify(WEBSITE_SCHEMA)
           }}
         />
       </head>
       <body
         className={`${inter.variable} font-sans antialiased bg-background text-foreground`}
+        suppressHydrationWarning
       >
         {/* Skip to content link for accessibility */}
         <a
@@ -134,8 +140,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-          <Analytics />
-          <GoogleAnalytics />
+          <AnalyticsWrapper />
         </ThemeProvider>
       </body>
     </html>

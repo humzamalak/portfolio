@@ -2,6 +2,16 @@
 
 import { useEffect } from 'react';
 
+// Analytics wrapper component that prevents hydration mismatches
+export function AnalyticsWrapper() {
+  return (
+    <>
+      <Analytics />
+      <GoogleAnalytics />
+    </>
+  );
+}
+
 // Simple analytics component - you can replace with your preferred analytics service
 export function Analytics() {
   useEffect(() => {
