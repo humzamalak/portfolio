@@ -4,6 +4,7 @@ import { Radar } from "react-chartjs-2";
 import { Chart, RadialLinearScale } from "chart.js";
 import { motion } from "framer-motion";
 import { skills } from "@/data/skills";
+import { Section } from "@/components/ui/section";
 
 // Register Chart.js components
 Chart.register(RadialLinearScale);
@@ -11,8 +12,8 @@ Chart.register(RadialLinearScale);
 // Calculate average proficiency for each category
 const calculateCategoryAverages = () => {
   return skills.map(category => ({
-    name: category.category,
-    average: category.skills.reduce((sum, skill) => sum + skill.level, 0) / category.skills.length
+    name: category.name,
+    average: category.skills.reduce((sum, skill) => sum + skill.proficiency, 0) / category.skills.length
   }));
 };
 
@@ -23,11 +24,11 @@ const chartData = {
     {
       label: "Proficiency Level",
       data: calculateCategoryAverages().map(cat => cat.average),
-      backgroundColor: "rgba(59,130,246,0.5)",
-      borderColor: "#22c55e",
+      backgroundColor: "hsla(var(--primary-500), 0.3)",
+      borderColor: "hsl(var(--secondary-500))",
       borderWidth: 2,
-      pointBackgroundColor: "#22c55e",
-      pointBorderColor: "#ffffff",
+      pointBackgroundColor: "hsl(var(--secondary-500))",
+      pointBorderColor: "hsl(var(--background))",
       pointBorderWidth: 2,
       pointRadius: 4,
       pointHoverRadius: 6,
@@ -46,20 +47,20 @@ const chartOptions = {
       max: 10,
       ticks: {
         stepSize: 2,
-        color: "#ffffff",
+        color: "hsl(var(--foreground))",
         font: {
           size: 12,
         },
         backdropColor: "transparent",
       },
       grid: {
-        color: "rgba(255,255,255,0.2)",
+        color: "hsla(var(--foreground), 0.2)",
       },
       angleLines: {
-        color: "rgba(255,255,255,0.2)",
+        color: "hsla(var(--foreground), 0.2)",
       },
       pointLabels: {
-        color: "#ffffff",
+        color: "hsl(var(--foreground))",
         font: {
           size: 14,
           weight: "normal" as const,
@@ -72,62 +73,77 @@ const chartOptions = {
       display: false,
     },
     tooltip: {
-      backgroundColor: "rgba(0,0,0,0.8)",
-      titleColor: "#ffffff",
-      bodyColor: "#ffffff",
-      borderColor: "#22c55e",
+      backgroundColor: "hsla(var(--background), 0.95)",
+      titleColor: "hsl(var(--foreground))",
+      bodyColor: "hsl(var(--foreground))",
+      borderColor: "hsl(var(--secondary-500))",
       borderWidth: 1,
+      cornerRadius: 8,
     },
   },
 };
 
-
-
 export default function SkillsMatrix() {
   return (
-    <section
+    <Section
       id="skills"
-      className="w-full bg-neutral-950 text-white py-16 px-4"
-      aria-label="Skills Matrix"
+      className="bg-background-secondary"
+      aria-labelledby="skills-heading"
     >
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        {/* Heading */}
-        <h2 className="text-3xl md:text-4xl font-bold text-center md:text-left mb-8 md:mb-0 md:absolute md:top-16 md:left-1/2 md:transform md:-translate-x-1/2">
+      <div className="text-center mb-12">
+        <motion.h2
+          id="skills-heading"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl md:text-4xl font-bold text-foreground mb-4"
+        >
           Skills Matrix
-        </h2>
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-lg text-foreground-muted max-w-2xl mx-auto"
+        >
+          Comprehensive expertise across cloud infrastructure, DevOps, and security technologies
+        </motion.p>
+      </div>
 
+      <div className="grid lg:grid-cols-2 gap-12 items-center">
         {/* Radar Chart */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full md:w-1/2 flex justify-center"
+          className="flex justify-center"
         >
-          <div className="w-full max-w-md h-80">
+          <div className="w-full max-w-md h-80 bg-background rounded-2xl p-6 shadow-soft">
             <Radar data={chartData} options={chartOptions} />
           </div>
           <div className="sr-only">
-            Radar chart showing category proficiency averages.
+            Radar chart showing category proficiency averages across cloud, CI/CD, infrastructure as code, monitoring, and security categories.
           </div>
         </motion.div>
 
         {/* Skills Grid */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, staggerChildren: 0.1 }}
-          className="w-full md:w-1/2 grid grid-cols-2 sm:grid-cols-3 gap-6"
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="space-y-8"
         >
           {skills.map((category, categoryIndex) => (
             <motion.div
-              key={category.category}
+              key={category.name}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 + categoryIndex * 0.1 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 + categoryIndex * 0.1 }}
+              className="bg-background rounded-2xl p-6 shadow-soft"
             >
               {/* Category Name */}
-              <h3 className="text-xl font-semibold mb-4 col-span-full text-blue-400">
-                {category.category}
+              <h3 className="text-xl font-semibold mb-4 text-primary-600">
+                {category.name}
               </h3>
               
               {/* Skills in this category */}
@@ -136,21 +152,36 @@ export default function SkillsMatrix() {
                   <motion.div
                     key={skill.name}
                     initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ 
                       duration: 0.5, 
-                      delay: 0.5 + categoryIndex * 0.1 + skillIndex * 0.05 
+                      delay: 0.4 + categoryIndex * 0.1 + skillIndex * 0.05 
                     }}
-                    className="flex flex-col items-center gap-2"
-                    title={`${skill.years} years experience`}
-                    aria-label={`${skill.name}, ${skill.years} years experience`}
+                    className="flex items-center gap-3 p-3 rounded-xl bg-background-secondary hover:bg-background transition-colors duration-200 group"
+                    title={`${skill.years} years experience, ${skill.proficiency}/10 proficiency`}
+                    aria-label={`${skill.name}, ${skill.years} years experience, ${skill.proficiency} out of 10 proficiency`}
                   >
-                    <div className="w-12 h-12 text-blue-500 hover:text-green-400 transition-colors duration-200 flex items-center justify-center">
-                      <skill.icon className="w-8 h-8" />
+                    <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900 flex items-center justify-center group-hover:bg-primary-200 dark:group-hover:bg-primary-800 transition-colors duration-200">
+                      <span className="text-primary-600 dark:text-primary-400 font-semibold text-sm">
+                        {skill.icon.charAt(0).toUpperCase()}
+                      </span>
                     </div>
-                    <span className="text-sm text-center text-gray-300">
-                      {skill.name}
-                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-foreground truncate">
+                        {skill.name}
+                      </div>
+                      <div className="flex items-center gap-2 mt-1">
+                        <div className="flex-1 bg-border rounded-full h-2">
+                          <div 
+                            className="bg-gradient-to-r from-primary-500 to-secondary-500 h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${(skill.proficiency / 10) * 100}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-foreground-muted">
+                          {skill.proficiency}/10
+                        </span>
+                      </div>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -158,6 +189,6 @@ export default function SkillsMatrix() {
           ))}
         </motion.div>
       </div>
-    </section>
+    </Section>
   );
 }

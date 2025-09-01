@@ -103,7 +103,7 @@ const ContactSection = () => {
       } else {
         setSubmitStatus('error');
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -315,7 +315,7 @@ const ContactSection = () => {
                 role="status"
                 aria-live="polite"
               >
-                ✅ Your message has been sent! I'll get back to you soon.
+                ✅ Your message has been sent! I&apos;ll get back to you soon.
               </motion.div>
             )}
 
