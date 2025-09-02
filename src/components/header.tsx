@@ -86,7 +86,7 @@ export function Header() {
       const id = href.replace("/#", "");
       const element = document.getElementById(id);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
         setIsMobileMenuOpen(false);
       }
     }
@@ -179,13 +179,13 @@ export function Header() {
         <div className="fixed inset-0 z-40 md:hidden">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ease-out"
             onClick={handleMobileMenuClose}
             aria-hidden="true"
           />
           
           {/* Drawer */}
-          <div className="fixed right-0 top-16 h-full w-80 bg-background border-l border-border shadow-xl">
+          <div className="fixed right-0 top-16 h-full w-80 bg-background border-l border-border shadow-xl transform transition-transform duration-300 ease-out will-change-transform translate-x-0">
             <nav className="p-6 space-y-4" aria-label="Mobile Navigation">
               {navigationItems.map((item) => (
                 <Link

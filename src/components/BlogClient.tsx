@@ -12,9 +12,12 @@ interface BlogClientProps {
 
 export default function BlogClient({ posts, tags }: BlogClientProps) {
   const [filteredPosts, setFilteredPosts] = useState<BlogPostMeta[]>(posts);
+  const [page, setPage] = useState(1);
+  const pageSize = 6;
 
   const handleFilterChange = (newFilteredPosts: BlogPostMeta[]) => {
     setFilteredPosts(newFilteredPosts);
+    setPage(1);
   };
 
   return (
@@ -44,20 +47,26 @@ export default function BlogClient({ posts, tags }: BlogClientProps) {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredPosts.map((post, index) => (
-            <BlogCard key={post.slug} post={post} index={index} />
-          ))}
-        </div>
-      )}
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {filteredPosts
+              .slice(0, page * pageSize)
+              .map((post, index) => (
+                <BlogCard key={post.slug} post={post} index={index} />
+              ))}
+          </div>
 
-      {/* Load More Button (if needed for pagination) */}
-      {filteredPosts.length > 6 && (
-        <div className="text-center">
-          <button className="px-8 py-3 bg-primary-600 hover:bg-primary-700 rounded-lg font-medium transition-colors text-primary-foreground">
-            Load More Posts
-          </button>
-        </div>
+          {filteredPosts.length > page * pageSize && (
+            <div className="text-center mt-8">
+              <button
+                className="px-8 py-3 bg-primary-600 hover:bg-primary-700 rounded-lg font-medium transition-colors text-primary-foreground"
+                onClick={() => setPage((p) => p + 1)}
+              >
+                Load More Posts
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

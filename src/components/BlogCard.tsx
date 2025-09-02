@@ -32,12 +32,16 @@ export default function BlogCard({ post }: BlogCardProps) {
 
         {/* Content */}
         <div className="p-6">
+          {/* Source label */}
+          <div className="mb-2 text-xs text-foreground-muted">
+            Source: MDX (local content)
+          </div>
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-3">
             {post.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="px-2 py-1 bg-background-tertiary text-xs text-foreground-muted rounded-full"
+                className="px-2 py-1 bg-background-tertiary text-xs text-foreground-muted rounded-full transition-colors cursor-pointer hover:bg-primary-600 hover:text-primary-foreground focus:outline-none"
               >
                 {tag}
               </span>
