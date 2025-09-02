@@ -21,7 +21,7 @@ const Hero = () => {
 
   return (
     <section 
-      className="min-h-screen flex flex-col items-center justify-center text-center bg-background px-4 pt-20 pb-28"
+      className="min-h-screen flex flex-col items-center justify-center text-center bg-background px-4 pt-20 pb-32 md:pb-28"
       aria-labelledby="hero-heading"
     >
       <div className="container mx-auto max-w-6xl">
@@ -118,13 +118,24 @@ const Hero = () => {
           {/* Scroll indicator */}
           <motion.div
             variants={itemVariants}
-            className="absolute bottom-6 left-1/2 transform -translate-x-1/2 pointer-events-none"
+            className="absolute bottom-8 md:bottom-6 left-1/2 transform -translate-x-1/2"
           >
-            <div className="animate-bounce">
-              <svg className="w-6 h-6 text-foreground-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </div>
+            <button
+              onClick={() => {
+                const experienceSection = document.getElementById('experience');
+                if (experienceSection) {
+                  experienceSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
+              className="group p-2 rounded-full transition-all duration-200 hover:bg-background-secondary hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              aria-label="Scroll to Experience section"
+            >
+              <div className="animate-bounce group-hover:animate-none">
+                <svg className="w-6 h-6 text-foreground-muted group-hover:text-primary-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              </div>
+            </button>
           </motion.div>
         </motion.div>
       </div>

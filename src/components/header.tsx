@@ -179,7 +179,7 @@ export function Header() {
         <div className="fixed inset-0 z-40 md:hidden">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ease-out"
+            className="fixed inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity duration-300 ease-out"
             onClick={handleMobileMenuClose}
             aria-hidden="true"
           />

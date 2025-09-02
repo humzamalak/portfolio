@@ -14,7 +14,7 @@ const sampleProjects: Project[] = [
     title: "Portfolio Site",
     description: "Next.js 14 + TailwindCSS portfolio with MDX blog and Netlify functions.",
     tags: ["Next.js", "TypeScript", "Tailwind"],
-    link: "https://github.com/humzamalak",
+    link: "https://github.com/humzamalak/portfolio",
   },
   {
     title: "Serverless Tools",
