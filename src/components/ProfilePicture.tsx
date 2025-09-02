@@ -10,7 +10,7 @@ interface ProfilePictureProps {
 }
 
 export default function ProfilePicture({
-  src = "/icon-512.png",
+  src = "/humza-headshot.jpg",
   alt = "Profile picture",
   size = 160,
 }: ProfilePictureProps) {
