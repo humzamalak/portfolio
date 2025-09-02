@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
     const resendApiKey = process.env.RESEND_API_KEY;
     const toAddress = process.env.CONTACT_TO_EMAIL || 'humzatmalak@gmail.com';
-    const fromAddress = process.env.CONTACT_FROM_EMAIL || 'Portfolio Contact <onboarding@resend.dev>';
+    const fromAddress = (process.env.CONTACT_FROM_EMAIL || 'Portfolio Contact <onboarding@resend.dev>').replace(/^"|"$/g, '');
 
     if (!resendApiKey) {
       console.error('Missing RESEND_API_KEY');
