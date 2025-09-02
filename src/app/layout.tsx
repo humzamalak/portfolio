@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://humzamalak.com'),
+  metadataBase: new URL('https://humzamalak.dev'),
   title: "Humza Malak - Full Stack Developer Portfolio",
   description: "Senior Full Stack Developer specializing in React, Node.js, and cloud technologies. Building scalable web applications with modern technologies.",
   keywords: ["Full Stack Developer", "React", "Node.js", "TypeScript", "Cloud", "DevOps"],
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://humzamalak.com",
+    url: "https://humzamalak.dev",
     title: "Humza Malak - Full Stack Developer Portfolio",
     description: "Senior Full Stack Developer specializing in React, Node.js, and cloud technologies.",
     siteName: "Humza Malak Portfolio",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     google: "your-google-verification-code",
   },
   alternates: {
-    canonical: "https://humzamalak.com",
+    canonical: "https://humzamalak.dev",
   },
 };
 
@@ -65,7 +65,7 @@ const PERSON_SCHEMA = {
   name: "Humza Malak",
   jobTitle: "Senior Full Stack Developer",
   description: "Senior Full Stack Developer specializing in React, Node.js, and cloud technologies.",
-  url: "https://humzamalak.com",
+  url: "https://humzamalak.dev",
   sameAs: [
     "https://github.com/humzamalak",
     "https://www.linkedin.com/in/humza-m-64607514b/",
@@ -85,7 +85,7 @@ const WEBSITE_SCHEMA = {
   "@type": "WebSite",
   name: "Humza Malak Portfolio",
   description: "Senior Full Stack Developer Portfolio",
-  url: "https://humzamalak.com",
+  url: "https://humzamalak.dev",
   author: {
     "@type": "Person",
     name: "Humza Malak"

@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Humza Portfolio
 
-## Getting Started
+A modern, responsive portfolio website built with Next.js, TypeScript, and TailwindCSS.
 
-First, run the development server:
+## 🚀 Live Site
+**Domain**: [humzamalak.dev](https://humzamalak.dev)
 
+## 🛠 Tech Stack
+- **Framework**: Next.js 15.5.2
+- **Language**: TypeScript
+- **Styling**: TailwindCSS + Framer Motion
+- **Deployment**: Vercel
+- **Analytics**: Google Analytics 4
+- **SEO**: Optimized meta tags, structured data, sitemap
+
+## 🚀 Quick Start
+
+### Development
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Build
+```bash
+npm run build
+npm start
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Deploy to Vercel
+```bash
+./deploy-to-vercel.sh
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Project Structure
+```
+src/
+├── app/                 # Next.js App Router
+│   ├── (sections)/      # Page sections
+│   ├── api/            # API routes
+│   ├── blog/           # Blog pages
+│   └── layout.tsx      # Root layout
+├── components/         # Reusable components
+├── content/           # MDX blog content
+├── data/              # Static data
+├── lib/               # Utilities
+└── types/             # TypeScript types
+```
 
-## Learn More
+## 🔧 Configuration
 
-To learn more about Next.js, take a look at the following resources:
+### Environment Variables
+Copy `.env.example` to `.env.local` and configure:
+```bash
+NEXT_PUBLIC_GA_ID=your-google-analytics-id
+NEXT_PUBLIC_SITE_URL=https://humzamalak.dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Customization
+- Update `src/app/layout.tsx` for meta tags and SEO
+- Modify `src/data/experience.ts` for experience data
+- Add blog posts in `src/content/blog/`
+- Customize styling in `tailwind.config.ts`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📊 Performance
+- Lighthouse Score: 90+ (Performance, Accessibility, Best Practices, SEO)
+- Optimized images with Next.js Image component
+- Code splitting and tree shaking
+- Static generation for blog posts
 
-## Deploy on Vercel
+## 🔒 Security
+- Security headers configured
+- HTTPS enforced
+- XSS protection
+- Content Security Policy ready
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📈 Analytics & SEO
+- Google Analytics 4 integration
+- Structured data (JSON-LD)
+- Sitemap generation
+- Robots.txt configuration
+- Open Graph and Twitter Card support
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Deployment
+See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for detailed deployment instructions.
+
+---
+
+Built with ❤️ by [Humza Malak](https://github.com/humzamalak)
