@@ -1,1 +1,0 @@
-✅ Headshot image added to public/ directory as humza-headshot.jpg and integrated into the website

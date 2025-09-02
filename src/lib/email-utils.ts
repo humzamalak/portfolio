@@ -95,8 +95,11 @@ export const RESEND_ERROR_MESSAGES = {
  * @param error - Resend error object
  * @returns User-friendly error message
  */
-export const getResendErrorMessage = (error: any): string => {
-  const message = error?.message || '';
+export const getResendErrorMessage = (error: unknown): string => {
+  // Type guard for error objects with message property
+  const message = error && typeof error === 'object' && 'message' in error 
+    ? String(error.message) 
+    : '';
   
   for (const [key, value] of Object.entries(RESEND_ERROR_MESSAGES)) {
     if (message.includes(key)) {

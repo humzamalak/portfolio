@@ -120,7 +120,7 @@ const config: Config = {
   },
   plugins: [
     // Custom plugin for reduced motion support
-    function({ addUtilities }: any) {
+    function({ addUtilities }: { addUtilities: (utilities: Record<string, Record<string, Record<string, string>>>) => void }) {
       const newUtilities = {
         ".motion-safe\\:animate-fade-in": {
           "@media (prefers-reduced-motion: no-preference)": {

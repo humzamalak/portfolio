@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import ProfilePicture from "@/components/ProfilePicture";
 import Link from "next/link";
 

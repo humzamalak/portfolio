@@ -80,21 +80,26 @@ ${body.message}
         { message: 'Contact form submitted successfully', id: result?.data?.id || `contact_${Date.now()}` },
         { status: 200 }
       );
-    } catch (sendError: any) {
+    } catch (sendError: unknown) {
       console.error('Failed to send contact email:', sendError);
       console.error('Send error details:', JSON.stringify(sendError, null, 2));
       
       const userFriendlyError = getResendErrorMessage(sendError);
       
+      // Type guard for error objects with message property
+      const errorMessage = sendError && typeof sendError === 'object' && 'message' in sendError 
+        ? String(sendError.message) 
+        : 'Unknown error occurred';
+      
       // Handle specific Resend errors
-      if (sendError?.message?.includes('Invalid `from` field')) {
+      if (errorMessage.includes('Invalid `from` field')) {
         return NextResponse.json({ 
           error: userFriendlyError,
           details: 'The from email address needs to be verified with Resend'
         }, { status: 422 });
       }
       
-      if (sendError?.message?.includes('Unauthorized')) {
+      if (errorMessage.includes('Unauthorized')) {
         return NextResponse.json({ 
           error: userFriendlyError,
           details: 'Please check your Resend API key'
@@ -103,14 +108,19 @@ ${body.message}
       
       return NextResponse.json({ 
         error: userFriendlyError,
-        details: sendError?.message || 'Unknown error occurred'
+        details: errorMessage
       }, { status: 502 });
     }
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Contact form error:', error);
     
-    if (error?.message?.includes('Invalid email format')) {
+    // Type guard for error objects with message property
+    const errorMessage = error && typeof error === 'object' && 'message' in error 
+      ? String(error.message) 
+      : 'Unknown error';
+    
+    if (errorMessage.includes('Invalid email format')) {
       return NextResponse.json(
         { error: 'Invalid email format provided' },
         { status: 400 }
@@ -118,7 +128,7 @@ ${body.message}
     }
     
     return NextResponse.json(
-      { error: 'Internal server error', details: error?.message || 'Unknown error' },
+      { error: 'Internal server error', details: errorMessage },
       { status: 500 }
     );
   }
