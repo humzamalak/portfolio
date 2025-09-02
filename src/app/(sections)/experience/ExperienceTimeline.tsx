@@ -36,9 +36,25 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
   const formatDuration = (start: string, end?: string) => {
     const startDate = new Date(start);
     const endDate = end ? new Date(end) : new Date();
-    const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
-    const diffYears = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 365));
-    return diffYears === 1 ? '1 year' : `${diffYears} years`;
+
+    const startYear = startDate.getFullYear();
+    const startMonth = startDate.getMonth(); // 0-11
+    const endYear = endDate.getFullYear();
+    const endMonth = endDate.getMonth(); // 0-11
+
+    let months = (endYear - startYear) * 12 + (endMonth - startMonth);
+    if (months < 0) months = 0;
+
+    const yearsPart = Math.floor(months / 12);
+    const monthsPart = months % 12;
+
+    const yearsText = yearsPart > 0 ? `${yearsPart} ${yearsPart === 1 ? 'year' : 'years'}` : '';
+    const monthsText = monthsPart > 0 ? `${monthsPart} ${monthsPart === 1 ? 'month' : 'months'}` : '';
+
+    if (yearsText && monthsText) return `${yearsText} ${monthsText}`;
+    if (yearsText) return yearsText;
+    if (monthsText) return monthsText || '0 months';
+    return '0 months';
   };
 
   return (
@@ -78,12 +94,13 @@ const TimelineItem = ({ role, index }: TimelineItemProps) => {
                     <FaMapMarkerAlt className="text-foreground-muted" />
                     <span>{role.location}</span>
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-2">
                     <FaCalendarAlt className="text-foreground-muted" />
                     <span>
                       {formatDate(role.startDate)} - {role.current ? 'Present' : formatDate(role.endDate!)}
                     </span>
-                    <span className="text-foreground-muted">({formatDuration(role.startDate, role.endDate)})</span>
+                    <span aria-hidden="true">•</span>
+                    <span className="text-foreground-muted">{formatDuration(role.startDate, role.endDate)}</span>
                   </div>
                 </div>
               </div>

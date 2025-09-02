@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 interface ContactFormData {
   name: string;
@@ -28,30 +29,47 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Mock processing delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const resendApiKey = process.env.RESEND_API_KEY;
+    const toAddress = process.env.CONTACT_TO_EMAIL || 'humzatmalak@gmail.com';
+    const fromAddress = process.env.CONTACT_FROM_EMAIL || 'Portfolio Contact <onboarding@resend.dev>';
 
-    // In a real implementation, you would:
-    // 1. Save to database
-    // 2. Send email notification
-    // 3. Log the contact request
-    // 4. Integrate with CRM if needed
+    if (!resendApiKey) {
+      console.error('Missing RESEND_API_KEY');
+      return NextResponse.json({ error: 'Email service not configured' }, { status: 500 });
+    }
 
-    console.log('Contact form submission:', {
-      name: body.name,
-      email: body.email,
-      inquiryType: body.inquiryType,
-      message: body.message.substring(0, 100) + '...', // Log truncated message
-      timestamp: new Date().toISOString()
-    });
+    const resend = new Resend(resendApiKey);
 
-    return NextResponse.json(
-      { 
-        message: 'Contact form submitted successfully',
-        id: `contact_${Date.now()}`
-      },
-      { status: 200 }
-    );
+    const subject = `New contact: ${body.inquiryType || 'general'} from ${body.name}`;
+    const text = `
+Name: ${body.name}
+Email: ${body.email}
+Type: ${body.inquiryType}
+Time: ${new Date().toISOString()}
+
+Message:
+${body.message}
+`;
+
+    try {
+      const result = await resend.emails.send({
+        from: fromAddress,
+        to: [toAddress],
+        reply_to: body.email,
+        subject,
+        text,
+      });
+
+      console.log('Contact email sent:', { id: result?.data?.id });
+
+      return NextResponse.json(
+        { message: 'Contact form submitted successfully', id: result?.data?.id || `contact_${Date.now()}` },
+        { status: 200 }
+      );
+    } catch (sendError) {
+      console.error('Failed to send contact email:', sendError);
+      return NextResponse.json({ error: 'Failed to send email' }, { status: 502 });
+    }
 
   } catch (error) {
     console.error('Contact form error:', error);
