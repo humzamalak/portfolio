@@ -22,99 +22,166 @@ export interface ExperienceRole {
 
 export const experience: ExperienceRole[] = [
   {
-    id: "senior-devops-engineer",
-    company: "TechCorp Solutions",
-    role: "Senior DevOps Engineer",
-    startDate: "2023-01",
-    endDate: "2024-12",
-    current: false,
-    location: "San Francisco, CA",
-    description: "Led infrastructure automation and CI/CD pipeline optimization for a team of 50+ developers.",
-    achievements: [
-      "Reduced deployment time from 45 minutes to 8 minutes",
-      "Implemented infrastructure as code reducing manual provisioning by 80%",
-      "Led migration of 200+ services to Kubernetes",
-      "Established monitoring and alerting reducing MTTR by 60%"
-    ],
-    metrics: [
-      { label: "Deployment Time", value: "8", unit: "min", improvement: "82% reduction" },
-      { label: "Uptime", value: "99.95", unit: "%", improvement: "0.03% improvement" },
-      { label: "MTTR", value: "15", unit: "min", improvement: "60% reduction" },
-      { label: "Infrastructure Cost", value: "25", unit: "%", improvement: "cost reduction" }
-    ],
-    techStack: ["AWS", "Kubernetes", "Terraform", "Jenkins", "Prometheus", "Grafana", "Docker", "Python"],
-    highlights: ["Team Leadership", "Cost Optimization", "Security Implementation", "Performance Tuning"]
-  },
-  {
-    id: "cloud-architect",
-    company: "CloudScale Inc",
-    role: "Cloud Architect",
-    startDate: "2021-03",
-    endDate: "2022-12",
-    current: false,
-    location: "Austin, TX",
-    description: "Designed and implemented multi-cloud solutions for enterprise clients with focus on scalability and cost efficiency.",
-    achievements: [
-      "Architected solutions for 3 Fortune 500 companies",
-      "Reduced cloud costs by 35% through optimization strategies",
-      "Implemented disaster recovery with 99.99% RTO/RPO targets",
-      "Led security compliance initiatives (SOC2, ISO27001)"
-    ],
-    metrics: [
-      { label: "Cost Reduction", value: "35", unit: "%", improvement: "average across clients" },
-      { label: "RTO", value: "15", unit: "min", improvement: "99.99% target achieved" },
-      { label: "RPO", value: "5", unit: "min", improvement: "99.99% target achieved" },
-      { label: "Client Satisfaction", value: "4.9", unit: "/5", improvement: "based on surveys" }
-    ],
-    techStack: ["AWS", "Azure", "GCP", "Terraform", "Ansible", "Kubernetes", "Istio", "Vault"],
-    highlights: ["Multi-Cloud Strategy", "Cost Optimization", "Security Architecture", "Compliance"]
-  },
-  {
-    id: "devops-engineer",
-    company: "StartupFlow",
+    id: "devops-eas-2023-2025",
+    company: "Enterprise Architecture Solutions",
     role: "DevOps Engineer",
-    startDate: "2019-06",
-    endDate: "2021-02",
+    startDate: "2023-10",
+    endDate: "2025-01",
     current: false,
-    location: "Remote",
-    description: "Built and maintained CI/CD pipelines and infrastructure for a fast-growing startup.",
+    location: "Remote, UK",
+    description: "Led modernization of a legacy monolith into Kubernetes-based microservices, delivering faster deployments and greater scalability across environments.",
     achievements: [
-      "Built CI/CD pipeline from scratch reducing time-to-market by 70%",
-      "Implemented monitoring for 15 microservices",
-      "Automated testing and deployment processes",
-      "Reduced infrastructure downtime by 90%"
+      "Reduced deployment time by 60% through microservices migration and pipeline optimization",
+      "Built Jenkins pipelines integrated with Bitbucket and Kubernetes, cutting manual release steps by 70%",
+      "Provisioned multi-region AWS infrastructure with Terraform (EKS, IAM, VPC peering) to improve resilience",
+      "Implemented HashiCorp Vault sidecar-based secrets injection eliminating plaintext secrets",
+      "Deployed ELK, Prometheus, and Grafana for full observability, reducing incident resolution time by 40%",
+      "Designed multi-environment Helm charts for test/staging/prod to reduce environment drift",
+      "Integrated MongoDB Atlas with failover-aware connectivity ensuring high availability"
     ],
     metrics: [
-      { label: "Time to Market", value: "70", unit: "%", improvement: "reduction" },
-      { label: "Deployment Frequency", value: "20", unit: "per day", improvement: "from 2 per day" },
-      { label: "Infrastructure Downtime", value: "90", unit: "%", improvement: "reduction" },
-      { label: "Test Coverage", value: "85", unit: "%", improvement: "from 40%" }
+      { label: "Deployment Time", value: 60, unit: "%", improvement: "reduction" },
+      { label: "Manual Release Steps", value: 70, unit: "%", improvement: "reduction" },
+      { label: "Incident Resolution Time", value: 40, unit: "%", improvement: "reduction" }
     ],
-    techStack: ["Docker", "GitHub Actions", "AWS", "Terraform", "Prometheus", "Grafana", "Node.js", "PostgreSQL"],
-    highlights: ["Pipeline Automation", "Monitoring Setup", "Infrastructure as Code", "Performance Optimization"]
+    techStack: [
+      "AWS",
+      "EKS",
+      "Terraform",
+      "IAM",
+      "VPC Peering",
+      "Kubernetes",
+      "Jenkins",
+      "Bitbucket",
+      "Helm",
+      "HashiCorp Vault",
+      "Prometheus",
+      "Grafana",
+      "ELK Stack",
+      "MongoDB Atlas",
+      "Docker",
+      "Python",
+      "Bash"
+    ],
+    highlights: [
+      "Microservices Migration",
+      "Multi-Region Resilience",
+      "Secrets Management",
+      "Observability",
+      "Helm Templating",
+      "High Availability Data"
+    ]
   },
   {
-    id: "software-engineer",
-    company: "InnovateTech",
-    role: "Software Engineer",
-    startDate: "2017-08",
-    endDate: "2019-05",
+    id: "devops-pa-2021-2023",
+    company: "PA Consulting",
+    role: "DevOps Engineer",
+    startDate: "2021-09",
+    endDate: "2023-09",
     current: false,
-    location: "Seattle, WA",
-    description: "Full-stack development with focus on backend services and database optimization.",
+    location: "Remote, UK",
+    description: "Managed AWS services supporting customer-facing apps with 10,000+ concurrent users, maintaining high availability and accelerating delivery.",
     achievements: [
-      "Developed 5 RESTful APIs serving 100K+ users",
-      "Optimized database queries improving response time by 40%",
-      "Implemented caching strategy reducing database load by 60%",
-      "Contributed to open-source projects with 500+ stars"
+      "Ensured 99.9% uptime across EC2, S3, IAM, and EKS workloads",
+      "Refactored Terraform modules and CloudFormation stacks, reducing infra deployment times by 50%",
+      "Automated CI/CD with Jenkins, GitLab CI, and GitHub Actions to triple deployment frequency",
+      "Diagnosed and resolved server/network/database incidents, cutting MTTR by 35%",
+      "Partnered with dev teams to streamline deployments, reducing manual processes by 60%"
     ],
     metrics: [
-      { label: "API Response Time", value: "40", unit: "%", improvement: "improvement" },
-      { label: "Database Load", value: "60", unit: "%", improvement: "reduction" },
-      { label: "Code Coverage", value: "90", unit: "%", improvement: "maintained" },
-      { label: "Open Source Stars", value: "500+", unit: "", improvement: "total contributions" }
+      { label: "Uptime", value: 99.9, unit: "%" },
+      { label: "Infra Deployment Time", value: 50, unit: "%", improvement: "reduction" },
+      { label: "Deployment Frequency", value: 3, unit: "x", improvement: "increase" },
+      { label: "MTTR", value: 35, unit: "%", improvement: "reduction" }
     ],
-    techStack: ["Node.js", "Express", "PostgreSQL", "Redis", "Docker", "Jest", "Swagger", "TypeScript"],
-    highlights: ["Backend Development", "Database Optimization", "API Design", "Testing"]
+    techStack: [
+      "AWS",
+      "EC2",
+      "S3",
+      "IAM",
+      "EKS",
+      "Terraform",
+      "CloudFormation",
+      "Jenkins",
+      "GitLab CI",
+      "GitHub Actions",
+      "Kubernetes",
+      "Docker",
+      "Python",
+      "Bash",
+      "Git",
+      "Bitbucket"
+    ],
+    highlights: [
+      "High Availability",
+      "CI/CD Automation",
+      "Infrastructure as Code",
+      "Incident Response",
+      "Cross-Functional Collaboration"
+    ]
+  },
+  {
+    id: "devops-penta-2021-03-05",
+    company: "Penta Technology",
+    role: "DevOps Engineer",
+    startDate: "2021-03",
+    endDate: "2021-05",
+    current: false,
+    location: "Remote, UK",
+    description: "Provisioned and maintained cloud environments with Terraform and Ansible while automating microservices pipelines to speed releases.",
+    achievements: [
+      "Ensured development and production parity using Terraform and Ansible",
+      "Automated build/test/deploy pipelines for microservices, taking releases from hours to minutes",
+      "Managed MinIO object storage within Kubernetes clusters, improving data availability and backups"
+    ],
+    metrics: [
+      { label: "Release Time", value: "minutes", improvement: "from hours" }
+    ],
+    techStack: [
+      "Terraform",
+      "Ansible",
+      "Kubernetes",
+      "MinIO",
+      "Docker",
+      "Jenkins",
+      "Git"
+    ],
+    highlights: [
+      "Environment Parity",
+      "Microservices CI/CD",
+      "Object Storage Management"
+    ]
+  },
+  {
+    id: "junior-devsecops-grabyo-2020-2021",
+    company: "Grabyo",
+    role: "Junior DevSecOps Engineer",
+    startDate: "2020-11",
+    endDate: "2021-01",
+    current: false,
+    location: "Remote, UK",
+    description: "Automated secure AWS networking and standardized environment provisioning to improve scalability and onboarding.",
+    achievements: [
+      "Automated AWS VPC, subnets, and firewall rules using Terraform, reducing setup times by 80%",
+      "Containerized services with Docker and deployed to Kubernetes, improving scalability and reducing overhead",
+      "Standardized Ansible-based environment setups, cutting configuration errors by 50% and speeding onboarding"
+    ],
+    metrics: [
+      { label: "Environment Setup Time", value: 80, unit: "%", improvement: "reduction" },
+      { label: "Configuration Errors", value: 50, unit: "%", improvement: "reduction" }
+    ],
+    techStack: [
+      "AWS",
+      "Terraform",
+      "Docker",
+      "Kubernetes",
+      "Ansible",
+      "Git"
+    ],
+    highlights: [
+      "Network Automation",
+      "Containerization",
+      "Secure Provisioning"
+    ]
   }
 ];
