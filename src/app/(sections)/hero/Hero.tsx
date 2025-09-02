@@ -32,7 +32,7 @@ const Hero = () => {
         >
           {/* Profile Image */}
           <motion.div variants={itemVariants} className="flex justify-center">
-            <ProfilePicture src="/humza-headshot.jpg" alt="Humza Malak" />
+            <ProfilePicture src="/humza-headshot-optimized.jpg" alt="Humza Malak" />
           </motion.div>
 
           {/* Main Heading */}
