@@ -55,7 +55,7 @@ ${body.message}
       const result = await resend.emails.send({
         from: fromAddress,
         to: [toAddress],
-        reply_to: body.email,
+        replyTo: body.email,
         subject,
         text,
       });
