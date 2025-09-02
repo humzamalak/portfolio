@@ -52,6 +52,13 @@ ${body.message}
 `;
 
     try {
+      console.log('Attempting to send email with:', {
+        from: fromAddress,
+        to: toAddress,
+        replyTo: body.email,
+        subject
+      });
+
       const result = await resend.emails.send({
         from: fromAddress,
         to: [toAddress],
@@ -60,6 +67,7 @@ ${body.message}
         text,
       });
 
+      console.log('Resend response:', JSON.stringify(result, null, 2));
       console.log('Contact email sent:', { id: result?.data?.id });
 
       return NextResponse.json(
@@ -68,6 +76,7 @@ ${body.message}
       );
     } catch (sendError) {
       console.error('Failed to send contact email:', sendError);
+      console.error('Send error details:', JSON.stringify(sendError, null, 2));
       return NextResponse.json({ error: 'Failed to send email' }, { status: 502 });
     }
 
