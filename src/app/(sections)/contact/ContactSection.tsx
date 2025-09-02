@@ -92,7 +92,6 @@ const ContactSection = () => {
     }
 
     try {
-      // Mock API call - replace with actual API endpoint
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -100,6 +99,8 @@ const ContactSection = () => {
         },
         body: JSON.stringify(formData),
       });
+
+      const result = await response.json();
 
       if (response.ok) {
         setSubmitStatus('success');
@@ -111,8 +112,16 @@ const ContactSection = () => {
         });
       } else {
         setSubmitStatus('error');
+        // Log detailed error for debugging
+        console.error('Contact form error:', {
+          status: response.status,
+          statusText: response.statusText,
+          error: result.error,
+          details: result.details
+        });
       }
-    } catch {
+    } catch (error) {
+      console.error('Network error:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
