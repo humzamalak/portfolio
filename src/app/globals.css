@@ -285,3 +285,8 @@ pre code {
   background-color: hsl(var(--primary-800));
   color: hsl(var(--primary-100));
 }
+
+/* Custom clip-path for hexagonal profile picture */
+.clip-hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}

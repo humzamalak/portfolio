@@ -37,17 +37,32 @@ export default function ProfilePicture({
       className="relative"
       aria-label="Profile picture"
     >
-      <Image
-        src={currentSrc}
-        alt={alt}
-        width={size}
-        height={size}
-        className="w-28 h-28 md:w-40 md:h-40 rounded-full border-4 border-primary-500 shadow-soft-lg mx-auto"
-        priority
-        unoptimized={currentSrc.startsWith('/') && currentSrc.includes('humza-headshot')}
-        onError={handleImageError}
+      {/* Modern container with glassmorphism effect */}
+      <div 
+        className="w-28 h-28 md:w-40 md:h-40 mx-auto rounded-3xl border-2 border-blue-500/30 bg-gradient-to-br from-blue-500/10 to-green-500/10 backdrop-blur-sm shadow-lg"
+        style={{
+          boxShadow: '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+        }}
+      >
+        <Image
+          src={currentSrc}
+          alt={alt}
+          width={size}
+          height={size}
+          className="w-full h-full object-cover rounded-3xl"
+          priority
+          unoptimized={currentSrc.startsWith('/') && currentSrc.includes('humza-headshot')}
+          onError={handleImageError}
+        />
+      </div>
+      
+      {/* Modern glow effect */}
+      <div 
+        className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/20 to-green-500/20 blur-xl opacity-50 animate-pulse"
+        style={{
+          borderRadius: '1.5rem'
+        }}
       />
-      <div className="absolute inset-0 rounded-full border-4 border-secondary-500 opacity-20 animate-pulse" />
     </motion.div>
   );
 }
