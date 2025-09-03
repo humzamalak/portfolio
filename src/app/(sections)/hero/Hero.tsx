@@ -102,10 +102,9 @@ const Hero = () => {
               LinkedIn
             </Link>
             <Link
-              href="/#projects"
-              aria-label="Scroll to Projects section"
+              href="/projects"
+              aria-label="Navigate to Projects page"
               className="inline-flex items-center justify-center px-8 py-3 rounded-2xl border-2 border-primary-600 text-primary-600 font-semibold transition-all duration-200 hover:bg-primary-600 hover:text-primary-foreground hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-              scroll={false}
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
