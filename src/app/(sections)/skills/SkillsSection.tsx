@@ -185,33 +185,7 @@ const SkillsSection = () => {
             ))}
           </div>
 
-          {/* Additional Info */}
-          <motion.div variants={categoryVariants} className="text-center">
-            <div className="bg-background-secondary rounded-xl border border-border p-8 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-semibold text-foreground mb-4">
-                Continuous Learning & Innovation
-              </h3>
-              <p className="text-foreground-muted leading-relaxed mb-6">
-                I stay current with emerging technologies and best practices in the DevOps ecosystem. 
-                My approach combines proven methodologies with cutting-edge tools to deliver robust, 
-                scalable solutions that meet modern business requirements.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <div className="flex items-center gap-2 text-sm text-foreground-muted">
-                  <span className="w-2 h-2 bg-primary-500 rounded-full"></span>
-                  Certified AWS Solutions Architect
-                </div>
-                <div className="flex items-center gap-2 text-sm text-foreground-muted">
-                  <span className="w-2 h-2 bg-primary-500 rounded-full"></span>
-                  Kubernetes Administrator
-                </div>
-                <div className="flex items-center gap-2 text-sm text-foreground-muted">
-                  <span className="w-2 h-2 bg-primary-500 rounded-full"></span>
-                  Terraform Associate
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          
         </motion.div>
       </div>
     </Section>

@@ -59,24 +59,7 @@ const Hero = () => {
             variants={itemVariants}
             className="flex flex-wrap justify-center gap-6 text-sm md:text-base text-foreground-muted"
           >
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-secondary-500 rounded-full"></span>
-              4+ Years DevOps Experience
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-primary-500 rounded-full"></span>
-              99.9% Uptime Achieved
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-secondary-500 rounded-full"></span>
-              60% Deployment Time Reduction
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-primary-500 rounded-full"></span>
-              40% Faster Incident Resolution
-            </span>
           </motion.div>
-
           {/* Call To Action Buttons */}
           <motion.div 
             variants={itemVariants} 

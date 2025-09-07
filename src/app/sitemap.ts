@@ -1,9 +1,7 @@
 import { MetadataRoute } from 'next'
-import { getAllBlogPosts } from '@/lib/blog'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://humzamalak.dev'
-  const blogPosts = getAllBlogPosts()
   
   const staticPages = [
     {
@@ -36,12 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly' as const,
       priority: 0.9,
     },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
+    // Blog moved to Medium, no internal blog pages
     {
       url: `${baseUrl}/projects`,
       lastModified: new Date(),
@@ -56,13 +49,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  const blogPages = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: 'yearly' as const,
-    priority: 0.7,
-  }))
-
-  return [...staticPages, ...blogPages]
+  return [...staticPages]
 }
 

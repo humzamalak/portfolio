@@ -7,9 +7,7 @@ import { Section } from "@/components/ui/section";
 interface DevOpsProject {
   title: string;
   description: string;
-  challenge: string;
-  solution: string;
-  impact: string[];
+  techStack: string[];
   technologies: string[];
   category: string;
   link?: string;
@@ -17,95 +15,37 @@ interface DevOpsProject {
 
 const devopsProjects: DevOpsProject[] = [
   {
-    title: "Kubernetes Microservices Migration",
-    description: "Transformed a monolithic legacy application into a scalable microservices architecture running on Kubernetes.",
-    challenge: "Legacy monolith causing deployment bottlenecks and scalability issues with 70% manual release processes.",
-    solution: "Designed and implemented Kubernetes-based microservices with Helm charts, automated CI/CD pipelines, and comprehensive monitoring.",
-    impact: [
-      "60% reduction in deployment time",
-      "70% elimination of manual release steps", 
-      "99.9% uptime achievement",
-      "40% faster incident resolution"
-    ],
-    technologies: ["Kubernetes", "Helm", "Jenkins", "Terraform", "AWS EKS", "Prometheus", "Grafana"],
-    category: "Containerization & Orchestration",
-    link: "https://github.com/humzamalak/k8s-microservices"
-  },
-  {
-    title: "Multi-Region AWS Infrastructure",
-    description: "Built resilient, multi-region AWS infrastructure with automated failover and disaster recovery capabilities.",
-    challenge: "Single-region deployment creating high availability risks and potential data loss scenarios.",
-    solution: "Implemented multi-region AWS architecture with VPC peering, automated backups, and cross-region replication using Terraform.",
-    impact: [
-      "99.9% uptime across regions",
-      "RTO reduced to 15 minutes",
-      "RPO reduced to 5 minutes",
-      "50% cost optimization through reserved instances"
-    ],
-    technologies: ["AWS", "Terraform", "VPC Peering", "RDS", "S3", "CloudFormation", "Route 53"],
-    category: "Cloud Infrastructure",
-    link: "https://github.com/humzamalak/aws-multiregion"
-  },
-  {
-    title: "CI/CD Pipeline Automation",
-    description: "Implemented comprehensive CI/CD pipelines with automated testing, security scanning, and deployment strategies.",
-    challenge: "Manual deployment processes causing inconsistent releases and high error rates in production.",
-    solution: "Built Jenkins pipelines with GitLab integration, automated testing, security scanning, and blue-green deployments.",
-    impact: [
-      "3x increase in deployment frequency",
-      "80% reduction in deployment errors",
-      "Automated security scanning",
-      "Zero-downtime deployments"
-    ],
-    technologies: ["Jenkins", "GitLab CI", "Docker", "SonarQube", "OWASP ZAP", "Kubernetes", "Helm"],
+    title: "Fully Automated Pipeline",
+    description: "End-to-end CI/CD pipeline with automated build, test, security scanning, and deploy stages.",
+    techStack: ["GitHub Actions", "Docker", "Terraform", "OWASP ZAP", "Snyk"],
+    technologies: ["GitHub Actions", "Docker", "Terraform", "OWASP ZAP", "Snyk"],
     category: "CI/CD & Automation",
-    link: "https://github.com/humzamalak/cicd-automation"
+    link: "https://github.com/humzamalak/FullyAutomatedPipeline",
   },
   {
-    title: "Secrets Management & Security",
-    description: "Implemented HashiCorp Vault for secure secrets management with automated rotation and access control.",
-    challenge: "Plaintext secrets in configuration files creating security vulnerabilities and compliance issues.",
-    solution: "Deployed HashiCorp Vault with Kubernetes sidecar injection, automated secret rotation, and RBAC policies.",
-    impact: [
-      "100% elimination of plaintext secrets",
-      "Automated secret rotation",
-      "SOC2 compliance achievement",
-      "Centralized access control"
-    ],
-    technologies: ["HashiCorp Vault", "Kubernetes", "RBAC", "AWS IAM", "Terraform", "Prometheus"],
+    title: "DevOps Bash Script Toolkit",
+    description: "Reusable Bash utilities for DevOps workflows: provisioning, deployments, logging, backups, and audits.",
+    techStack: ["Bash", "Linux", "AWS CLI", "kubectl", "Helm"],
+    technologies: ["Bash", "Linux", "AWS CLI", "kubectl", "Helm"],
+    category: "Automation Tooling",
+    link: "https://github.com/humzamalak/DevOps-Bash-Script-Toolkit",
+  },
+  {
+    title: "DevSecOps CI/CD Pipeline with Security Scanning",
+    description: "Security-first pipeline integrating SAST/DAST, dependency and container scanning, and signed releases.",
+    techStack: ["GitHub Actions", "Trivy", "Semgrep", "OWASP ZAP", "Cosign"],
+    technologies: ["GitHub Actions", "Trivy", "Semgrep", "OWASP ZAP", "Cosign"],
     category: "Security & Compliance",
-    link: "https://github.com/humzamalak/vault-security"
+    link: "https://github.com/humzamalak/DevSecOps-CI-CD-Pipeline-with-Security-Scanning",
   },
   {
-    title: "Observability & Monitoring Platform",
-    description: "Built comprehensive monitoring solution with ELK stack, Prometheus, and Grafana for full-stack observability.",
-    challenge: "Limited visibility into application performance and infrastructure health causing delayed incident response.",
-    solution: "Implemented ELK stack for logging, Prometheus for metrics, and Grafana for visualization with automated alerting.",
-    impact: [
-      "40% reduction in incident resolution time",
-      "Proactive issue detection",
-      "Real-time performance monitoring",
-      "Automated alerting and escalation"
-    ],
-    technologies: ["ELK Stack", "Prometheus", "Grafana", "Kubernetes", "Fluentd", "Jaeger", "AlertManager"],
-    category: "Observability",
-    link: "https://github.com/humzamalak/observability-platform"
+    title: "Production-Ready EKS Cluster with GitOps",
+    description: "Hardened EKS baseline with Terraform, GitOps (Argo CD), and observability stack for production workloads.",
+    techStack: ["AWS EKS", "Terraform", "Argo CD", "Helm", "Prometheus", "Grafana"],
+    technologies: ["AWS EKS", "Terraform", "Argo CD", "Helm", "Prometheus", "Grafana"],
+    category: "Cloud Infrastructure",
+    link: "https://github.com/humzamalak/Production-Ready-EKS-Cluster-with-GitOps",
   },
-  {
-    title: "Infrastructure as Code Automation",
-    description: "Automated infrastructure provisioning and management using Terraform with GitOps workflows.",
-    challenge: "Manual infrastructure provisioning causing environment drift and inconsistent deployments.",
-    solution: "Implemented Terraform modules with GitOps workflows, automated testing, and environment promotion pipelines.",
-    impact: [
-      "50% reduction in infrastructure deployment time",
-      "Eliminated environment drift",
-      "Automated compliance checks",
-      "Infrastructure version control"
-    ],
-    technologies: ["Terraform", "GitOps", "AWS", "GitLab CI", "Terratest", "Terraform Cloud"],
-    category: "Infrastructure as Code",
-    link: "https://github.com/humzamalak/terraform-automation"
-  }
 ];
 
 export default function ProjectsSection() {
@@ -184,31 +124,14 @@ export default function ProjectsSection() {
                     </div>
                   </div>
 
-                  {/* Challenge & Solution */}
-                  <div className="space-y-4 mb-6">
-                    <div>
-                      <h4 className="text-sm font-semibold text-foreground mb-2">Challenge</h4>
-                      <p className="text-sm text-foreground-muted leading-relaxed">
-                        {project.challenge}
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-semibold text-foreground mb-2">Solution</h4>
-                      <p className="text-sm text-foreground-muted leading-relaxed">
-                        {project.solution}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Impact Metrics */}
+                  {/* Tech Stack Summary */}
                   <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-foreground mb-3">Key Impact</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {project.impact.map((impact, impactIndex) => (
-                        <div key={impactIndex} className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 bg-primary-500 rounded-full flex-shrink-0"></span>
-                          <span className="text-sm text-foreground-muted">{impact}</span>
-                        </div>
+                    <h4 className="text-sm font-semibold text-foreground mb-3">Tech Stack</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {project.techStack.map((tech) => (
+                        <span key={tech} className="px-2 py-1 bg-background-secondary text-xs text-foreground-muted rounded-md border border-border">
+                          {tech}
+                        </span>
                       ))}
                     </div>
                   </div>

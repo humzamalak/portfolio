@@ -46,7 +46,7 @@ const AboutSection = () => {
                   DevOps Engineering Excellence
                 </h3>
                 <p className="text-foreground-muted leading-relaxed">
-                  With over 4 years of experience in DevOps engineering, I specialize in building robust, 
+                  With over 5 years of experience in DevOps engineering, I specialize in building robust, 
                   scalable infrastructure that powers modern applications. My expertise spans across cloud platforms, 
                   containerization, automation, and observability.
                 </p>
@@ -131,36 +131,7 @@ const AboutSection = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Philosophy */}
-              <div className="bg-background-tertiary rounded-xl p-6 border border-border">
-                <h4 className="text-xl font-semibold text-foreground mb-4">
-                  Engineering Philosophy
-                </h4>
-                <p className="text-foreground-muted leading-relaxed mb-4">
-                  I believe in the power of automation, observability, and infrastructure as code to 
-                  create reliable, scalable systems. My approach focuses on:
-                </p>
-                <ul className="space-y-2 text-sm text-foreground-muted">
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
-                    Infrastructure as Code for consistency and reproducibility
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
-                    Comprehensive monitoring and alerting for proactive issue resolution
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
-                    Security-first approach with secrets management and least privilege access
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
-                    Continuous improvement through metrics-driven optimization
-                  </li>
-                </ul>
-              </div>
+              </div>              
             </motion.div>
           </div>
         </motion.div>
