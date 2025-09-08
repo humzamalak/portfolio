@@ -41,8 +41,8 @@ const Hero = () => {
             id="hero-heading"
             className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight"
           >
-            Building Scalable, Secure
-            <span className="block text-primary-600">Cloud Infrastructure</span>
+            DevOps Engineer Building
+            <span className="block text-primary-600">Scalable Cloud Infrastructure</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -50,7 +50,8 @@ const Hero = () => {
             variants={itemVariants}
             className="text-lg md:text-xl lg:text-2xl text-foreground-muted max-w-3xl mx-auto leading-relaxed"
           >
-            Senior Full Stack Developer specializing in React, Node.js, and cloud technologies
+            Senior DevOps Engineer specializing in Kubernetes, AWS, Terraform, and CI/CD automation. 
+            Transforming legacy systems into modern, scalable cloud-native architectures.
           </motion.p>
 
           {/* Metrics Line */}
@@ -58,20 +59,7 @@ const Hero = () => {
             variants={itemVariants}
             className="flex flex-wrap justify-center gap-6 text-sm md:text-base text-foreground-muted"
           >
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-secondary-500 rounded-full"></span>
-              5+ Years Experience
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-primary-500 rounded-full"></span>
-              99.9% Uptime Achieved
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-secondary-500 rounded-full"></span>
-              60% Deployment Optimization
-            </span>
           </motion.div>
-
           {/* Call To Action Buttons */}
           <motion.div 
             variants={itemVariants} 
@@ -102,14 +90,14 @@ const Hero = () => {
               LinkedIn
             </Link>
             <Link
-              href="/projects"
-              aria-label="Navigate to Projects page"
+              href="/#projects"
+              aria-label="Navigate to Projects section"
               className="inline-flex items-center justify-center px-8 py-3 rounded-2xl border-2 border-primary-600 text-primary-600 font-semibold transition-all duration-200 hover:bg-primary-600 hover:text-primary-foreground hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
-              View Projects
+              View DevOps Projects
             </Link>
           </motion.div>
 
@@ -120,13 +108,13 @@ const Hero = () => {
           >
             <button
               onClick={() => {
-                const experienceSection = document.getElementById('experience');
-                if (experienceSection) {
-                  experienceSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const aboutSection = document.getElementById('about');
+                if (aboutSection) {
+                  aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
               }}
               className="group p-2 rounded-full transition-all duration-200 hover:bg-background-secondary hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-              aria-label="Scroll to Experience section"
+              aria-label="Scroll to About section"
             >
               <div className="animate-bounce group-hover:animate-none">
                 <svg className="w-6 h-6 text-foreground-muted group-hover:text-primary-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">

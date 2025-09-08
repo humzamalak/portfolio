@@ -12,31 +12,31 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://humzamalak.dev'),
-  title: "Humza Malak - Full Stack Developer Portfolio",
-  description: "Senior Full Stack Developer specializing in React, Node.js, and cloud technologies. Building scalable web applications with modern technologies.",
-  keywords: ["Full Stack Developer", "React", "Node.js", "TypeScript", "Cloud", "DevOps"],
+  title: "Humza Malak - DevOps Engineer Portfolio",
+  description: "Senior DevOps Engineer specializing in Kubernetes, AWS, Terraform, and CI/CD automation. Building scalable, secure cloud infrastructure with modern DevOps practices.",
+  keywords: ["DevOps Engineer", "Kubernetes", "AWS", "Terraform", "CI/CD", "Infrastructure as Code", "Cloud Automation", "Microservices", "Jenkins", "Docker"],
   authors: [{ name: "Humza Malak" }],
   creator: "Humza Malak",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://humzamalak.dev",
-    title: "Humza Malak - Full Stack Developer Portfolio",
-    description: "Senior Full Stack Developer specializing in React, Node.js, and cloud technologies.",
-    siteName: "Humza Malak Portfolio",
+    title: "Humza Malak - DevOps Engineer Portfolio",
+    description: "Senior DevOps Engineer specializing in Kubernetes, AWS, Terraform, and CI/CD automation. Building scalable, secure cloud infrastructure.",
+    siteName: "Humza Malak DevOps Portfolio",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Humza Malak - Full Stack Developer Portfolio",
+        alt: "Humza Malak - DevOps Engineer Portfolio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Humza Malak - Full Stack Developer Portfolio",
-    description: "Senior Full Stack Developer specializing in React, Node.js, and cloud technologies.",
+    title: "Humza Malak - DevOps Engineer Portfolio",
+    description: "Senior DevOps Engineer specializing in Kubernetes, AWS, Terraform, and CI/CD automation.",
     creator: "@humzamalak",
   },
   robots: {
@@ -63,16 +63,17 @@ const PERSON_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Humza Malak",
-  jobTitle: "Senior Full Stack Developer",
-  description: "Senior Full Stack Developer specializing in React, Node.js, and cloud technologies.",
+  jobTitle: "Senior DevOps Engineer",
+  description: "Senior DevOps Engineer specializing in Kubernetes, AWS, Terraform, and CI/CD automation. Building scalable, secure cloud infrastructure.",
   url: "https://humzamalak.dev",
   sameAs: [
     "https://github.com/humzamalak",
     "https://www.linkedin.com/in/humza-m-64607514b/",
   ],
   knowsAbout: [
-    "React", "Node.js", "TypeScript", "Cloud Computing", "DevOps",
-    "PostgreSQL", "Supabase", "Next.js", "TailwindCSS"
+    "Kubernetes", "AWS", "Terraform", "CI/CD", "Infrastructure as Code",
+    "Docker", "Jenkins", "GitLab CI", "GitHub Actions", "Helm",
+    "Prometheus", "Grafana", "ELK Stack", "HashiCorp Vault", "Ansible"
   ],
   worksFor: {
     "@type": "Organization",
@@ -83,8 +84,8 @@ const PERSON_SCHEMA = {
 const WEBSITE_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Humza Malak Portfolio",
-  description: "Senior Full Stack Developer Portfolio",
+  name: "Humza Malak DevOps Portfolio",
+  description: "Senior DevOps Engineer Portfolio",
   url: "https://humzamalak.dev",
   author: {
     "@type": "Person",
