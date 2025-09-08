@@ -35,9 +35,7 @@ export const experience: ExperienceRole[] = [
       "Built Jenkins pipelines integrated with Bitbucket and Kubernetes, cutting manual release steps by 70%",
       "Provisioned multi-region AWS infrastructure with Terraform (EKS, IAM, VPC peering) to improve resilience",
       "Implemented HashiCorp Vault sidecar-based secrets injection eliminating plaintext secrets",
-      "Deployed ELK, Prometheus, and Grafana for full observability, reducing incident resolution time by 40%",
-      "Designed multi-environment Helm charts for test/staging/prod to reduce environment drift",
-      "Integrated MongoDB Atlas with failover-aware connectivity ensuring high availability"
+      "Deployed ELK, Prometheus, and Grafana for full observability, reducing incident resolution time by 40%"
     ],
     metrics: [
       { label: "Deployment Time", value: 60, unit: "%", improvement: "reduction" },
@@ -121,11 +119,11 @@ export const experience: ExperienceRole[] = [
     ]
   },
   {
-    id: "devops-penta-2021-03-05",
+    id: "devops-penta-3mo",
     company: "Penta Technology",
     role: "DevOps Engineer",
     startDate: "2021-03",
-    endDate: "2021-05",
+    endDate: "2021-06",
     current: false,
     location: "Remote, UK",
     description: "Provisioned and maintained cloud environments with Terraform and Ansible while automating microservices pipelines to speed releases.",
@@ -153,11 +151,11 @@ export const experience: ExperienceRole[] = [
     ]
   },
   {
-    id: "junior-devsecops-grabyo-2020-2021",
+    id: "junior-devsecops-grabyo-3mo",
     company: "Grabyo",
     role: "Junior DevSecOps Engineer",
     startDate: "2020-11",
-    endDate: "2021-01",
+    endDate: "2021-02",
     current: false,
     location: "Remote, UK",
     description: "Automated secure AWS networking and standardized environment provisioning to improve scalability and onboarding.",

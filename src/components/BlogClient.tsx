@@ -25,10 +25,10 @@ export default function BlogClient({ posts, tags }: BlogClientProps) {
       {/* Header */}
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-foreground">
-          Technical Blog
+          DevOps Insights & Technical Deep Dives
         </h2>
         <p className="text-lg text-foreground-muted max-w-2xl mx-auto">
-          Exploring the latest in web development, TypeScript, and modern technologies
+          Sharing knowledge on Kubernetes, cloud infrastructure, CI/CD automation, and modern DevOps practices
         </p>
       </div>
 
