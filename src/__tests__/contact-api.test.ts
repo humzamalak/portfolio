@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { POST } from '@/app/api/contact/route'
 import { Resend } from 'resend'
 
@@ -35,7 +36,7 @@ describe('/api/contact', () => {
         send: jest.fn(),
       },
     }
-    MockedResend.mockImplementation(() => mockResendInstance as any)
+    MockedResend.mockImplementation(() => mockResendInstance as unknown as Resend)
     
     // Set up environment variables
     process.env.RESEND_API_KEY = 'test-api-key'
@@ -113,11 +114,11 @@ describe('/api/contact', () => {
     } as any
 
     const response = await POST(request)
-    const data = await response.json()
+    const json = await response.json()
 
     expect(response.status).toBe(200)
-    expect(data.message).toBe('Contact form submitted successfully')
-    expect(data.id).toBe('test-email-id')
+    expect(json.message).toBe('Contact form submitted successfully')
+    expect(json.id).toBe('test-email-id')
 
     expect(mockResendInstance.emails.send).toHaveBeenCalledWith({
       from: 'Test Portfolio <noreply@example.com>',
@@ -208,7 +209,7 @@ describe('/api/contact', () => {
     } as any
 
     const response = await POST(request)
-    const data = await response.json()
+    await response.json()
 
     expect(response.status).toBe(200)
 

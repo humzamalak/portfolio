@@ -108,7 +108,7 @@ export default async function MediumFeed({ username, limit = 3, showProfile = tr
               </svg>
               <h3 className="text-lg font-semibold text-foreground mb-2">No posts available</h3>
               <p className="text-foreground-muted mb-6">
-                Couldn't load latest posts right now. This might be due to:
+                Couldn&apos;t load latest posts right now. This might be due to:
               </p>
               <ul className="text-sm text-foreground-muted space-y-1 mb-6">
                 <li>• RSS feed temporarily unavailable</li>
