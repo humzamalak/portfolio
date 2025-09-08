@@ -3,13 +3,13 @@
 
 export const MEDIUM_CONFIG = {
   // Your Medium username
-  USERNAME: 'humzamalak',
+  USERNAME: 'humzatmalak',
   
   // Medium profile URL
-  PROFILE_URL: 'https://medium.com/@humzamalak',
+  PROFILE_URL: 'https://medium.com/@humzatmalak',
   
   // RSS feed URL
-  RSS_URL: 'https://medium.com/feed/@humzamalak',
+  RSS_URL: 'https://medium.com/feed/@humzatmalak',
   
   // Display settings
   DISPLAY: {

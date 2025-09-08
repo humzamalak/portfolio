@@ -169,27 +169,7 @@ export default function ProjectsSection() {
             ))}
           </div>
 
-          {/* Call to Action */}
-          <motion.div variants={projectVariants} className="text-center">
-            <div className="bg-background-secondary rounded-xl border border-border p-8">
-              <h3 className="text-2xl font-semibold text-foreground mb-4">
-                Ready to Transform Your Infrastructure?
-              </h3>
-              <p className="text-foreground-muted mb-6 max-w-2xl mx-auto">
-                Let&apos;s discuss how I can help you modernize your infrastructure, improve reliability, 
-                and accelerate your development workflows with proven DevOps practices.
-              </p>
-              <Link
-                href="/#contact"
-                className="inline-flex items-center px-6 py-3 bg-primary-600 text-primary-foreground font-semibold rounded-lg transition-all duration-200 hover:bg-primary-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-              >
-                Start a Conversation
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-            </div>
-          </motion.div>
+          
         </motion.div>
       </div>
     </Section>

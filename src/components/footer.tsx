@@ -65,7 +65,7 @@ export function Footer() {
               Home
             </Link>
             <Link
-              href="https://medium.com/@humzamalak"
+              href="https://medium.com/@humzatmalak"
               className="text-foreground-muted hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             >
               Blog

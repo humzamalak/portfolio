@@ -10,7 +10,7 @@ const navigationItems = [
   { name: "Skills", href: "/#skills", id: "skills" },
   { name: "Experience", href: "/#experience", id: "experience" },
   { name: "Projects", href: "/#projects", id: "projects" },
-  { name: "Blog", href: "https://medium.com/@humzamalak", id: "blog" },
+  { name: "Blog", href: "https://medium.com/@humzatmalak", id: "blog" },
   { name: "Contact", href: "/#contact", id: "contact" },
 ];
 
