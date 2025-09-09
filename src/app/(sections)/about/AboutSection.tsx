@@ -32,12 +32,14 @@ const AboutSection = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               About Me
             </h2>
-            <p className="text-lg text-foreground-muted max-w-3xl mx-auto">
-              I’m a DevOps Engineer with 5+ years of experience modernizing legacy systems into scalable cloud‑native platforms. I lead migrations from monoliths to microservices, build CI/CD that eliminates manual releases, and design observability that lifts reliability. Recent impact: 60% faster deployments, 99.9% uptime, and 40% quicker incident resolution.
-            </p>
           </motion.div>
-          {/* Single concise paragraph as requested */}
-          <motion.div variants={itemVariants} className="text-center"></motion.div>
+          <motion.div variants={itemVariants} className="text-center">
+            <div className="text-lg text-foreground-muted max-w-3xl mx-auto">
+              <p>
+                I am a DevOps Engineer with over 5 years of experience building secure, scalable, and automated cloud infrastructure. I specialize in modernizing legacy systems into Kubernetes-based microservices, designing multi-region AWS environments with Terraform, and streamlining deployments through CI/CD pipelines in Jenkins, GitHub Actions, and GitLab CI.
+              </p>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </Section>
