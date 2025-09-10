@@ -11,6 +11,7 @@ export interface ChatResponse {
   message: string;
   media?: string;
   projects?: Project[];
+  suggestions?: string[];
 }
 
 // Retrieve top projects based on query similarity
@@ -89,6 +90,48 @@ function calculateCosineSimilarity(vecA: number[], vecB: number[]): number {
   return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
+// Get proactive suggestions based on retrieved projects
+export async function getSuggestions(projectIds: string[], query: string): Promise<string[]> {
+  try {
+    if (projectIds.length === 0) {
+      return [];
+    }
+
+    // Generate embedding for the query to find similar projects
+    const queryEmbedding = await generateEmbedding(query);
+
+    // Get suggestions excluding already retrieved projects
+    const { data: suggestions, error } = await supabase
+      .from('projects')
+      .select('title, demo_url')
+      .not('id', 'in', `(${projectIds.join(',')})`)
+      .not('embedding', 'is', null)
+      .order('embedding <-> :query_embedding', { ascending: true })
+      .limit(2)
+      .set('query_embedding', `[${queryEmbedding.join(',')}]`);
+
+    if (error) {
+      console.error('Supabase suggestions error:', error);
+      return [];
+    }
+
+    if (!suggestions || suggestions.length === 0) {
+      return [];
+    }
+
+    // Format suggestions with clickable links
+    return suggestions.map(s => {
+      if (s.demo_url) {
+        return `You might also like [${s.title}](${s.demo_url})`;
+      }
+      return `You might also like ${s.title}`;
+    });
+  } catch (error) {
+    console.error('Error in getSuggestions:', error);
+    return [];
+  }
+}
+
 // Generate chat response with RAG
 export async function generateRAGResponse(
   query: string,
@@ -101,12 +144,24 @@ export async function generateRAGResponse(
     
     // Note: Query logging is now handled in the API endpoints
 
+    // Get proactive suggestions
+    const projectIds = retrieval.projects.map(p => p.id);
+    const suggestions = await getSuggestions(projectIds, query);
+
     // Handle ambiguous queries (low confidence)
     if (retrieval.confidence < 0.8) {
+      let message = "Hey there! I couldn't find an exact match for your query, but here are some related projects that showcase Humza's full-stack problem-solving skills. You can also browse his full portfolio: [Portfolio](/projects)";
+      
+      // Append suggestions if available
+      if (suggestions.length > 0) {
+        message += "\n\n" + suggestions.join("\n");
+      }
+
       return {
-        message: "Hey there! I couldn't find an exact match for your query, but here are some related projects that showcase Humza's full-stack problem-solving skills. You can also browse his full portfolio: [Portfolio](/projects)",
+        message,
         media: retrieval.projects[0]?.image_url || retrieval.projects[0]?.demo_url,
-        projects: retrieval.projects
+        projects: retrieval.projects,
+        suggestions
       };
     }
 
@@ -116,10 +171,17 @@ export async function generateRAGResponse(
     // Determine best media to show
     const media = retrieval.projects[0]?.image_url || retrieval.projects[0]?.demo_url;
 
+    // Append suggestions to the response
+    let finalMessage = response;
+    if (suggestions.length > 0) {
+      finalMessage += "\n\n" + suggestions.join("\n");
+    }
+
     return {
-      message: response,
+      message: finalMessage,
       media,
-      projects: retrieval.projects
+      projects: retrieval.projects,
+      suggestions
     };
   } catch (error) {
     console.error('Error in generateRAGResponse:', error);

@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
       return new Response(JSON.stringify({
         message: ragResponse.message,
         media: ragResponse.media,
-        projects: ragResponse.projects
+        projects: ragResponse.projects,
+        suggestions: ragResponse.suggestions
       }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }

@@ -9,7 +9,15 @@ export default function ChatBox() {
     api: '/api/chat' 
   });
   const [showWelcome, setShowWelcome] = useState(true);
-  const [overviewData, setOverviewData] = useState<any>(null);
+  const [overviewData, setOverviewData] = useState<{
+    message: string;
+    projects: Array<{
+      id: string;
+      title: string;
+      description: string;
+      demo_url?: string;
+    }>;
+  } | null>(null);
   const [apiError, setApiError] = useState<string | null>(null);
 
   const sampleQueries = [
@@ -60,7 +68,7 @@ export default function ChatBox() {
       {showWelcome && (
         <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
           <p className="text-gray-800 dark:text-gray-200 mb-2">
-            Hi, I'm Humza's AI assistant! Ask about his projects or type 'overview' for a tour.
+            Hi, I&apos;m Humza&apos;s AI assistant! Ask about his projects or type &apos;overview&apos; for a tour.
           </p>
           <div className="flex flex-wrap gap-2">
             {sampleQueries.map((query, index) => (
@@ -90,25 +98,45 @@ export default function ChatBox() {
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200'
               }`}
             >
-              <p 
-                className="whitespace-pre-wrap" 
-                dangerouslySetInnerHTML={{ 
-                  __html: DOMPurify.sanitize(message.content) 
-                }} 
-              />
+              <div className="whitespace-pre-wrap">
+                {message.role === 'assistant' && (message as { suggestions?: string[] }).suggestions ? (
+                  <div>
+                    <p 
+                      dangerouslySetInnerHTML={{ 
+                        __html: DOMPurify.sanitize(message.content.split('\n\n')[0]) 
+                      }} 
+                    />
+                    {(message as { suggestions?: string[] }).suggestions?.map((suggestion: string, index: number) => (
+                      <div key={index} className="mt-2">
+                        <p 
+                          dangerouslySetInnerHTML={{ 
+                            __html: DOMPurify.sanitize(suggestion) 
+                          }} 
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p 
+                    dangerouslySetInnerHTML={{ 
+                      __html: DOMPurify.sanitize(message.content) 
+                    }} 
+                  />
+                )}
+              </div>
               {/* Media display for images/demo links */}
-              {message.role === 'assistant' && (message as any).media && (
+              {message.role === 'assistant' && (message as { media?: { type: string; url: string } }).media && (
                 <div className="mt-2">
-                  {(message as any).media.type === 'image' && (
+                  {(message as { media?: { type: string; url: string } }).media?.type === 'image' && (
                     <img 
-                      src={(message as any).media.url} 
+                      src={(message as { media?: { type: string; url: string } }).media?.url} 
                       alt="Project screenshot" 
                       className="mt-2 max-w-full rounded border"
                     />
                   )}
-                  {(message as any).media.type === 'link' && (
+                  {(message as { media?: { type: string; url: string } }).media?.type === 'link' && (
                     <a 
-                      href={(message as any).media.url} 
+                      href={(message as { media?: { type: string; url: string } }).media?.url} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="mt-2 inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-sm hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
@@ -128,7 +156,7 @@ export default function ChatBox() {
             <div className="max-w-[80%] p-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
               <p className="mb-3 font-medium">{overviewData.message}</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {overviewData.projects.map((project: any) => (
+                {overviewData.projects.map((project) => (
                   <div key={project.id} className="border border-gray-200 dark:border-gray-700 p-3 rounded-lg bg-white dark:bg-gray-900">
                     <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">{project.title}</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{project.description}</p>
