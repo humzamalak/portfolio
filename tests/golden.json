@@ -1,58 +1,59 @@
 {
-  "description": "Golden test queries for AI Assistant - Phase 4",
+  "description": "Golden test queries for AI Assistant validation",
   "version": "1.0.0",
-  "test_queries": [
+  "queries": [
     {
-      "id": "overview_query",
+      "id": "overview",
       "query": "overview",
-      "expected_response_type": "project_list",
-      "expected_media": false,
-      "description": "Should return a list of all projects"
+      "expected_response_type": "list",
+      "expected_content": ["projects", "portfolio", "experience"],
+      "description": "Should return a comprehensive overview of all projects"
     },
     {
-      "id": "backend_project_query",
+      "id": "backend_project",
       "query": "What's Humza's best backend project?",
-      "expected_response_type": "project_detail",
-      "expected_media": true,
-      "description": "Should return detailed information about a backend project with demo link"
+      "expected_response_type": "specific",
+      "expected_content": ["backend", "API", "server"],
+      "description": "Should identify and describe the most impressive backend project"
     },
     {
-      "id": "frontend_skills_query",
-      "query": "Show me Humza's frontend skills",
-      "expected_response_type": "skills_list",
-      "expected_media": false,
-      "description": "Should return information about frontend technologies and skills"
+      "id": "frontend_skills",
+      "query": "Show me his frontend skills",
+      "expected_response_type": "list",
+      "expected_content": ["React", "TypeScript", "TailwindCSS", "Next.js"],
+      "description": "Should list frontend technologies and frameworks"
     },
     {
-      "id": "fullstack_query",
-      "query": "Tell me about Humza's full-stack experience",
-      "expected_response_type": "experience_summary",
-      "expected_media": false,
-      "description": "Should return comprehensive full-stack experience information"
+      "id": "ai_experience",
+      "query": "Tell me about his experience with AI",
+      "expected_response_type": "specific",
+      "expected_content": ["AI", "machine learning", "OpenAI", "GPT"],
+      "description": "Should describe AI-related projects and experience"
     },
     {
-      "id": "ai_project_query",
-      "query": "What AI projects has Humza worked on?",
-      "expected_response_type": "project_list",
-      "expected_media": true,
-      "description": "Should return AI-related projects with relevant media"
+      "id": "technologies",
+      "query": "What technologies does he use?",
+      "expected_response_type": "list",
+      "expected_content": ["JavaScript", "TypeScript", "React", "Node.js", "PostgreSQL"],
+      "description": "Should provide a comprehensive list of technologies"
     },
     {
-      "id": "contact_query",
+      "id": "contact_info",
       "query": "How can I contact Humza?",
-      "expected_response_type": "contact_info",
-      "expected_media": false,
-      "description": "Should return contact information and methods"
+      "expected_response_type": "specific",
+      "expected_content": ["contact", "email", "linkedin", "github"],
+      "description": "Should provide contact information and social links"
     }
   ],
-  "performance_benchmarks": {
-    "max_response_time_ms": 2000,
-    "max_embedding_time_ms": 500,
-    "max_rag_retrieval_time_ms": 300
+  "test_config": {
+    "timeout": 30000,
+    "retry_attempts": 3,
+    "similarity_threshold": 0.8
   },
-  "quality_metrics": {
-    "min_relevance_score": 0.8,
-    "max_hallucination_rate": 0.05,
-    "min_user_satisfaction_score": 4.0
-  }
+  "notes": [
+    "These queries will be used in Phase 4 for automated testing",
+    "Expected responses should be validated against actual AI responses",
+    "Content matching should use semantic similarity, not exact text matching",
+    "Update this file as new features and capabilities are added"
+  ]
 }

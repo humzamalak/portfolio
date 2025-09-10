@@ -10,43 +10,39 @@ export async function GET(req: NextRequest) {
     //   .order('created_at', { ascending: false });
 
     // if (error) {
-    //   throw error;
+    //   console.error('Supabase error:', error);
+    //   return NextResponse.json({ error: 'Failed to retrieve projects' }, { status: 500 });
     // }
 
-    // Placeholder response with sample project data
-    const placeholderProjects = [
+    // Placeholder data for now
+    const projects = [
       {
-        id: 1,
-        title: 'AI-Powered Portfolio Assistant',
-        description: 'An intelligent chatbot that helps visitors explore Humza\'s projects and skills using RAG and GPT-4o.',
-        demo_url: '/assistant',
-        image_url: '/og-image.jpg',
+        id: '1',
+        title: 'Portfolio Website',
+        description: 'A modern, responsive portfolio built with Next.js, TypeScript, and TailwindCSS',
+        demo_url: 'https://humzamalak.dev',
+        image_url: null,
       },
       {
-        id: 2,
-        title: 'Full-Stack E-commerce Platform',
-        description: 'A complete e-commerce solution built with React, Node.js, and PostgreSQL.',
-        demo_url: 'https://example.com',
-        image_url: '/og-image.jpg',
+        id: '2',
+        title: 'AI Assistant (This Project)',
+        description: 'An AI-powered chatbot for portfolio interaction using OpenAI and Supabase',
+        demo_url: null,
+        image_url: null,
       },
-      {
-        id: 3,
-        title: 'Real-time Chat Application',
-        description: 'A scalable chat application with WebSocket support and message persistence.',
-        demo_url: 'https://example.com',
-        image_url: '/og-image.jpg',
-      },
+      // TODO: Add more projects from actual database
     ];
 
-    return NextResponse.json({
-      projects: placeholderProjects,
-      message: 'Here are all of Humza\'s projects. Click on any project to learn more!',
+    return NextResponse.json({ 
+      projects,
+      total: projects.length,
+      message: `Here are all ${projects.length} of Humza's projects:`
     });
 
   } catch (error) {
     console.error('Overview API error:', error);
     return NextResponse.json(
-      { error: 'Failed to retrieve projects overview' },
+      { error: 'Internal server error' }, 
       { status: 500 }
     );
   }
