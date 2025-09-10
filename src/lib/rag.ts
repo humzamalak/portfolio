@@ -1,5 +1,12 @@
 import { supabase, Project, ProjectVersion, QueryLog } from './supabase';
 import { generateEmbedding, generateChatResponse } from './openai';
+import { 
+  getCachedResponse, 
+  cacheResponse, 
+  generateResponseWithCostControl,
+  logCostMetrics,
+  COST_CONFIG 
+} from './cost-management';
 
 export interface RetrievalResult {
   projects: Project[];
@@ -145,6 +152,21 @@ export async function generateRAGResponse(
   sessionId?: string
 ): Promise<ChatResponse> {
   try {
+    // Check cache first for cost optimization
+    const cachedResponse = await getCachedResponse(query);
+    if (cachedResponse) {
+      console.log(`Cache hit for query: ${query.substring(0, 50)}...`);
+      
+      // Log cost metrics
+      await logCostMetrics(query, cachedResponse.confidence, cachedResponse.model_used, true, sessionId);
+      
+      return {
+        message: cachedResponse.response,
+        projects: [], // Cache doesn't store project context
+        suggestions: []
+      };
+    }
+
     // Generate embedding for the query (needed for memory storage)
     const queryEmbedding = await generateEmbedding(query);
 
@@ -159,13 +181,19 @@ export async function generateRAGResponse(
     const suggestions = await getSuggestions(projectIds, query);
 
     // Handle ambiguous queries (low confidence)
-    if (retrieval.confidence < 0.8) {
+    if (retrieval.confidence < COST_CONFIG.LOW_CONFIDENCE_THRESHOLD) {
       let message = "Hey there! I couldn't find an exact match for your query, but here are some related projects that showcase Humza's full-stack problem-solving skills. You can also browse his full portfolio: [Portfolio](/projects)";
       
       // Append suggestions if available
       if (suggestions.length > 0) {
         message += "\n\n" + suggestions.join("\n");
       }
+
+      // Cache this response for future use
+      await cacheResponse(query, message, retrieval.confidence, 'gpt-3.5-turbo');
+      
+      // Log cost metrics
+      await logCostMetrics(query, retrieval.confidence, 'gpt-3.5-turbo', false, sessionId);
 
       return {
         message,
@@ -175,8 +203,8 @@ export async function generateRAGResponse(
       };
     }
 
-    // Generate response with context
-    const response = await generateChatResponse(messages, retrieval.context);
+    // Generate response with context using cost-optimized model selection
+    const response = await generateResponseWithCostControl(messages, retrieval.context, retrieval.confidence);
 
     // Determine best media to show
     const media = retrieval.projects[0]?.image_url || retrieval.projects[0]?.demo_url;
@@ -186,6 +214,12 @@ export async function generateRAGResponse(
     if (suggestions.length > 0) {
       finalMessage += "\n\n" + suggestions.join("\n");
     }
+
+    // Cache the response for future use
+    await cacheResponse(query, finalMessage, retrieval.confidence, 'gpt-4o-mini');
+    
+    // Log cost metrics
+    await logCostMetrics(query, retrieval.confidence, 'gpt-4o-mini', false, sessionId);
 
     return {
       message: finalMessage,

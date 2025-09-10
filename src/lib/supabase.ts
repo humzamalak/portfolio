@@ -48,6 +48,32 @@ export const supabase = createClient(
 // CREATE INDEX ON versions USING ivfflat (embedding vector_cosine_ops);
 // CREATE INDEX ON queries USING ivfflat (embedding vector_cosine_ops);
 
+// 6. Create rate_limits table for cost management:
+// CREATE TABLE rate_limits (
+//   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+//   ip TEXT NOT NULL,
+//   count INTEGER DEFAULT 1,
+//   timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+//   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+// );
+
+// 7. Create query_cache table for caching frequent queries:
+// CREATE TABLE query_cache (
+//   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+//   query_hash TEXT UNIQUE NOT NULL,
+//   query TEXT NOT NULL,
+//   response TEXT NOT NULL,
+//   confidence REAL NOT NULL,
+//   model_used TEXT NOT NULL,
+//   timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+//   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+// );
+
+// 8. Create indexes for cost management tables:
+// CREATE INDEX ON rate_limits (ip, timestamp);
+// CREATE INDEX ON query_cache (query_hash);
+// CREATE INDEX ON query_cache (timestamp);
+
 // Types for TypeScript
 export interface Project {
   id: string;
@@ -76,4 +102,23 @@ export interface QueryLog {
   cta_clicked?: string;
   session_id?: string;
   timestamp: string;
+}
+
+export interface RateLimit {
+  id: string;
+  ip: string;
+  count: number;
+  timestamp: string;
+  created_at: string;
+}
+
+export interface QueryCache {
+  id: string;
+  query_hash: string;
+  query: string;
+  response: string;
+  confidence: number;
+  model_used: string;
+  timestamp: string;
+  created_at: string;
 }

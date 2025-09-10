@@ -8,6 +8,7 @@ export const openai = new OpenAI({
 // OpenAI model configurations for AI Assistant
 export const EMBEDDING_MODEL = 'text-embedding-3-small';
 export const CHAT_MODEL = 'gpt-4o';
+export const FALLBACK_MODEL = 'gpt-3.5-turbo';
 
 // Generate embedding for text using OpenAI
 export async function generateEmbedding(text: string): Promise<number[]> {
@@ -46,6 +47,34 @@ export async function generateChatResponse(
     return response.choices[0].message.content || 'I apologize, but I could not generate a response.';
   } catch (error) {
     console.error('Error generating chat response:', error);
+    throw new Error('Failed to generate chat response');
+  }
+}
+
+// Generate chat response with specific model
+export async function generateChatResponseWithModel(
+  messages: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>,
+  model: string,
+  context?: string
+): Promise<string> {
+  try {
+    const systemMessage = {
+      role: 'system' as const,
+      content: `${SYSTEM_PROMPT}${
+        context ? `\n\nContext about Humza's projects: ${context}` : ''
+      }`
+    };
+
+    const response = await openai.chat.completions.create({
+      model,
+      messages: [systemMessage, ...messages],
+      max_tokens: 500,
+      temperature: 0.7,
+    });
+
+    return response.choices[0].message.content || 'I apologize, but I could not generate a response.';
+  } catch (error) {
+    console.error('Error generating chat response with model:', error);
     throw new Error('Failed to generate chat response');
   }
 }
