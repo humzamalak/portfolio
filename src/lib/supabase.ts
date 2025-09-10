@@ -74,6 +74,39 @@ export const supabase = createClient(
 // CREATE INDEX ON query_cache (query_hash);
 // CREATE INDEX ON query_cache (timestamp);
 
+// 9. Create test_results table for monitoring:
+// CREATE TABLE test_results (
+//   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+//   query_id TEXT NOT NULL,
+//   query_text TEXT NOT NULL,
+//   success BOOLEAN NOT NULL,
+//   latency_ms INTEGER NOT NULL,
+//   accuracy REAL NOT NULL,
+//   expected_project_ids TEXT[],
+//   actual_project_ids TEXT[],
+//   response_data JSONB,
+//   error_message TEXT,
+//   timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+// );
+
+// 10. Create alerts table for monitoring:
+// CREATE TABLE alerts (
+//   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+//   type TEXT NOT NULL, -- 'accuracy', 'latency', 'test_failures'
+//   severity TEXT NOT NULL, -- 'low', 'medium', 'high'
+//   message TEXT NOT NULL,
+//   value REAL,
+//   timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+// );
+
+// 11. Create indexes for monitoring tables:
+// CREATE INDEX ON test_results (timestamp);
+// CREATE INDEX ON test_results (query_id);
+// CREATE INDEX ON test_results (success);
+// CREATE INDEX ON alerts (timestamp);
+// CREATE INDEX ON alerts (severity);
+// CREATE INDEX ON alerts (type);
+
 // Types for TypeScript
 export interface Project {
   id: string;
@@ -121,4 +154,27 @@ export interface QueryCache {
   model_used: string;
   timestamp: string;
   created_at: string;
+}
+
+export interface TestResult {
+  id: string;
+  query_id: string;
+  query_text: string;
+  success: boolean;
+  latency_ms: number;
+  accuracy: number;
+  expected_project_ids: string[];
+  actual_project_ids: string[];
+  response_data: any;
+  error_message?: string;
+  timestamp: string;
+}
+
+export interface Alert {
+  id: string;
+  type: string;
+  severity: 'low' | 'medium' | 'high';
+  message: string;
+  value?: number;
+  timestamp: string;
 }

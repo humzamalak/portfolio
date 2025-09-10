@@ -1,59 +1,146 @@
 {
-  "description": "Golden test queries for AI Assistant validation",
-  "version": "1.0.0",
+  "description": "Golden test queries for AI Assistant validation - Recruiter-focused scenarios",
+  "version": "2.0.0",
   "queries": [
     {
       "id": "overview",
       "query": "overview",
       "expected_response_type": "list",
       "expected_content": ["projects", "portfolio", "experience"],
+      "expected_project_ids": [],
       "description": "Should return a comprehensive overview of all projects"
     },
     {
-      "id": "backend_project",
-      "query": "What's Humza's best backend project?",
+      "id": "devops_experience",
+      "query": "Show me a project with AWS and DevOps",
       "expected_response_type": "specific",
-      "expected_content": ["backend", "API", "server"],
-      "description": "Should identify and describe the most impressive backend project"
+      "expected_content": ["AWS", "DevOps", "CI/CD", "pipeline"],
+      "expected_project_ids": ["Production-Ready EKS Cluster with GitOps", "Fully Automated Pipeline"],
+      "description": "Should identify DevOps projects with AWS experience"
     },
     {
-      "id": "frontend_skills",
-      "query": "Show me his frontend skills",
-      "expected_response_type": "list",
-      "expected_content": ["React", "TypeScript", "TailwindCSS", "Next.js"],
-      "description": "Should list frontend technologies and frameworks"
-    },
-    {
-      "id": "ai_experience",
-      "query": "Tell me about his experience with AI",
+      "id": "ai_portfolio",
+      "query": "What's Humza's experience with AI and machine learning?",
       "expected_response_type": "specific",
-      "expected_content": ["AI", "machine learning", "OpenAI", "GPT"],
+      "expected_content": ["AI", "machine learning", "OpenAI", "GPT", "RAG"],
+      "expected_project_ids": ["AI-Powered Portfolio Assistant"],
       "description": "Should describe AI-related projects and experience"
     },
     {
-      "id": "technologies",
-      "query": "What technologies does he use?",
+      "id": "frontend_skills",
+      "query": "What frontend technologies does he know?",
       "expected_response_type": "list",
-      "expected_content": ["JavaScript", "TypeScript", "React", "Node.js", "PostgreSQL"],
-      "description": "Should provide a comprehensive list of technologies"
+      "expected_content": ["React", "TypeScript", "TailwindCSS", "Next.js"],
+      "expected_project_ids": ["Responsive Portfolio Website", "AI-Powered Portfolio Assistant"],
+      "description": "Should list frontend technologies and frameworks"
+    },
+    {
+      "id": "security_experience",
+      "query": "Does he have any security or DevSecOps experience?",
+      "expected_response_type": "specific",
+      "expected_content": ["security", "DevSecOps", "SAST", "DAST", "scanning"],
+      "expected_project_ids": ["DevSecOps CI/CD Pipeline with Security Scanning"],
+      "description": "Should identify security-related projects"
+    },
+    {
+      "id": "kubernetes_experience",
+      "query": "Tell me about his Kubernetes and container experience",
+      "expected_response_type": "specific",
+      "expected_content": ["Kubernetes", "EKS", "containers", "GitOps"],
+      "expected_project_ids": ["Production-Ready EKS Cluster with GitOps"],
+      "description": "Should describe container orchestration experience"
+    },
+    {
+      "id": "automation_skills",
+      "query": "What automation tools has he worked with?",
+      "expected_response_type": "list",
+      "expected_content": ["automation", "CI/CD", "pipeline", "bash", "scripting"],
+      "expected_project_ids": ["Fully Automated Pipeline", "DevOps Bash Script Toolkit"],
+      "description": "Should list automation tools and scripts"
+    },
+    {
+      "id": "fullstack_capability",
+      "query": "Is he a full-stack developer?",
+      "expected_response_type": "specific",
+      "expected_content": ["full-stack", "frontend", "backend", "full stack"],
+      "expected_project_ids": ["AI-Powered Portfolio Assistant", "Responsive Portfolio Website"],
+      "description": "Should confirm full-stack development capabilities"
+    },
+    {
+      "id": "portfolio_quality",
+      "query": "What's his most impressive project?",
+      "expected_response_type": "specific",
+      "expected_content": ["impressive", "best", "showcase", "portfolio"],
+      "expected_project_ids": ["AI-Powered Portfolio Assistant"],
+      "description": "Should identify the most impressive project"
     },
     {
       "id": "contact_info",
-      "query": "How can I contact Humza?",
+      "query": "How can I contact him for an interview?",
       "expected_response_type": "specific",
-      "expected_content": ["contact", "email", "linkedin", "github"],
+      "expected_content": ["contact", "email", "linkedin", "github", "interview"],
+      "expected_project_ids": [],
       "description": "Should provide contact information and social links"
+    },
+    {
+      "id": "tech_stack",
+      "query": "What's his primary tech stack?",
+      "expected_response_type": "list",
+      "expected_content": ["JavaScript", "TypeScript", "React", "Node.js", "PostgreSQL"],
+      "expected_project_ids": [],
+      "description": "Should provide a comprehensive list of technologies"
+    },
+    {
+      "id": "recent_projects",
+      "query": "What has he built recently?",
+      "expected_response_type": "list",
+      "expected_content": ["recent", "latest", "new", "current"],
+      "expected_project_ids": ["AI-Powered Portfolio Assistant", "Responsive Portfolio Website"],
+      "description": "Should highlight recent projects and work"
+    },
+    {
+      "id": "infrastructure_experience",
+      "query": "Does he have cloud infrastructure experience?",
+      "expected_response_type": "specific",
+      "expected_content": ["cloud", "infrastructure", "AWS", "EKS", "Terraform"],
+      "expected_project_ids": ["Production-Ready EKS Cluster with GitOps"],
+      "description": "Should confirm cloud infrastructure capabilities"
+    },
+    {
+      "id": "scripting_skills",
+      "query": "Can he write automation scripts?",
+      "expected_response_type": "specific",
+      "expected_content": ["scripting", "automation", "bash", "scripts"],
+      "expected_project_ids": ["DevOps Bash Script Toolkit"],
+      "description": "Should demonstrate scripting and automation abilities"
+    },
+    {
+      "id": "portfolio_demo",
+      "query": "Where can I see his work in action?",
+      "expected_response_type": "specific",
+      "expected_content": ["demo", "live", "github", "portfolio"],
+      "expected_project_ids": ["AI-Powered Portfolio Assistant", "Responsive Portfolio Website"],
+      "description": "Should provide links to live demos and repositories"
     }
   ],
   "test_config": {
     "timeout": 30000,
     "retry_attempts": 3,
-    "similarity_threshold": 0.8
+    "similarity_threshold": 0.8,
+    "accuracy_threshold": 0.9,
+    "latency_threshold": 5000
+  },
+  "alert_thresholds": {
+    "min_accuracy": 0.9,
+    "max_latency_ms": 5000,
+    "min_response_quality": 0.8
   },
   "notes": [
-    "These queries will be used in Phase 4 for automated testing",
-    "Expected responses should be validated against actual AI responses",
-    "Content matching should use semantic similarity, not exact text matching",
-    "Update this file as new features and capabilities are added"
+    "These queries simulate real recruiter interactions and scenarios",
+    "Expected project IDs should match actual project titles from the database",
+    "Content matching uses semantic similarity, not exact text matching",
+    "Accuracy is measured by correct project identification",
+    "Latency thresholds ensure responsive user experience",
+    "Update this file as new projects and capabilities are added"
   ]
 }

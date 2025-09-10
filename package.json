@@ -17,7 +17,10 @@
     "test:e2e": "cypress run",
     "test:e2e:open": "cypress open",
     "test:all": "npm run test:unit && npm run test:component && npm run test:api && npm run test:integration",
-    "test:medium": "jest --testPathPatterns=medium-integration.test.ts"
+    "test:medium": "jest --testPathPatterns=medium-integration.test.ts",
+    "test:monitoring": "jest --testPathPatterns=monitoring.test.ts",
+    "test:golden": "tsx tests/run-golden.ts",
+    "test:golden:local": "BASE_URL=http://localhost:3000 tsx tests/run-golden.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
@@ -60,6 +63,7 @@
     "jest-environment-jsdom": "^30.1.2",
     "tailwindcss": "^4",
     "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }

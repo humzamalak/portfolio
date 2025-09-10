@@ -52,6 +52,12 @@
       "destination": "/",
       "permanent": true
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/monitoring/run-tests",
+      "schedule": "0 2 * * *"
+    }
   ]
 }
 
