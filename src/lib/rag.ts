@@ -104,7 +104,7 @@ export async function generateRAGResponse(
     // Handle ambiguous queries (low confidence)
     if (retrieval.confidence < 0.8) {
       return {
-        message: "I couldn't find an exact match for your query. Here are some related projects, or you can browse my full portfolio: [Portfolio](/projects)",
+        message: "Hey there! I couldn't find an exact match for your query, but here are some related projects that showcase Humza's full-stack problem-solving skills. You can also browse his full portfolio: [Portfolio](/projects)",
         media: retrieval.projects[0]?.image_url || retrieval.projects[0]?.demo_url,
         projects: retrieval.projects
       };
@@ -124,7 +124,7 @@ export async function generateRAGResponse(
   } catch (error) {
     console.error('Error in generateRAGResponse:', error);
     return {
-      message: "I apologize, but I'm having trouble processing your request right now. Please try again or browse my portfolio directly.",
+      message: "Hey there! I'm having a bit of trouble processing your request right now. Please try again or feel free to browse Humza's portfolio directly - he's got some amazing full-stack projects to show off!",
       projects: []
     };
   }

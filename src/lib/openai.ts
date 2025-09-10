@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { SYSTEM_PROMPT } from './prompt';
 
 export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
@@ -30,7 +31,7 @@ export async function generateChatResponse(
   try {
     const systemMessage = {
       role: 'system' as const,
-      content: `You are Humza's AI assistant. You help recruiters and visitors learn about Humza's skills, projects, and experience. Be helpful, professional, and concise. Use the provided context to answer questions accurately.${
+      content: `${SYSTEM_PROMPT}${
         context ? `\n\nContext about Humza's projects: ${context}` : ''
       }`
     };

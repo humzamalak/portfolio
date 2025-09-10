@@ -3,6 +3,7 @@ import { streamText } from 'ai';
 import { openai } from '@/lib/openai';
 import { generateRAGResponse } from '@/lib/rag';
 import { logQueryWithAnalytics } from '@/lib/analytics';
+import { SYSTEM_PROMPT } from '@/lib/prompt';
 
 export async function POST(req: NextRequest) {
   try {
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: 'system',
-          content: `You are Humza's AI assistant. You help recruiters and visitors learn about Humza's skills, projects, and experience. Be helpful, professional, and concise.`
+          content: SYSTEM_PROMPT
         },
         ...messages
       ],
