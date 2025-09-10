@@ -32,7 +32,7 @@ export const supabase = createClient(
 //   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 // );
 
-// 4. Create queries table for analytics logging:
+// 4. Create queries table for analytics logging and memory:
 // CREATE TABLE queries (
 //   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
 //   query_text TEXT NOT NULL,

@@ -17,20 +17,26 @@ export interface ChatResponse {
 // Retrieve top projects based on query similarity
 export async function retrieveProjects(
   query: string,
-  limit: number = 3
+  limit: number = 3,
+  sessionId?: string
 ): Promise<RetrievalResult> {
   try {
     // Generate embedding for the query
     const queryEmbedding = await generateEmbedding(query);
 
-    // Perform vector similarity search
+    // Boost retrieval using past queries if session ID is provided
+    const boostedEmbedding = sessionId ? 
+      await boostRetrieval(queryEmbedding, sessionId) : 
+      queryEmbedding;
+
+    // Perform vector similarity search with boosted embedding
     const { data: projects, error } = await supabase
       .from('projects')
       .select('id, title, description, demo_url, image_url, embedding')
       .not('embedding', 'is', null)
       .order('embedding <-> :query_embedding', { ascending: true })
       .limit(limit)
-      .set('query_embedding', `[${queryEmbedding.join(',')}]`);
+      .set('query_embedding', `[${boostedEmbedding.join(',')}]`);
 
     if (error) {
       console.error('Supabase retrieval error:', error);
@@ -49,7 +55,7 @@ export async function retrieveProjects(
     // Lower distance = higher similarity = higher confidence
     const topProject = projects[0];
     const confidence = topProject.embedding ? 
-      calculateCosineSimilarity(queryEmbedding, topProject.embedding) : 0;
+      calculateCosineSimilarity(boostedEmbedding, topProject.embedding) : 0;
 
     // Create context string from retrieved projects
     const context = projects
@@ -139,13 +145,17 @@ export async function generateRAGResponse(
   sessionId?: string
 ): Promise<ChatResponse> {
   try {
-    // Retrieve relevant projects
-    const retrieval = await retrieveProjects(query);
+    // Generate embedding for the query (needed for memory storage)
+    const queryEmbedding = await generateEmbedding(query);
+
+    // Retrieve relevant projects with memory boost
+    const retrieval = await retrieveProjects(query, 3, sessionId);
     
-    // Note: Query logging is now handled in the API endpoints
+    // Store query embedding for long-term memory
+    const projectIds = retrieval.projects.map(p => p.id);
+    await storeQueryEmbedding(query, queryEmbedding, sessionId || '', projectIds);
 
     // Get proactive suggestions
-    const projectIds = retrieval.projects.map(p => p.id);
     const suggestions = await getSuggestions(projectIds, query);
 
     // Handle ambiguous queries (low confidence)
@@ -190,6 +200,93 @@ export async function generateRAGResponse(
       projects: []
     };
   }
+}
+
+// Memory system functions
+
+// Store query embedding for long-term memory
+export async function storeQueryEmbedding(
+  query: string,
+  embedding: number[],
+  sessionId: string,
+  projectIds: string[] = [],
+  ctaClicked?: string
+): Promise<void> {
+  try {
+    await supabase
+      .from('queries')
+      .insert({
+        query_text: query,
+        embedding,
+        session_id: sessionId,
+        project_ids: projectIds,
+        cta_clicked: ctaClicked,
+        timestamp: new Date().toISOString()
+      });
+  } catch (error) {
+    console.error('Error storing query embedding:', error);
+    // Don't throw - memory is optional
+  }
+}
+
+// Boost retrieval using past query embeddings from the same session
+export async function boostRetrieval(
+  queryEmbedding: number[],
+  sessionId: string
+): Promise<number[]> {
+  try {
+    if (!sessionId) {
+      return queryEmbedding; // No session ID, return original embedding
+    }
+
+    // Get past queries from the same session (last 5)
+    const { data: pastQueries, error } = await supabase
+      .from('queries')
+      .select('embedding')
+      .eq('session_id', sessionId)
+      .not('embedding', 'is', null)
+      .order('timestamp', { ascending: false })
+      .limit(5);
+
+    if (error) {
+      console.error('Error retrieving past queries:', error);
+      return queryEmbedding; // Fallback to original embedding
+    }
+
+    if (!pastQueries || pastQueries.length === 0) {
+      return queryEmbedding; // No past queries, return original
+    }
+
+    // Average the embeddings to create a weighted embedding
+    const embeddings = [queryEmbedding, ...pastQueries.map(q => q.embedding)];
+    return averageEmbeddings(embeddings);
+  } catch (error) {
+    console.error('Error in boostRetrieval:', error);
+    return queryEmbedding; // Fallback to original embedding
+  }
+}
+
+// Average multiple embeddings to create a weighted embedding
+function averageEmbeddings(embeddings: number[][]): number[] {
+  if (embeddings.length === 0) return [];
+  if (embeddings.length === 1) return embeddings[0];
+
+  const dimensions = embeddings[0].length;
+  const averaged = new Array(dimensions).fill(0);
+
+  // Sum all embeddings
+  for (const embedding of embeddings) {
+    for (let i = 0; i < dimensions; i++) {
+      averaged[i] += embedding[i];
+    }
+  }
+
+  // Divide by count to get average
+  for (let i = 0; i < dimensions; i++) {
+    averaged[i] /= embeddings.length;
+  }
+
+  return averaged;
 }
 
 // Note: Query logging moved to analytics.ts module

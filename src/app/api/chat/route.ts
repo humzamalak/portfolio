@@ -7,7 +7,7 @@ import { SYSTEM_PROMPT } from '@/lib/prompt';
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages, sessionId, ctaClicked } = await req.json();
+    const { messages, sessionId, ctaClicked, lastMessages } = await req.json();
     const lastMessage = messages[messages.length - 1];
     
     if (!lastMessage?.content) {
@@ -23,8 +23,12 @@ export async function POST(req: NextRequest) {
       return new Response('overview', { status: 200 });
     }
 
-    // Use RAG system to generate response
-    const ragResponse = await generateRAGResponse(query, messages, sessionId);
+    // Use short-term memory context (last 3 messages) if available
+    const contextMessages = lastMessages && lastMessages.length > 0 ? 
+      lastMessages : messages;
+
+    // Use RAG system to generate response with memory
+    const ragResponse = await generateRAGResponse(query, contextMessages, sessionId);
 
     // Log the query with analytics data
     const projectIds = ragResponse.projects?.map(p => p.id) || [];
@@ -51,7 +55,7 @@ export async function POST(req: NextRequest) {
           role: 'system',
           content: SYSTEM_PROMPT
         },
-        ...messages
+        ...contextMessages
       ],
       maxTokens: 500,
     });

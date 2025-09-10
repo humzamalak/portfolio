@@ -1,12 +1,20 @@
 'use client';
 
 import { useChat } from 'ai/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import DOMPurify from 'dompurify';
 
 export default function ChatBox() {
+  // Generate session ID once per component mount
+  const sessionId = useMemo(() => {
+    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }, []);
+
   const { messages, input, handleInputChange, handleSubmit, isLoading, setInput, error } = useChat({ 
-    api: '/api/chat' 
+    api: '/api/chat',
+    body: {
+      sessionId
+    }
   });
   const [showWelcome, setShowWelcome] = useState(true);
   const [overviewData, setOverviewData] = useState<{
@@ -205,7 +213,15 @@ export default function ChatBox() {
       <form onSubmit={(e) => {
         setShowWelcome(false);
         setApiError(null);
-        handleSubmit(e);
+        // Pass last 3 messages for short-term memory context
+        const formData = new FormData(e.currentTarget);
+        const lastMessages = messages.slice(-3);
+        handleSubmit(e, {
+          body: {
+            sessionId,
+            lastMessages
+          }
+        });
       }} className="flex gap-2">
         <input
           type="text"
