@@ -1,0 +1,58 @@
+{
+  "description": "Golden test queries for AI Assistant - Phase 4",
+  "version": "1.0.0",
+  "test_queries": [
+    {
+      "id": "overview_query",
+      "query": "overview",
+      "expected_response_type": "project_list",
+      "expected_media": false,
+      "description": "Should return a list of all projects"
+    },
+    {
+      "id": "backend_project_query",
+      "query": "What's Humza's best backend project?",
+      "expected_response_type": "project_detail",
+      "expected_media": true,
+      "description": "Should return detailed information about a backend project with demo link"
+    },
+    {
+      "id": "frontend_skills_query",
+      "query": "Show me Humza's frontend skills",
+      "expected_response_type": "skills_list",
+      "expected_media": false,
+      "description": "Should return information about frontend technologies and skills"
+    },
+    {
+      "id": "fullstack_query",
+      "query": "Tell me about Humza's full-stack experience",
+      "expected_response_type": "experience_summary",
+      "expected_media": false,
+      "description": "Should return comprehensive full-stack experience information"
+    },
+    {
+      "id": "ai_project_query",
+      "query": "What AI projects has Humza worked on?",
+      "expected_response_type": "project_list",
+      "expected_media": true,
+      "description": "Should return AI-related projects with relevant media"
+    },
+    {
+      "id": "contact_query",
+      "query": "How can I contact Humza?",
+      "expected_response_type": "contact_info",
+      "expected_media": false,
+      "description": "Should return contact information and methods"
+    }
+  ],
+  "performance_benchmarks": {
+    "max_response_time_ms": 2000,
+    "max_embedding_time_ms": 500,
+    "max_rag_retrieval_time_ms": 300
+  },
+  "quality_metrics": {
+    "min_relevance_score": 0.8,
+    "max_hallucination_rate": 0.05,
+    "min_user_satisfaction_score": 4.0
+  }
+}

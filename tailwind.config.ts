@@ -23,6 +23,7 @@ const config: Config = {
           800: "#1e40af",
           900: "#1e3a8a",
           950: "#172554",
+          DEFAULT: "#2563eb", // Ensure primary color matches setup prompt
         },
         secondary: {
           50: "#f0fdf4",
@@ -36,6 +37,7 @@ const config: Config = {
           800: "#166534",
           900: "#14532d",
           950: "#052e16",
+          DEFAULT: "#1f2937", // Ensure secondary color matches setup prompt
         },
         neutral: {
           50: "#fafafa",
