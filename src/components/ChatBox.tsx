@@ -1,25 +1,58 @@
 'use client';
 
 import { useChat } from 'ai/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import DOMPurify from 'dompurify';
 
 export default function ChatBox() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({ 
+  const { messages, input, handleInputChange, handleSubmit, isLoading, setInput, error } = useChat({ 
     api: '/api/chat' 
   });
   const [showWelcome, setShowWelcome] = useState(true);
+  const [overviewData, setOverviewData] = useState<any>(null);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const sampleQueries = [
     "What's Humza's best backend project?",
-    "Show me his frontend skills",
-    "Tell me about his experience with AI",
-    "What technologies does he use?",
+    "Show me a React app",
+    "What skills does Humza have?",
   ];
 
   const handleSampleQuery = (query: string) => {
-    // TODO: Implement sample query handling
-    console.log('Sample query:', query);
+    setInput(query);
+    setShowWelcome(false);
+    // Trigger form submission
+    setTimeout(() => {
+      const form = document.querySelector('form');
+      if (form) {
+        form.requestSubmit();
+      }
+    }, 0);
   };
+
+  const handleOverviewCommand = async () => {
+    try {
+      setApiError(null);
+      const response = await fetch('/api/overview');
+      if (!response.ok) {
+        throw new Error('Failed to fetch overview data');
+      }
+      const data = await response.json();
+      setOverviewData(data);
+      setShowWelcome(false);
+    } catch (error) {
+      console.error('Error fetching overview:', error);
+      setApiError('Sorry, something went wrong. Try again or check the portfolio index.');
+    }
+  };
+
+  // Handle overview command when user types "overview"
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.content?.toLowerCase().trim() === 'overview') {
+      handleOverviewCommand();
+    }
+  }, [messages]);
 
   return (
     <div className="flex flex-col gap-4 max-w-2xl mx-auto p-4 h-[600px]">
@@ -57,17 +90,75 @@ export default function ChatBox() {
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200'
               }`}
             >
-              <p className="whitespace-pre-wrap">{message.content}</p>
-              {/* TODO: Add media display for images/demo links */}
-              {message.role === 'assistant' && (
-                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                  {/* Placeholder for media attachments */}
+              <p 
+                className="whitespace-pre-wrap" 
+                dangerouslySetInnerHTML={{ 
+                  __html: DOMPurify.sanitize(message.content) 
+                }} 
+              />
+              {/* Media display for images/demo links */}
+              {message.role === 'assistant' && (message as any).media && (
+                <div className="mt-2">
+                  {(message as any).media.type === 'image' && (
+                    <img 
+                      src={(message as any).media.url} 
+                      alt="Project screenshot" 
+                      className="mt-2 max-w-full rounded border"
+                    />
+                  )}
+                  {(message as any).media.type === 'link' && (
+                    <a 
+                      href={(message as any).media.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-sm hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
+                    >
+                      🔗 View Demo
+                    </a>
+                  )}
                 </div>
               )}
             </div>
           </div>
         ))}
+
+        {/* Overview Display */}
+        {overviewData && (
+          <div className="flex justify-start">
+            <div className="max-w-[80%] p-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+              <p className="mb-3 font-medium">{overviewData.message}</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {overviewData.projects.map((project: any) => (
+                  <div key={project.id} className="border border-gray-200 dark:border-gray-700 p-3 rounded-lg bg-white dark:bg-gray-900">
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">{project.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{project.description}</p>
+                    {project.demo_url && (
+                      <a 
+                        href={project.demo_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-primary hover:text-primary-700 text-sm font-medium"
+                      >
+                        View Demo →
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
         
+        {/* Error Display */}
+        {(error || apiError) && (
+          <div className="flex justify-start">
+            <div className="max-w-[80%] p-3 rounded-lg bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
+              <p className="font-medium">⚠️ Error</p>
+              <p className="text-sm mt-1">{error?.message || apiError}</p>
+            </div>
+          </div>
+        )}
+
         {/* Loading Indicator */}
         {isLoading && (
           <div className="flex justify-start">
@@ -83,7 +174,11 @@ export default function ChatBox() {
       </div>
 
       {/* Input Form */}
-      <form onSubmit={handleSubmit} className="flex gap-2">
+      <form onSubmit={(e) => {
+        setShowWelcome(false);
+        setApiError(null);
+        handleSubmit(e);
+      }} className="flex gap-2">
         <input
           type="text"
           value={input}
