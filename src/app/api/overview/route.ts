@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { logQueryWithAnalytics } from '@/lib/analytics';
 
 export async function GET(req: NextRequest) {
   try {
+    // Extract session ID from query params for analytics
+    const url = new URL(req.url);
+    const sessionId = url.searchParams.get('sessionId');
+    const ctaClicked = url.searchParams.get('ctaClicked');
+
     // TODO: Retrieve all projects from Supabase
     // const { data: projects, error } = await supabase
     //   .from('projects')
@@ -59,6 +65,9 @@ export async function GET(req: NextRequest) {
         image_url: null,
       },
     ];
+
+    // Log overview request for analytics
+    await logQueryWithAnalytics('overview', projects.map(p => p.id), sessionId, ctaClicked);
 
     return NextResponse.json({ 
       projects,

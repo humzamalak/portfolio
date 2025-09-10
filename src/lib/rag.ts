@@ -99,8 +99,7 @@ export async function generateRAGResponse(
     // Retrieve relevant projects
     const retrieval = await retrieveProjects(query);
     
-    // Log the query for analytics
-    await logQuery(query, retrieval.projects.map(p => p.id), sessionId);
+    // Note: Query logging is now handled in the API endpoints
 
     // Handle ambiguous queries (low confidence)
     if (retrieval.confidence < 0.8) {
@@ -131,29 +130,7 @@ export async function generateRAGResponse(
   }
 }
 
-// Log query for analytics
-async function logQuery(
-  queryText: string,
-  projectIds: string[],
-  sessionId?: string
-): Promise<void> {
-  try {
-    const queryEmbedding = await generateEmbedding(queryText);
-    
-    await supabase
-      .from('queries')
-      .insert({
-        query_text: queryText,
-        embedding: queryEmbedding,
-        project_ids: projectIds,
-        session_id: sessionId,
-        timestamp: new Date().toISOString()
-      });
-  } catch (error) {
-    console.error('Error logging query:', error);
-    // Don't throw - logging failure shouldn't break the main flow
-  }
-}
+// Note: Query logging moved to analytics.ts module
 
 // Store project with embedding
 export async function storeProjectWithEmbedding(project: Omit<Project, 'id' | 'created_at' | 'updated_at'>): Promise<Project> {

@@ -2,10 +2,11 @@ import { NextRequest } from 'next/server';
 import { streamText } from 'ai';
 import { openai } from '@/lib/openai';
 import { generateRAGResponse } from '@/lib/rag';
+import { logQueryWithAnalytics } from '@/lib/analytics';
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages, sessionId } = await req.json();
+    const { messages, sessionId, ctaClicked } = await req.json();
     const lastMessage = messages[messages.length - 1];
     
     if (!lastMessage?.content) {
@@ -16,11 +17,17 @@ export async function POST(req: NextRequest) {
 
     // Handle overview command
     if (query === 'overview') {
+      // Log overview command
+      await logQueryWithAnalytics(query, [], sessionId, ctaClicked);
       return new Response('overview', { status: 200 });
     }
 
     // Use RAG system to generate response
     const ragResponse = await generateRAGResponse(query, messages, sessionId);
+
+    // Log the query with analytics data
+    const projectIds = ragResponse.projects?.map(p => p.id) || [];
+    await logQueryWithAnalytics(query, projectIds, sessionId, ctaClicked);
 
     // If we have a specific response from RAG, return it
     if (ragResponse.message) {

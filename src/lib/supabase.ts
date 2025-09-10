@@ -38,7 +38,7 @@ export const supabase = createClient(
 //   query_text TEXT NOT NULL,
 //   embedding vector(1536),
 //   project_ids UUID[],
-//   cta_clicked BOOLEAN DEFAULT FALSE,
+//   cta_clicked TEXT, -- Store which CTA was clicked (e.g., 'portfolio', 'contact', 'demo')
 //   session_id TEXT,
 //   timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 // );
@@ -73,7 +73,7 @@ export interface QueryLog {
   query_text: string;
   embedding?: number[];
   project_ids: string[];
-  cta_clicked: boolean;
+  cta_clicked?: string;
   session_id?: string;
   timestamp: string;
 }
