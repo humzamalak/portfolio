@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { runGoldenTests } from '../../../../tests/run-golden';
+import { runGoldenTests } from '../../../../../tests/run-golden';
 
 export async function POST(req: NextRequest) {
   try {
