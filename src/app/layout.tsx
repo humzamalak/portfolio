@@ -13,7 +13,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://humzamalak.dev'),
   title: "Humza Malak - DevOps Engineer Portfolio",
-  description: "Senior DevOps Engineer specializing in Kubernetes, AWS, Terraform, and CI/CD automation. Building scalable, secure cloud infrastructure with modern DevOps practices.",
+  description: "Senior DevOps Engineer specialising in Kubernetes, AWS, Terraform, and CI/CD automation. Building scalable, secure cloud infrastructure with modern DevOps practices.",
   keywords: ["DevOps Engineer", "Kubernetes", "AWS", "Terraform", "CI/CD", "Infrastructure as Code", "Cloud Automation", "Microservices", "Jenkins", "Docker"],
   authors: [{ name: "Humza Malak" }],
   creator: "Humza Malak",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://humzamalak.dev",
     title: "Humza Malak - DevOps Engineer Portfolio",
-    description: "Senior DevOps Engineer specializing in Kubernetes, AWS, Terraform, and CI/CD automation. Building scalable, secure cloud infrastructure.",
+    description: "Senior DevOps Engineer specialising in Kubernetes, AWS, Terraform, and CI/CD automation. Building scalable, secure cloud infrastructure.",
     siteName: "Humza Malak DevOps Portfolio",
     images: [
       {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Humza Malak - DevOps Engineer Portfolio",
-    description: "Senior DevOps Engineer specializing in Kubernetes, AWS, Terraform, and CI/CD automation.",
+    description: "Senior DevOps Engineer specialising in Kubernetes, AWS, Terraform, and CI/CD automation.",
     creator: "@humzamalak",
   },
   robots: {
@@ -64,7 +64,7 @@ const PERSON_SCHEMA = {
   "@type": "Person",
   name: "Humza Malak",
   jobTitle: "Senior DevOps Engineer",
-  description: "Senior DevOps Engineer specializing in Kubernetes, AWS, Terraform, and CI/CD automation. Building scalable, secure cloud infrastructure.",
+  description: "Senior DevOps Engineer specialising in Kubernetes, AWS, Terraform, and CI/CD automation. Building scalable, secure cloud infrastructure.",
   url: "https://humzamalak.dev",
   sameAs: [
     "https://github.com/humzamalak",

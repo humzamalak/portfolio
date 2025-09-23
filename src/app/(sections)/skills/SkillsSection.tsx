@@ -23,7 +23,7 @@ const skillCategories: SkillCategory[] = [
       "Microsoft Azure",
       "Cloud Architecture Design",
       "Multi-region Deployment",
-      "Cost Optimization"
+      "Cost Optimisation"
     ]
   },
   {
@@ -50,12 +50,12 @@ const skillCategories: SkillCategory[] = [
       "GitLab CI/CD",
       "GitHub Actions",
       "Azure DevOps",
-      "Pipeline Optimization",
+      "Pipeline Optimisation",
       "Release Automation"
     ]
   },
   {
-    title: "Containerization",
+    title: "Containerisation",
     icon: "🐳",
     description: "Container orchestration and microservices architecture",
     color: "bg-orange-500/10 text-orange-600 border-orange-500/20",
