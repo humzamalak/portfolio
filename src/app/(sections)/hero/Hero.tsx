@@ -50,7 +50,7 @@ const Hero = () => {
             variants={itemVariants}
             className="text-lg md:text-xl lg:text-2xl text-foreground-muted max-w-3xl mx-auto leading-relaxed"
           >
-            Senior DevOps Engineer specializing in Kubernetes, AWS, Terraform, and CI/CD automation. 
+            Senior DevOps Engineer specialising in Kubernetes, AWS, Terraform, and CI/CD automation. 
             Transforming legacy systems into modern, scalable cloud-native architectures.
           </motion.p>
 

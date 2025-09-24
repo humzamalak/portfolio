@@ -68,7 +68,7 @@ export default function ProjectsSection() {
 
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
-      "Containerization & Orchestration": "bg-blue-500/10 text-blue-600 border-blue-500/20",
+      "Containerisation & Orchestration": "bg-blue-500/10 text-blue-600 border-blue-500/20",
       "Cloud Infrastructure": "bg-green-500/10 text-green-600 border-green-500/20",
       "CI/CD & Automation": "bg-purple-500/10 text-purple-600 border-purple-500/20",
       "Security & Compliance": "bg-red-500/10 text-red-600 border-red-500/20",
