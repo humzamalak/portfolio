@@ -29,9 +29,9 @@ export const experience: ExperienceRole[] = [
     endDate: "2025-01",
     current: false,
     location: "Remote, UK",
-    description: "Led modernization of a legacy monolith into Kubernetes-based microservices, delivering faster deployments and greater scalability across environments.",
+    description: "Led modernisation of a legacy monolith into Kubernetes-based microservices, delivering faster deployments and greater scalability across environments.",
     achievements: [
-      "Reduced deployment time by 60% through microservices migration and pipeline optimization",
+      "Reduced deployment time by 60% through microservices migration and pipeline optimisation",
       "Built Jenkins pipelines integrated with Bitbucket and Kubernetes, cutting manual release steps by 70%",
       "Provisioned multi-region AWS infrastructure with Terraform (EKS, IAM, VPC peering) to improve resilience",
       "Implemented HashiCorp Vault sidecar-based secrets injection eliminating plaintext secrets",
@@ -126,7 +126,7 @@ export const experience: ExperienceRole[] = [
     endDate: "2021-06",
     current: false,
     location: "Remote, UK",
-    description: "Provisioned and maintained cloud environments with Terraform and Ansible while automating microservices pipelines to speed releases.",
+    description: "Provisioned and maintained cloud environments with Terraform and Ansible whilst automating microservices pipelines to speed releases.",
     achievements: [
       "Ensured development and production parity using Terraform and Ansible",
       "Automated build/test/deploy pipelines for microservices, taking releases from hours to minutes",
@@ -158,11 +158,11 @@ export const experience: ExperienceRole[] = [
     endDate: "2021-02",
     current: false,
     location: "Remote, UK",
-    description: "Automated secure AWS networking and standardized environment provisioning to improve scalability and onboarding.",
+    description: "Automated secure AWS networking and standardised environment provisioning to improve scalability and onboarding.",
     achievements: [
       "Automated AWS VPC, subnets, and firewall rules using Terraform, reducing setup times by 80%",
-      "Containerized services with Docker and deployed to Kubernetes, improving scalability and reducing overhead",
-      "Standardized Ansible-based environment setups, cutting configuration errors by 50% and speeding onboarding"
+      "Containerised services with Docker and deployed to Kubernetes, improving scalability and reducing overhead",
+      "Standardised Ansible-based environment setups, cutting configuration errors by 50% and speeding onboarding"
     ],
     metrics: [
       { label: "Environment Setup Time", value: 80, unit: "%", improvement: "reduction" },
@@ -178,7 +178,7 @@ export const experience: ExperienceRole[] = [
     ],
     highlights: [
       "Network Automation",
-      "Containerization",
+      "Containerisation",
       "Secure Provisioning"
     ]
   }
