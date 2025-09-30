@@ -1,0 +1,15 @@
+# Wrangler configuration for Cloudflare Pages
+name = "humza-portfolio"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = ".vercel/output/static"
+
+# Environment variables are configured in Cloudflare Pages dashboard
+# Local development uses .dev.vars file
+
+[env.production]
+# Production-specific settings
+# Environment variables should be set in Cloudflare Pages dashboard
+
+[env.preview]
+# Preview branch settings
+# Environment variables should be set in Cloudflare Pages dashboard

@@ -2,12 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { isValidEmail, formatEmailAddress, getResendErrorMessage } from '@/lib/email-utils';
 
+// This API route is compatible with Cloudflare Workers via @cloudflare/next-on-pages
+// The Resend SDK works in the Cloudflare Workers environment
+
 interface ContactFormData {
   name: string;
   email: string;
   message: string;
   inquiryType: string;
 }
+
+// Edge runtime compatible with Cloudflare Workers
+export const runtime = 'edge';
 
 export async function POST(request: NextRequest) {
   try {

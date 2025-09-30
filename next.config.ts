@@ -7,12 +7,14 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
 
-  // Image optimization
+  // Image optimization for Cloudflare
+  // Note: Cloudflare doesn't support Next.js automatic image optimization
+  // Images will be served as-is or use Cloudflare Images (separate service)
   images: {
+    unoptimized: true, // Required for Cloudflare Pages
     formats: ["image/webp", "image/avif"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    // Allow local images and your domain
     remotePatterns: [
       {
         protocol: 'https',
@@ -21,7 +23,6 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-    // Increase size limit for large images
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -32,32 +33,8 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["framer-motion", "lucide-react", "react-icons"],
   },
 
-  // Security + performance headers
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          { key: "X-DNS-Prefetch-Control", value: "on" },
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=63072000; includeSubDomains; preload",
-          },
-        ],
-      },
-      // Static asset caching (valid path-to-regexp pattern)
-      {
-        source:
-          "/:path*.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-    ];
-  },
+  // Headers are now handled via public/_headers file for Cloudflare Pages
+  // Cloudflare Pages uses _headers file instead of Next.js headers() function
 };
 
 export default nextConfig;
