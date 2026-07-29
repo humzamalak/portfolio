@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import '@testing-library/jest-dom'
+
+jest.setTimeout(15000)
 
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
@@ -20,16 +23,51 @@ jest.mock('next/navigation', () => ({
   },
 }))
 
-// Mock framer-motion
-jest.mock('framer-motion', () => ({
-  motion: {
-    div: 'div',
-    h2: 'h2',
-    button: 'button',
-    a: 'a',
-  },
-  AnimatePresence: ({ children }) => children,
-}))
+// Mock framer-motion while stripping animation-only props so React 19 does not
+// warn about unknown DOM attributes during component tests.
+jest.mock('framer-motion', () => {
+  const React = require('react')
+  const motionProps = new Set([
+    'animate',
+    'custom',
+    'exit',
+    'initial',
+    'layout',
+    'transition',
+    'variants',
+    'viewport',
+    'whileHover',
+    'whileInView',
+    'whileTap',
+  ])
+
+  const componentCache = new Map()
+
+  const createMotionComponent = (tag) => {
+    if (componentCache.has(tag)) {
+      return componentCache.get(tag)
+    }
+
+    const Component = React.forwardRef(({ children, ...props }, ref) => {
+      const domProps = Object.fromEntries(
+        Object.entries(props).filter(([key]) => !motionProps.has(key))
+      )
+      return React.createElement(tag, { ...domProps, ref }, children)
+    })
+    Component.displayName = `motion.${tag}`
+    componentCache.set(tag, Component)
+    return Component
+  }
+
+  return {
+    motion: new Proxy({}, {
+      get: (_target, tag) => createMotionComponent(tag),
+    }),
+    AnimatePresence: ({ children }) => children,
+    useInView: () => true,
+    useReducedMotion: () => false,
+  }
+})
 
 // Mock window.gtag for analytics
 Object.defineProperty(window, 'gtag', {

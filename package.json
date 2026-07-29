@@ -66,6 +66,10 @@
     "minimatch": "^10.2.6",
     "glob": "^13.0.6",
     "babel-plugin-istanbul": "^8.0.0",
-    "test-exclude": "^8.0.0"
+    "test-exclude": "^8.0.0",
+    "@unrs/resolver-binding-wasm32-wasi": {
+      "@emnapi/core": "2.0.0-alpha.3",
+      "@emnapi/runtime": "2.0.0-alpha.3"
+    }
   }
 }
