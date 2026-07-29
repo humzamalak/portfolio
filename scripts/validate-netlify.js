@@ -57,9 +57,9 @@ function validatePackageScripts() {
     assert(Boolean(pkg.scripts.build), 'build script exists'),
     assert(Boolean(pkg.scripts.lint), 'lint script exists'),
     assert(Boolean(pkg.scripts.test), 'test script exists'),
-    assert(pkg.scripts['netlify:dev'] === 'netlify dev', 'netlify:dev script exists'),
+    assert(pkg.scripts['netlify:dev'] === 'npx netlify-cli@latest dev', 'netlify:dev script uses ephemeral CLI'),
     assert(Boolean(pkg.scripts['netlify:deploy']), 'netlify:deploy script exists'),
-    assert(Boolean(pkg.devDependencies['netlify-cli']), 'netlify-cli is a devDependency'),
+    assert(!pkg.devDependencies?.['netlify-cli'], 'netlify-cli is not installed as an auditable devDependency'),
   ];
   return checks.every(Boolean);
 }
