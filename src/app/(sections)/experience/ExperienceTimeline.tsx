@@ -1,258 +1,151 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { experience } from "@/data/experience";
-import { 
-  FaBuilding, 
-  FaMapMarkerAlt, 
-  FaCalendarAlt, 
-  FaChartLine,
-  FaCode,
-  FaStar,
-  FaChevronDown,
-  FaChevronUp
-} from "react-icons/fa";
+import { motion } from "framer-motion";
 import { useState } from "react";
+import { experience } from "@/data/experience";
 
 interface TimelineItemProps {
   role: typeof experience[0];
   index: number;
 }
 
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+  });
+};
+
+const formatDuration = (start: string, end?: string) => {
+  const startDate = new Date(start);
+  const endDate = end ? new Date(end) : new Date();
+  const months = Math.max(0, (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth()));
+  const yearsPart = Math.floor(months / 12);
+  const monthsPart = months % 12;
+  const yearsText = yearsPart > 0 ? `${yearsPart} ${yearsPart === 1 ? "year" : "years"}` : "";
+  const monthsText = monthsPart > 0 ? `${monthsPart} ${monthsPart === 1 ? "month" : "months"}` : "";
+
+  if (yearsText && monthsText) return `${yearsText} ${monthsText}`;
+  return yearsText || monthsText || "0 months";
+};
+
 const TimelineItem = ({ role, index }: TimelineItemProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short' 
-    });
-  };
-
-  const formatDuration = (start: string, end?: string) => {
-    const startDate = new Date(start);
-    const endDate = end ? new Date(end) : new Date();
-
-    const startYear = startDate.getFullYear();
-    const startMonth = startDate.getMonth(); // 0-11
-    const endYear = endDate.getFullYear();
-    const endMonth = endDate.getMonth(); // 0-11
-
-    let months = (endYear - startYear) * 12 + (endMonth - startMonth);
-    if (months < 0) months = 0;
-
-    const yearsPart = Math.floor(months / 12);
-    const monthsPart = months % 12;
-
-    const yearsText = yearsPart > 0 ? `${yearsPart} ${yearsPart === 1 ? 'year' : 'years'}` : '';
-    const monthsText = monthsPart > 0 ? `${monthsPart} ${monthsPart === 1 ? 'month' : 'months'}` : '';
-
-    if (yearsText && monthsText) return `${yearsText} ${monthsText}`;
-    if (yearsText) return yearsText;
-    if (monthsText) return monthsText || '0 months';
-    return '0 months';
-  };
+  const [isExpanded, setIsExpanded] = useState(index === 0);
+  const primaryMetric = role.metrics[0];
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.6, delay: index * 0.2 }}
-      className="relative"
+    <motion.article
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.18 }}
+      transition={{ duration: 0.58, delay: index * 0.08, ease: "easeOut" }}
+      className="group relative"
     >
-      {/* Timeline line */}
-      <div className="absolute left-6 top-8 bottom-0 w-0.5 bg-border md:left-1/2 md:transform md:-translate-x-1/2" />
-      
-      {/* Timeline dot */}
-      <div className="absolute left-4 top-6 w-4 h-4 bg-primary-500 rounded-full border-4 border-background md:left-1/2 md:transform md:-translate-x-1/2" />
-      
-      {/* Content card */}
-      <div className="ml-16 md:ml-0 md:w-5/12 md:mb-8">
-        {/* Alternate sides on desktop */}
-        <div className={`md:${index % 2 === 0 ? 'mr-auto' : 'ml-auto'} md:${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            className="bg-background-secondary rounded-lg p-6 shadow-lg border border-border hover:border-primary-500 transition-colors duration-300"
-          >
-            {/* Header */}
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <FaBuilding className="text-primary-400 text-lg" />
-                  <h3 className="text-xl font-bold text-foreground">{role.company}</h3>
-                </div>
-                <h4 className="text-lg font-semibold text-primary-300 mb-2">{role.role}</h4>
-                
-                {/* Location and Duration */}
-                <div className="flex items-center gap-4 text-sm text-foreground-muted mb-3">
-                  <div className="flex items-center gap-1">
-                    <FaMapMarkerAlt className="text-foreground-muted" />
-                    <span>{role.location}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <FaCalendarAlt className="text-foreground-muted" />
-                    <span>
-                      {formatDate(role.startDate)} - {role.current ? 'Present' : formatDate(role.endDate!)}
-                    </span>
-                    <span aria-hidden="true">•</span>
-                    <span className="text-foreground-muted">{formatDuration(role.startDate, role.endDate)}</span>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Expand/Collapse button */}
-              <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="ml-4 p-2 text-foreground-muted hover:text-foreground transition-colors"
-                aria-label={isExpanded ? "Collapse details" : "Expand details"}
-                aria-expanded={isExpanded}
-              >
-                {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
-              </button>
+      <div className="absolute left-5 top-6 hidden h-[calc(100%+1.25rem)] w-px bg-gradient-to-b from-cyan-300/70 via-white/10 to-transparent lg:block" aria-hidden="true" />
+      <div className="premium-card relative overflow-hidden rounded-[2rem] p-5 transition duration-300 group-hover:-translate-y-1 md:p-7 lg:ml-14">
+        <div className="absolute -right-20 -top-24 h-56 w-56 rounded-full bg-cyan-300/10 blur-3xl transition group-hover:scale-125" aria-hidden="true" />
+        <div className="relative grid gap-6 xl:grid-cols-[1fr_15rem]">
+          <div>
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.22em] text-cyan-100">
+                phase {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className="text-sm font-semibold text-slate-400">
+                {formatDate(role.startDate)} — {role.current ? "Present" : formatDate(role.endDate!)} · {formatDuration(role.startDate, role.endDate)}
+              </span>
             </div>
+            <h3 className="mt-4 text-3xl font-black tracking-[-0.045em] text-white">{role.company}</h3>
+            <p className="mt-1 text-lg font-bold text-emerald-200">{role.role}</p>
+            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">{role.description}</p>
+          </div>
 
-            {/* Description */}
-            <p className="text-foreground mb-4 leading-relaxed">{role.description}</p>
+          <div className="rounded-[1.4rem] border border-white/10 bg-black/20 p-4">
+            <p className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-slate-500">primary signal</p>
+            <p className="mt-3 text-4xl font-black text-white">
+              {primaryMetric?.value}{primaryMetric?.unit}
+            </p>
+            <p className="mt-1 text-sm font-bold text-cyan-100">{primaryMetric?.label}</p>
+            {primaryMetric?.improvement && <p className="mt-1 text-xs text-emerald-200">{primaryMetric.improvement}</p>}
+          </div>
+        </div>
 
-            {/* Tech Stack */}
-            <div className="mb-4">
-              <h5 className="text-sm font-semibold text-foreground-muted mb-2 flex items-center gap-2">
-                <FaCode />
-                Tech Stack
-              </h5>
-              <div className="flex flex-wrap gap-2">
-                {role.techStack.map((tech, techIndex) => (
-                  <motion.span
-                    key={techIndex}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                    transition={{ duration: 0.3, delay: (index * 0.2) + (techIndex * 0.1) }}
-                    className="px-3 py-1 bg-background-tertiary text-foreground text-sm rounded-full border border-border hover:border-primary-500 transition-colors"
-                  >
-                    {tech}
-                  </motion.span>
+        <div className="relative mt-6 flex flex-wrap gap-2">
+          {role.techStack.slice(0, isExpanded ? role.techStack.length : 8).map((tech) => (
+            <span key={tech} className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 text-xs font-bold text-slate-200">
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <motion.div
+          initial={false}
+          animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+          transition={{ duration: 0.28, ease: "easeOut" }}
+          className="relative overflow-hidden"
+        >
+          <div className="mt-7 grid gap-5 border-t border-white/10 pt-6 lg:grid-cols-[0.95fr_1.05fr]">
+            <div>
+              <h4 className="font-mono text-xs uppercase tracking-[0.28em] text-slate-500">outcomes</h4>
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                {role.metrics.map((metric) => (
+                  <div key={metric.label} className="rounded-2xl border border-white/10 bg-white/[0.04] p-3">
+                    <div className="text-2xl font-black text-white">{metric.value}{metric.unit}</div>
+                    <div className="mt-1 text-xs text-slate-400">{metric.label}</div>
+                  </div>
                 ))}
               </div>
             </div>
+            <div>
+              <h4 className="font-mono text-xs uppercase tracking-[0.28em] text-slate-500">proof trail</h4>
+              <ul className="mt-3 space-y-2">
+                {role.achievements.map((achievement) => (
+                  <li key={achievement} className="flex gap-3 rounded-2xl border border-white/10 bg-black/18 px-3 py-3 text-sm leading-6 text-slate-300">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300 shadow-[0_0_12px_rgba(110,231,183,0.85)]" />
+                    <span>{achievement}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </motion.div>
 
-            {/* Expandable Content */}
-            <motion.div
-              initial={false}
-              animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden"
-            >
-              {/* Metrics */}
-              <div className="mb-4 pt-4 border-t border-border">
-                <h5 className="text-sm font-semibold text-foreground-muted mb-3 flex items-center gap-2">
-                  <FaChartLine />
-                  Key Metrics & Achievements
-                </h5>
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  {role.metrics.map((metric, metricIndex) => (
-                    <motion.div
-                      key={metricIndex}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={isExpanded ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3, delay: metricIndex * 0.1 }}
-                      className="bg-background-tertiary p-3 rounded-lg border border-border"
-                    >
-                      <div className="text-2xl font-bold text-primary-400">
-                        {metric.value}{metric.unit}
-                      </div>
-                      <div className="text-xs text-foreground-muted">{metric.label}</div>
-                      {metric.improvement && (
-                        <div className="text-xs text-secondary-400 mt-1">{metric.improvement}</div>
-                      )}
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Achievements */}
-              <div className="mb-4">
-                <h5 className="text-sm font-semibold text-foreground-muted mb-3 flex items-center gap-2">
-                  <FaStar />
-                  Key Achievements
-                </h5>
-                <ul className="space-y-2">
-                  {role.achievements.map((achievement, achievementIndex) => (
-                    <motion.li
-                      key={achievementIndex}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={isExpanded ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3, delay: achievementIndex * 0.1 }}
-                      className="flex items-start gap-2 text-sm text-foreground"
-                    >
-                      <span className="text-primary-400 mt-1">•</span>
-                      <span>{achievement}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Highlights */}
-              <div>
-                <h5 className="text-sm font-semibold text-foreground-muted mb-3">Highlights</h5>
-                <div className="flex flex-wrap gap-2">
-                  {role.highlights.map((highlight, highlightIndex) => (
-                    <motion.span
-                      key={highlightIndex}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={isExpanded ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.3, delay: highlightIndex * 0.1 }}
-                      className="px-2 py-1 bg-primary-900/30 text-primary-300 text-xs rounded border border-primary-700/50"
-                    >
-                      {highlight}
-                    </motion.span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
+        <button
+          onClick={() => setIsExpanded((value) => !value)}
+          className="relative mt-6 inline-flex rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-sm font-bold text-cyan-100 transition hover:border-cyan-200/60 hover:bg-cyan-200/10 focus:outline-none focus:ring-2 focus:ring-cyan-200 focus:ring-offset-2 focus:ring-offset-slate-950"
+          aria-expanded={isExpanded}
+          aria-label={isExpanded ? "Collapse details" : "Expand details"}
+        >
+          {isExpanded ? "Collapse evidence" : "Expand evidence"}
+        </button>
       </div>
-    </motion.div>
+    </motion.article>
   );
 };
 
 export default function ExperienceTimeline() {
   return (
-    <section
-      id="experience"
-      className="w-full bg-background text-foreground py-16 px-4"
-      aria-label="Professional Experience Timeline"
-    >
-      <div className="max-w-6xl mx-auto flex flex-col">
-        {/* Section Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-center mb-12"
-        >
-          Professional Experience
-        </motion.h2>
+    <section id="experience" className="relative overflow-hidden bg-slate-950 py-28 text-white" aria-label="Professional Experience Timeline">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_20%,rgba(16,185,129,0.13),transparent_30rem),radial-gradient(circle_at_78%_30%,rgba(59,130,246,0.12),transparent_28rem)]" aria-hidden="true" />
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.58, ease: "easeOut" }}
+            className="lg:sticky lg:top-28"
+          >
+            <p className="font-mono text-sm uppercase tracking-[0.34em] text-emerald-200">field record</p>
+            <h2 className="mt-4 text-balance text-5xl font-black leading-[0.92] tracking-[-0.07em] text-white md:text-7xl">Experience as incident memory.</h2>
+            <p className="mt-6 text-lg leading-8 text-slate-300">
+              A career arc through messy production work: migration, automation, release safety, secrets, observability, and the habit of leaving systems easier to operate than they were found.
+            </p>
+          </motion.div>
 
-        {/* Timeline Container */}
-        <div className="relative">
-          {/* Desktop Timeline Line */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-border transform -translate-x-1/2" />
-          
-          {/* Timeline Items */}
-          <div className="space-y-8">
+          <div className="space-y-5">
             {experience.map((role, index) => (
-              <TimelineItem
-                key={role.id}
-                role={role}
-                index={index}
-              />
+              <TimelineItem key={role.id} role={role} index={index} />
             ))}
           </div>
         </div>
