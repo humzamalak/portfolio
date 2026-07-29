@@ -73,6 +73,13 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image:
+    radial-gradient(circle at 12% 8%, hsl(var(--primary-600) / 0.10), transparent 28rem),
+    radial-gradient(circle at 88% 18%, hsl(var(--secondary-500) / 0.08), transparent 26rem);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* Focus styles for accessibility */
@@ -284,6 +291,47 @@ pre code {
 .dark ::selection {
   background-color: hsl(var(--primary-800));
   color: hsl(var(--primary-100));
+}
+
+.hero-gradient-text {
+  background: linear-gradient(110deg, #60a5fa 0%, #22d3ee 34%, #34d399 68%, #f8fafc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 42px rgb(37 99 235 / 0.18);
+}
+
+.hero-aurora {
+  background:
+    radial-gradient(circle at 18% 24%, rgb(37 99 235 / 0.22), transparent 28rem),
+    radial-gradient(circle at 76% 22%, rgb(20 184 166 / 0.18), transparent 24rem),
+    radial-gradient(circle at 52% 72%, rgb(139 92 246 / 0.14), transparent 26rem),
+    linear-gradient(180deg, rgb(2 6 23 / 0.04), transparent 45%);
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgb(148 163 184 / 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(148 163 184 / 0.09) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: radial-gradient(circle at center, black 0%, transparent 72%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-aurora {
+    animation: aurora-drift 16s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes aurora-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: hue-rotate(0deg);
+  }
+  to {
+    transform: translate3d(0, -1.5rem, 0) scale(1.04);
+    filter: hue-rotate(16deg);
+  }
 }
 
 /* Custom clip-path for hexagonal profile picture */
