@@ -1,6 +1,6 @@
 # Humza Malak Portfolio
 
-A cinematic DevOps portfolio built with **Next.js 15**, **TypeScript**, **Tailwind CSS**, and **Framer Motion**. The site is deployed on **Netlify** and includes a production contact form powered by Resend.
+A cinematic DevOps portfolio built with **Next.js 16**, **TypeScript**, **Tailwind CSS**, and **Framer Motion**. The site is deployed on **Netlify** and includes a production contact form powered by Resend.
 
 **Live site:** <https://humzamalak.dev>
 
@@ -30,6 +30,92 @@ npm test -- --runInBand   # Jest suite
 npm run build             # Production build
 npm run netlify:dev       # Netlify local runtime, including functions
 ```
+
+## Preview changes locally
+
+Use this flow when you want to review the current branch before pushing or deploying.
+
+### Fast browser preview
+
+1. Install dependencies if needed:
+
+   ```bash
+   npm install
+   ```
+
+2. Start the Next.js development server:
+
+   ```bash
+   npm run dev
+   ```
+
+3. Open the local site:
+
+   ```text
+   http://localhost:3000
+   ```
+
+4. Review the main paths:
+   - `/`
+   - `/projects`
+   - `/blog`
+   - contact section on the homepage
+
+5. Stop the server when finished with `Ctrl+C` in the terminal that is running `npm run dev`.
+
+If port `3000` is already in use, Next.js may offer another port such as `3001`. Use the URL printed by the command.
+
+### Netlify runtime preview
+
+Use this when you specifically need to test Netlify routing/functions locally.
+
+```bash
+npm run netlify:dev
+```
+
+Then open the local URL printed by Netlify CLI, usually:
+
+```text
+http://localhost:8888
+```
+
+This mode is the closest local match for the deployed Netlify contact function. It may ask you to log in or link the site the first time.
+
+### Production build preview
+
+Use this before a release when you want to verify the optimized Next.js build rather than the dev server.
+
+```bash
+npm run build
+npm run start
+```
+
+Then open:
+
+```text
+http://localhost:3000
+```
+
+Stop with `Ctrl+C` when finished.
+
+### Pre-review checks
+
+Run these before treating the local review as ready:
+
+```bash
+npm audit
+npm run lint
+npm test -- --runInBand
+npm run build
+node scripts/validate-netlify.js
+```
+
+Expected baseline:
+
+- `npm audit` reports `found 0 vulnerabilities`.
+- Jest passes all suites.
+- Build completes successfully.
+- Netlify validation passes.
 
 ## Environment variables
 
@@ -88,7 +174,7 @@ NETLIFY_SITE_ID=your_netlify_site_id
 The workflow:
 
 - installs with `npm ci`
-- runs lint, typecheck, Jest, and build
+- runs lint, Jest, and build
 - deploys previews for pull requests when Netlify secrets are present
 - deploys production on pushes to `main` when Netlify secrets are present
 
@@ -106,7 +192,7 @@ npm run netlify:deploy     # runs a production deploy with Netlify build
 Preview without production promotion:
 
 ```bash
-npx netlify deploy --build
+npx netlify-cli@latest deploy --build
 ```
 
 Validate repository wiring before deploying:
