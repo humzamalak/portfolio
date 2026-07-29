@@ -92,7 +92,12 @@ const ContactSection = () => {
     }
 
     try {
-      const response = await fetch('/api/contact', {
+      // Use Netlify Function in production, Next.js API route in development
+      const apiEndpoint = process.env.NODE_ENV === 'production'
+        ? '/.netlify/functions/contact'
+        : '/api/contact';
+
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
