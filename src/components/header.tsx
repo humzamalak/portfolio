@@ -99,18 +99,18 @@ export function Header() {
       <header
         className={`fixed top-0 z-50 w-full transition-all duration-300 ${
           isScrolled
-            ? "border-b border-border bg-background/80 shadow-lg backdrop-blur-2xl"
-            : "bg-background/10 backdrop-blur-sm"
+            ? "border-b border-white/10 bg-slate-950/78 shadow-[0_18px_80px_rgba(0,0,0,0.32)] backdrop-blur-2xl"
+            : "bg-slate-950/20 backdrop-blur-sm"
         }`}
       >
-        <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-8">
+        <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-8">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center space-x-2 text-xl font-bold text-foreground transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            className="flex items-center space-x-2 text-xl font-bold text-white transition-colors hover:text-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-200 focus:ring-offset-2 focus:ring-offset-slate-950"
             onClick={handleMobileMenuClose}
           >
-            <span className="font-mono text-sm uppercase tracking-[0.22em]">HM / Ops</span>
+            <span className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-2 font-mono text-xs uppercase tracking-[0.24em] shadow-2xl backdrop-blur">HM / Ops</span>
           </Link>
           
           {/* Desktop Navigation */}
@@ -120,15 +120,15 @@ export function Header() {
                 key={item.name}
                 href={item.href}
                 onClick={() => handleSmoothScroll(item.href)}
-                className={`relative text-sm font-medium transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${
+                className={`relative rounded-full px-1 py-2 text-sm font-bold transition-colors hover:text-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-200 focus:ring-offset-2 focus:ring-offset-slate-950 ${
                   activeSection === item.id
-                    ? "text-primary"
-                    : "text-foreground"
+                    ? "text-cyan-200"
+                    : "text-slate-300"
                 }`}
               >
                 {item.name}
                 {activeSection === item.id && (
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full" />
+                  <span className="absolute -bottom-1 left-0 h-0.5 w-full rounded-full bg-cyan-200 shadow-[0_0_16px_rgba(103,232,249,0.9)]" />
                 )}
               </Link>
             ))}

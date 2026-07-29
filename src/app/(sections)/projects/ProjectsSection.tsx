@@ -52,83 +52,94 @@ const devopsProjects: DevOpsProject[] = [
   },
 ];
 
-export default function ProjectsSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  };
+const proofPoints = [
+  "Outcome before implementation",
+  "Safety gates before speed",
+  "Readable failure modes",
+];
 
+export default function ProjectsSection() {
   const projectVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.58, ease: "easeOut" as const },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.58, ease: "easeOut" as const } },
   };
 
   return (
-    <Section id="projects" className="relative overflow-hidden py-24">
+    <Section id="projects" className="relative overflow-hidden bg-slate-950 py-28 text-white">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.16),transparent_28rem),radial-gradient(circle_at_82%_45%,rgba(244,114,182,0.12),transparent_28rem)]" aria-hidden="true" />
       <div className="mx-auto max-w-7xl px-4">
         <motion.div
-          variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
+          transition={{ staggerChildren: 0.1 }}
           className="space-y-14"
         >
-          <motion.div variants={projectVariants} className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-3xl">
-              <p className="font-mono text-sm uppercase tracking-[0.32em] text-primary-400">Selected builds</p>
-              <h2 className="mt-4 text-balance text-4xl font-black tracking-[-0.05em] text-foreground md:text-6xl">Proof, packaged like mission logs.</h2>
-              <p className="mt-5 text-lg leading-8 text-foreground-muted">
-                Recruiters and collaborators should understand the operational outcome before they click through. Each card leads with impact, then the implementation stack.
+          <motion.div variants={projectVariants} className="grid gap-8 lg:grid-cols-[1fr_0.82fr] lg:items-end">
+            <div>
+              <p className="font-mono text-sm uppercase tracking-[0.34em] text-violet-200">Selected builds</p>
+              <h2 className="mt-4 text-balance text-5xl font-black leading-[0.92] tracking-[-0.07em] text-white md:text-7xl">
+                Mission logs with receipts.
+              </h2>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+                Each project is framed like an operational case file: the pain it removes, the systems it touches,
+                and the platform habit it proves.
               </p>
             </div>
-            <a
-              href="https://github.com/humzamalak"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-2xl border border-border bg-background/70 px-5 py-3 font-bold text-foreground shadow-soft backdrop-blur transition hover:-translate-y-1 hover:border-primary-400 hover:text-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-300"
-            >
-              Explore all repos →
-            </a>
+            <div className="premium-card rounded-[2rem] p-5">
+              <p className="font-mono text-xs uppercase tracking-[0.28em] text-slate-500">review lens</p>
+              <div className="mt-4 space-y-3">
+                {proofPoints.map((point) => (
+                  <div key={point} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.045] px-3 py-3">
+                    <span className="h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_16px_rgba(103,232,249,0.9)]" />
+                    <span className="text-sm font-bold text-slate-200">{point}</span>
+                  </div>
+                ))}
+              </div>
+              <a
+                href="https://github.com/humzamalak"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white px-5 py-3 font-black text-slate-950 transition hover:-translate-y-1 hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-200 focus:ring-offset-2 focus:ring-offset-slate-950"
+              >
+                Explore all repos →
+              </a>
+            </div>
           </motion.div>
 
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-5 lg:grid-cols-2">
             {devopsProjects.map((project, index) => (
-              <motion.article key={project.title} variants={projectVariants} className="group relative">
-                <div className="relative h-full overflow-hidden rounded-[2rem] border border-border bg-background/75 p-6 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-primary-400/60 hover:shadow-[0_28px_100px_rgba(37,99,235,0.18)] md:p-8">
-                  <div className="absolute right-0 top-0 h-36 w-36 translate-x-10 -translate-y-10 rounded-full bg-primary-500/10 blur-2xl transition group-hover:scale-125" aria-hidden="true" />
-                  <div className="flex items-start justify-between gap-5">
+              <motion.article key={project.title} variants={projectVariants} className="group relative min-h-[25rem]">
+                <div className="premium-card relative flex h-full flex-col overflow-hidden rounded-[2rem] p-6 transition duration-300 hover:-translate-y-1 md:p-8">
+                  <div className="absolute right-0 top-0 h-52 w-52 translate-x-16 -translate-y-16 rounded-full bg-cyan-300/10 blur-3xl transition group-hover:scale-125" aria-hidden="true" />
+                  <div className="relative flex items-start justify-between gap-5">
                     <div>
-                      <p className="font-mono text-xs uppercase tracking-[0.28em] text-foreground-muted">Log {String(index + 1).padStart(2, "0")} · {project.signal}</p>
-                      <h3 className="mt-4 text-2xl font-black tracking-[-0.03em] text-foreground md:text-3xl">{project.title}</h3>
+                      <p className="font-mono text-xs uppercase tracking-[0.3em] text-slate-500">
+                        Log {String(index + 1).padStart(2, "0")} · {project.signal}
+                      </p>
+                      <h3 className="mt-4 max-w-xl text-3xl font-black tracking-[-0.045em] text-white md:text-4xl">{project.title}</h3>
                     </div>
-                    <span className="rounded-full border border-primary-400/20 bg-primary-400/10 px-3 py-1 text-xs font-bold text-primary-300">{project.category}</span>
+                    <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-bold text-cyan-100">{project.category}</span>
                   </div>
 
-                  <p className="mt-5 text-lg font-semibold text-foreground">{project.impact}</p>
-                  <p className="mt-3 text-base leading-7 text-foreground-muted">{project.description}</p>
+                  <p className="relative mt-6 text-xl font-black text-emerald-100">{project.impact}</p>
+                  <p className="relative mt-3 text-base leading-7 text-slate-300">{project.description}</p>
 
-                  <div className="mt-6 flex flex-wrap gap-2">
+                  <div className="relative mt-7 flex flex-wrap gap-2">
                     {project.techStack.map((tech) => (
-                      <span key={tech} className="rounded-full border border-border bg-background-secondary/60 px-3 py-1.5 text-xs font-semibold text-foreground-muted">
+                      <span key={tech} className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 text-xs font-bold text-slate-200">
                         {tech}
                       </span>
                     ))}
                   </div>
 
                   {project.link && (
-                    <div className="mt-8 border-t border-border/70 pt-5">
+                    <div className="relative mt-auto border-t border-white/10 pt-6">
                       <a
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/link inline-flex items-center font-bold text-primary-400 transition-colors hover:text-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-300"
+                        className="group/link inline-flex items-center rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 font-bold text-cyan-100 transition hover:border-cyan-200/60 hover:bg-cyan-200/10 focus:outline-none focus:ring-2 focus:ring-cyan-200"
                       >
                         Open implementation
                         <span className="ml-2 transition-transform group-hover/link:translate-x-1">→</span>
