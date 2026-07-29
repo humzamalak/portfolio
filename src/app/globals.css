@@ -67,15 +67,16 @@
 }
 
 body {
-  background-color: hsl(var(--background));
+  background-color: rgb(2 6 23);
   color: hsl(var(--foreground));
   font-family: var(--font-inter), Inter, system-ui, sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image:
-    radial-gradient(circle at 12% 8%, hsl(var(--primary-600) / 0.10), transparent 28rem),
-    radial-gradient(circle at 88% 18%, hsl(var(--secondary-500) / 0.08), transparent 26rem);
+    radial-gradient(circle at 12% 8%, rgb(34 211 238 / 0.12), transparent 30rem),
+    radial-gradient(circle at 88% 18%, rgb(168 85 247 / 0.10), transparent 28rem),
+    linear-gradient(180deg, rgb(2 6 23), rgb(2 6 23));
 }
 
 html {
@@ -294,19 +295,69 @@ pre code {
 }
 
 .hero-gradient-text {
-  background: linear-gradient(110deg, #60a5fa 0%, #22d3ee 34%, #34d399 68%, #f8fafc 100%);
+  background: linear-gradient(105deg, #f8fafc 0%, #67e8f9 24%, #34d399 48%, #a78bfa 72%, #f0abfc 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 0 42px rgb(37 99 235 / 0.18);
+  text-shadow: 0 0 52px rgb(34 211 238 / 0.22);
+}
+
+.premium-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-width: 1px;
+  border-radius: 9999px;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.875rem;
+  font-weight: 800;
+  line-height: 1.2;
+  box-shadow: 0 18px 70px rgb(0 0 0 / 0.18);
+  backdrop-filter: blur(18px);
+}
+
+.premium-card {
+  border: 1px solid rgb(255 255 255 / 0.10);
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 0.095), rgb(255 255 255 / 0.035)),
+    rgb(2 6 23 / 0.64);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    0 32px 110px rgb(0 0 0 / 0.32);
+  backdrop-filter: blur(22px) saturate(145%);
+}
+
+.premium-console {
+  border: 1px solid rgb(255 255 255 / 0.12);
+  background:
+    radial-gradient(circle at 20% 0%, rgb(103 232 249 / 0.16), transparent 22rem),
+    radial-gradient(circle at 100% 100%, rgb(217 70 239 / 0.14), transparent 24rem),
+    linear-gradient(145deg, rgb(15 23 42 / 0.92), rgb(2 6 23 / 0.94));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.10),
+    0 42px 150px rgb(0 0 0 / 0.56),
+    0 0 0 1px rgb(34 211 238 / 0.06);
+  backdrop-filter: blur(28px) saturate(160%);
+}
+
+.section-beam {
+  background: linear-gradient(90deg, transparent, rgb(103 232 249 / 0.70), rgb(167 139 250 / 0.65), transparent);
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
 }
 
 .hero-aurora {
   background:
-    radial-gradient(circle at 18% 24%, rgb(37 99 235 / 0.22), transparent 28rem),
-    radial-gradient(circle at 76% 22%, rgb(20 184 166 / 0.18), transparent 24rem),
-    radial-gradient(circle at 52% 72%, rgb(139 92 246 / 0.14), transparent 26rem),
-    linear-gradient(180deg, rgb(2 6 23 / 0.04), transparent 45%);
+    radial-gradient(circle at 18% 24%, rgb(34 211 238 / 0.28), transparent 30rem),
+    radial-gradient(circle at 76% 22%, rgb(52 211 153 / 0.20), transparent 24rem),
+    radial-gradient(circle at 52% 72%, rgb(168 85 247 / 0.18), transparent 28rem),
+    linear-gradient(180deg, rgb(2 6 23), rgb(2 6 23 / 0.94) 45%, rgb(2 6 23));
 }
 
 .hero-grid {
@@ -315,6 +366,14 @@ pre code {
     linear-gradient(90deg, rgb(148 163 184 / 0.09) 1px, transparent 1px);
   background-size: 52px 52px;
   mask-image: radial-gradient(circle at center, black 0%, transparent 72%);
+}
+
+.hero-noise {
+  opacity: 0.17;
+  background-image:
+    linear-gradient(115deg, transparent 0%, rgb(255 255 255 / 0.06) 12%, transparent 24%),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 7px);
+  mix-blend-mode: screen;
 }
 
 @media (prefers-reduced-motion: no-preference) {
