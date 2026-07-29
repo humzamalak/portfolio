@@ -15,87 +15,45 @@ const skillCategories: SkillCategory[] = [
   {
     title: "Cloud Platforms",
     icon: "☁️",
-    description: "Multi-cloud expertise with focus on AWS, GCP, and Azure",
-    color: "bg-blue-500/10 text-blue-600 border-blue-500/20",
-    skills: [
-      "AWS (EC2, S3, EKS, IAM, VPC, Lambda)",
-      "Google Cloud Platform",
-      "Microsoft Azure",
-      "Cloud Architecture Design",
-      "Multi-region Deployment",
-      "Cost Optimization"
-    ]
+    description: "AWS-first architecture with pragmatic multi-cloud fluency.",
+    color: "from-sky-400/20 to-blue-500/10 text-sky-200 border-sky-400/25",
+    skills: ["AWS EKS", "IAM", "VPC", "Lambda", "S3", "Cost controls"],
   },
   {
     title: "Infrastructure as Code",
     icon: "🏗️",
-    description: "Automated infrastructure provisioning and management",
-    color: "bg-green-500/10 text-green-600 border-green-500/20",
-    skills: [
-      "Terraform",
-      "AWS CloudFormation",
-      "Ansible",
-      "Pulumi",
-      "Infrastructure Automation",
-      "Environment Parity"
-    ]
+    description: "Versioned infrastructure that can be reviewed, rebuilt, and rolled back.",
+    color: "from-emerald-400/20 to-green-500/10 text-emerald-200 border-emerald-400/25",
+    skills: ["Terraform", "Ansible", "CloudFormation", "Pulumi", "Policy as code", "Drift detection"],
   },
   {
     title: "CI/CD & Automation",
-    icon: "🔄",
-    description: "Streamlined development workflows and deployment pipelines",
-    color: "bg-purple-500/10 text-purple-600 border-purple-500/20",
-    skills: [
-      "Jenkins",
-      "GitLab CI/CD",
-      "GitHub Actions",
-      "Azure DevOps",
-      "Pipeline Optimization",
-      "Release Automation"
-    ]
+    icon: "⚡",
+    description: "Release paths with fast feedback, security gates, and human-readable failure modes.",
+    color: "from-violet-400/20 to-purple-500/10 text-violet-200 border-violet-400/25",
+    skills: ["GitHub Actions", "GitLab CI", "Jenkins", "Progressive delivery", "Release automation", "Quality gates"],
   },
   {
-    title: "Containerization",
-    icon: "🐳",
-    description: "Container orchestration and microservices architecture",
-    color: "bg-orange-500/10 text-orange-600 border-orange-500/20",
-    skills: [
-      "Kubernetes",
-      "Docker",
-      "Helm Charts",
-      "Microservices",
-      "Service Mesh",
-      "Container Security"
-    ]
+    title: "Container Platforms",
+    icon: "🚢",
+    description: "Production-ready Kubernetes foundations for services that need to move quickly.",
+    color: "from-orange-400/20 to-amber-500/10 text-orange-200 border-orange-400/25",
+    skills: ["Kubernetes", "Docker", "Helm", "Argo CD", "Service mesh", "Container security"],
   },
   {
     title: "Security & Compliance",
-    icon: "🔒",
-    description: "Secure infrastructure with compliance and governance",
-    color: "bg-red-500/10 text-red-600 border-red-500/20",
-    skills: [
-      "HashiCorp Vault",
-      "AWS IAM & Policies",
-      "Security Scanning",
-      "Compliance (SOC2, GDPR)",
-      "Secrets Management",
-      "Network Security"
-    ]
+    icon: "🛡️",
+    description: "Practical controls that developers can live with and auditors can understand.",
+    color: "from-rose-400/20 to-red-500/10 text-rose-200 border-rose-400/25",
+    skills: ["Vault", "IAM policy", "SAST/DAST", "Trivy", "Semgrep", "Secrets hygiene"],
   },
   {
     title: "Observability",
-    icon: "📊",
-    description: "Comprehensive monitoring, logging, and alerting",
-    color: "bg-teal-500/10 text-teal-600 border-teal-500/20",
-    skills: [
-      "Prometheus & Grafana",
-      "ELK Stack (Elasticsearch, Logstash, Kibana)",
-      "AWS CloudWatch",
-      "Application Performance Monitoring",
-      "Alerting & Incident Response",
-      "Metrics & Dashboards"
-    ]
-  }
+    icon: "📡",
+    description: "Metrics, logs, traces, and alerts designed around decisions — not noise.",
+    color: "from-teal-400/20 to-cyan-500/10 text-teal-200 border-teal-400/25",
+    skills: ["Prometheus", "Grafana", "ELK", "CloudWatch", "SLOs", "Incident response"],
+  },
 ];
 
 const SkillsSection = () => {
@@ -103,89 +61,60 @@ const SkillsSection = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
+      transition: { staggerChildren: 0.1 },
+    },
   };
 
   const categoryVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.6, ease: "easeOut" as const } 
-    }
-  };
-
-  const skillVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
-      transition: { duration: 0.4, ease: "easeOut" as const } 
-    }
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.58, ease: "easeOut" as const },
+    },
   };
 
   return (
-    <Section id="skills" className="py-20 bg-background-secondary/30">
-      <div className="max-w-7xl mx-auto px-4">
+    <Section id="skills" className="relative overflow-hidden py-24">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_30%_20%,rgba(37,99,235,0.16),transparent_32%),radial-gradient(circle_at_80%_60%,rgba(16,185,129,0.12),transparent_30%)]" aria-hidden="true" />
+      <div className="mx-auto max-w-7xl px-4">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="space-y-16"
+          className="space-y-14"
         >
-          {/* Section Header */}
-          <motion.div variants={categoryVariants} className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Technical Skills
-            </h2>
-            <p className="text-lg text-foreground-muted max-w-3xl mx-auto">
-              Comprehensive DevOps expertise across cloud platforms, automation, and modern infrastructure practices.
+          <motion.div variants={categoryVariants} className="mx-auto max-w-4xl text-center">
+            <p className="font-mono text-sm uppercase tracking-[0.32em] text-primary-400">Stack / signal over noise</p>
+            <h2 className="mt-4 text-balance text-4xl font-black tracking-[-0.05em] text-foreground md:text-6xl">A full-stack DevOps control surface.</h2>
+            <p className="mt-5 text-lg leading-8 text-foreground-muted">
+              The site now frames the skillset like a platform map: cloud, delivery, security, and telemetry connected into one reliable operating system.
             </p>
           </motion.div>
 
-          {/* Skills Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {skillCategories.map((category) => (
-              <motion.div
-                key={category.title}
-                variants={categoryVariants}
-                className="group"
-              >
-                <div className="bg-background rounded-xl border border-border p-6 h-full transition-all duration-300 hover:border-primary-500/50 hover:shadow-lg">
-                  {/* Category Header */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-2xl">{category.icon}</span>
-                    <div>
-                      <h3 className="text-xl font-semibold text-foreground">
-                        {category.title}
-                      </h3>
-                      <p className="text-sm text-foreground-muted">
-                        {category.description}
-                      </p>
-                    </div>
+              <motion.article key={category.title} variants={categoryVariants} className="group h-full">
+                <div className={`relative flex h-full flex-col overflow-hidden rounded-[2rem] border bg-gradient-to-br ${category.color} p-6 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_90px_rgba(0,0,0,0.22)]`}>
+                  <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl transition group-hover:scale-125" aria-hidden="true" />
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-white/10 text-2xl shadow-soft">{category.icon}</span>
+                    <span className="rounded-full border border-white/10 bg-black/15 px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-white/70">module</span>
                   </div>
-
-                  {/* Skills List */}
-                  <div className="space-y-3">
-                    {category.skills.map((skill, skillIndex) => (
-                      <motion.div
-                        key={skill}
-                        variants={skillVariants}
-                        className={`inline-block px-3 py-1.5 rounded-full text-sm font-medium border transition-all duration-200 hover:scale-105 ${category.color}`}
-                        style={{ animationDelay: `${skillIndex * 0.05}s` }}
-                      >
+                  <h3 className="mt-6 text-2xl font-black tracking-[-0.03em] text-white">{category.title}</h3>
+                  <p className="mt-3 min-h-14 text-sm leading-6 text-white/75">{category.description}</p>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {category.skills.map((skill) => (
+                      <span key={skill} className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs font-semibold text-white/85">
                         {skill}
-                      </motion.div>
+                      </span>
                     ))}
                   </div>
                 </div>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
-
-          
         </motion.div>
       </div>
     </Section>

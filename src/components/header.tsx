@@ -10,7 +10,7 @@ const navigationItems = [
   { name: "Skills", href: "/#skills", id: "skills" },
   { name: "Experience", href: "/#experience", id: "experience" },
   { name: "Projects", href: "/#projects", id: "projects" },
-  { name: "Blog", href: "https://medium.com/@humzatmalak", id: "blog" },
+  { name: "Blog", href: "https://medium.com/@humzamalak", id: "blog" },
   { name: "Contact", href: "/#contact", id: "contact" },
 ];
 
@@ -99,8 +99,8 @@ export function Header() {
       <header
         className={`fixed top-0 z-50 w-full transition-all duration-300 ${
           isScrolled
-            ? "bg-background/95 backdrop-blur-md border-b border-border shadow-lg"
-            : "bg-transparent"
+            ? "border-b border-border bg-background/80 shadow-lg backdrop-blur-2xl"
+            : "bg-background/10 backdrop-blur-sm"
         }`}
       >
         <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-8">
@@ -110,7 +110,7 @@ export function Header() {
             className="flex items-center space-x-2 text-xl font-bold text-foreground transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             onClick={handleMobileMenuClose}
           >
-            <span>Humza Malak</span>
+            <span className="font-mono text-sm uppercase tracking-[0.22em]">HM / Ops</span>
           </Link>
           
           {/* Desktop Navigation */}
