@@ -95,7 +95,7 @@ const ContactSection = () => {
     }
 
     try {
-      const apiEndpoint = process.env.NODE_ENV === "production" ? "/.netlify/functions/contact" : "/api/contact";
+      const apiEndpoint = "/api/contact";
       const response = await fetch(apiEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

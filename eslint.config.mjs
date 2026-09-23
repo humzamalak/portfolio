@@ -8,11 +8,9 @@ const eslintConfig = [
     ignores: [
       "node_modules/**",
       ".next/**",
-      ".netlify/**",
-      "netlify/functions/**",
-      "scripts/**",
       "out/**",
       "build/**",
+      ".wrangler/**",
       "next-env.d.ts",
     ],
   },

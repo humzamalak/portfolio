@@ -1,26 +1,16 @@
 {
   "name": "humza-portfolio",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "npx serve out",
     "lint": "eslint",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:unit": "jest --testPathPatterns=email-utils.test.ts",
-    "test:component": "jest --testPathPatterns=ContactSection.test.tsx",
-    "test:api": "jest --testPathPatterns=contact-api.test.ts",
-    "test:integration": "jest --testPathPatterns=contact-integration.test.tsx",
-    "test:e2e": "cypress run",
-    "test:e2e:open": "cypress open",
-    "test:all": "npm run test:unit && npm run test:component && npm run test:api && npm run test:integration",
-    "test:medium": "jest --testPathPatterns=medium-integration.test.ts",
-    "netlify:dev": "npx netlify-cli@latest dev",
-    "netlify:login": "npx netlify-cli@latest login",
-    "netlify:deploy": "npx netlify-cli@latest deploy --build --prod"
+    "test:all": "jest",
+    "cloudflare:dev": "npm run build && npx wrangler pages dev out",
+    "cloudflare:deploy": "npm run build && npx wrangler pages deploy out"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
@@ -37,7 +27,6 @@
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.8",
     "react-icons": "^5.7.0",
-    "resend": "^6.18.1",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
@@ -45,7 +34,6 @@
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@types/chart.js": "^2.9.41",
     "@types/node": "^26.1.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
@@ -56,20 +44,7 @@
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "tailwindcss": "^4.3.3",
-    "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.9.3"
-  },
-  "overrides": {
-    "postcss": "^8.5.24",
-    "sharp": "^0.35.3",
-    "brace-expansion": "^5.0.8",
-    "minimatch": "^10.2.6",
-    "glob": "^13.0.6",
-    "babel-plugin-istanbul": "^8.0.0",
-    "test-exclude": "^8.0.0",
-    "@unrs/resolver-binding-wasm32-wasi": {
-      "@emnapi/core": "2.0.0-alpha.3",
-      "@emnapi/runtime": "2.0.0-alpha.3"
-    }
+    "typescript": "^5.9.3",
+    "wrangler": "^4.11.1"
   }
 }

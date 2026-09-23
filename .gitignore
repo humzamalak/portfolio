@@ -159,3 +159,4 @@ temp/
 yarn.lock
 pnpm-lock.yaml
 package-lock.json.bak
+.wrangler/
