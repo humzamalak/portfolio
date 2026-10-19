@@ -18,371 +18,232 @@ interface FormErrors {
   message?: string;
 }
 
+const inquiryTypes = [
+  { value: "general", label: "General Inquiry" },
+  { value: "consulting", label: "Consulting Work" },
+  { value: "freelance", label: "Freelance Project" },
+  { value: "job", label: "Job Opportunity" },
+  { value: "collaboration", label: "Collaboration" },
+];
+
+const responseSignals = [
+  "Cloud platform roles",
+  "DevOps consulting",
+  "Infrastructure reviews",
+  "CI/CD rescue missions",
+];
+
+const inputClass = (hasError?: boolean) =>
+  `w-full rounded-2xl border px-4 py-3 text-white placeholder-slate-500 shadow-inner transition focus:outline-none focus:ring-2 focus:ring-cyan-200 ${
+    hasError
+      ? "border-red-400/70 bg-red-950/30"
+      : "border-white/10 bg-black/24 focus:border-cyan-200/70"
+  }`;
+
 const ContactSection = () => {
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    message: '',
-    inquiryType: 'general'
+    name: "",
+    email: "",
+    message: "",
+    inquiryType: "general",
   });
-  
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [isAvailable] = useState(true); // You can make this dynamic based on your availability
-
-  const inquiryTypes = [
-    { value: 'general', label: 'General Inquiry' },
-    { value: 'consulting', label: 'Consulting Work' },
-    { value: 'freelance', label: 'Freelance Project' },
-    { value: 'job', label: 'Job Opportunity' },
-    { value: 'collaboration', label: 'Collaboration' }
-  ];
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [isAvailable] = useState(true);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
-
+    if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = "Please enter a valid email address";
     }
-
     if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
+      newErrors.message = "Message is required";
     } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters long';
+      newErrors.message = "Message must be at least 10 characters long";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear error when user starts typing
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!validateForm()) return;
 
     setIsSubmitting(true);
-    setSubmitStatus('idle');
+    setSubmitStatus("idle");
 
-    // Track form submission for analytics
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'submit', {
-        event_category: 'contact_form',
-        event_label: 'portfolio_contact',
-        value: 1
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "submit", {
+        event_category: "contact_form",
+        event_label: "portfolio_contact",
+        value: 1,
       });
     }
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const apiEndpoint = "/api/contact";
+      const response = await fetch(apiEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
       const result = await response.json();
 
       if (response.ok) {
-        setSubmitStatus('success');
-        setFormData({
-          name: '',
-          email: '',
-          message: '',
-          inquiryType: 'general'
-        });
+        setSubmitStatus("success");
+        setFormData({ name: "", email: "", message: "", inquiryType: "general" });
       } else {
-        setSubmitStatus('error');
-        // Log detailed error for debugging
-        console.error('Contact form error:', {
+        setSubmitStatus("error");
+        console.error("Contact form error:", {
           status: response.status,
           statusText: response.statusText,
           error: result.error,
-          details: result.details
+          details: result.details,
         });
       }
     } catch (error) {
-      console.error('Network error:', error);
-      setSubmitStatus('error');
+      console.error("Network error:", error);
+      setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.6, ease: "easeOut" as const } 
-    }
-  };
-
-  const badgeVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { 
-      opacity: 1, 
-      scale: 1,
-      transition: { 
-        duration: 0.5, 
-        ease: "easeOut" as const,
-        type: "spring" as const,
-        stiffness: 200
-      } 
-    }
-  };
-
-  const socialVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: (i: number) => ({
-      opacity: 1,
-      scale: 1,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.5,
-        ease: "easeOut" as const
-      }
-    })
-  };
-
   return (
-    <section 
-      id="contact" 
-      className="w-full bg-background text-foreground py-16 px-4"
-      aria-label="Contact Section"
-    >
-      <motion.div 
-        className="max-w-3xl mx-auto flex flex-col gap-12"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        {/* Heading */}
-        <motion.h2 
-          variants={itemVariants}
-          className="text-3xl md:text-4xl font-bold text-center mb-8 text-foreground"
+    <section id="contact" className="relative overflow-hidden bg-slate-950 py-28 text-white" aria-label="Contact Section">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_18%,rgba(34,211,238,0.18),transparent_30rem),radial-gradient(circle_at_86%_70%,rgba(16,185,129,0.12),transparent_28rem)]" aria-hidden="true" />
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.58, ease: "easeOut" }}
+          className="lg:sticky lg:top-28"
         >
-          Get In Touch
-        </motion.h2>
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-4 py-2 text-sm font-bold text-emerald-100">
+            {isAvailable ? <FiCheck className="h-4 w-4" /> : <FiX className="h-4 w-4" />}
+            {isAvailable ? "Available for Consulting & Freelance Work" : "Currently Not Taking New Projects"}
+          </div>
+          <h2 className="mt-5 text-balance text-5xl font-black leading-[0.92] tracking-[-0.07em] text-white md:text-7xl">Get In Touch</h2>
+          <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">
+            Bring the messy deployment, the half-trusted cluster, the fragile pipeline, or the role that needs someone calm at the controls.
+          </p>
 
-        {/* Availability Badge */}
-        <motion.div 
-          variants={badgeVariants}
-          className="flex justify-center"
-        >
-          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
-            isAvailable 
-              ? 'bg-secondary-600 text-secondary-foreground' 
-              : 'bg-red-600 text-red-foreground'
-          }`}>
-            {isAvailable ? (
-              <>
-                <FiCheck className="w-4 h-4" />
-                Available for Consulting & Freelance Work
-              </>
-            ) : (
-              <>
-                <FiX className="w-4 h-4" />
-                Currently Not Taking New Projects
-              </>
-            )}
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            {responseSignals.map((signal) => (
+              <div key={signal} className="rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-3 text-sm font-bold text-slate-200 backdrop-blur">
+                {signal}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 flex gap-4">
+            <motion.a
+              href="https://github.com/humzamalak"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub profile"
+              whileHover={{ y: -2 }}
+              className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-white/[0.06] text-slate-200 transition hover:border-cyan-200/60 hover:text-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-200"
+            >
+              <FaGithub className="h-5 w-5" />
+            </motion.a>
+            <motion.a
+              href="https://linkedin.com/in/humzamalak"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn profile"
+              whileHover={{ y: -2 }}
+              className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-white/[0.06] text-slate-200 transition hover:border-cyan-200/60 hover:text-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-200"
+            >
+              <FaLinkedin className="h-5 w-5" />
+            </motion.a>
           </div>
         </motion.div>
 
-        {/* Contact Form */}
-        <motion.div 
-          variants={itemVariants}
-          className="bg-background-secondary rounded-2xl p-6 shadow-md"
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.58, ease: "easeOut" }}
+          className="premium-console rounded-[2.4rem] p-4 md:p-6"
         >
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4" data-analytics="contact">
-            {/* Name Field */}
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-2 text-foreground">
-                Name *
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className={`w-full px-4 py-3 rounded-md bg-background-tertiary border ${
-                  errors.name ? 'border-red-500' : 'border-border'
-                } text-foreground placeholder-foreground-muted focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent`}
-                placeholder="Your name"
-              />
-              {errors.name && (
-                <p className="mt-1 text-sm text-red-400">{errors.name}</p>
-              )}
+          <div className="mb-5 flex items-center justify-between rounded-2xl border border-white/10 bg-black/24 px-4 py-3">
+            <span className="font-mono text-xs uppercase tracking-[0.28em] text-cyan-200">transmission form</span>
+            <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-bold text-emerald-100">encrypted intent</span>
+          </div>
+
+          <form onSubmit={handleSubmit} className="grid gap-4" data-analytics="contact">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div>
+                <label htmlFor="name" className="mb-2 block text-sm font-bold text-slate-200">Name *</label>
+                <input id="name" name="name" value={formData.name} onChange={handleInputChange} className={inputClass(Boolean(errors.name))} placeholder="Your name" />
+                {errors.name && <p className="mt-2 text-sm text-red-300">{errors.name}</p>}
+              </div>
+              <div>
+                <label htmlFor="email" className="mb-2 block text-sm font-bold text-slate-200">Email *</label>
+                <input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} required className={inputClass(Boolean(errors.email))} placeholder="your.email@example.com" />
+                {errors.email && <p className="mt-2 text-sm text-red-300">{errors.email}</p>}
+              </div>
             </div>
 
-            {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2 text-foreground">
-                Email *
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                className={`w-full px-4 py-3 rounded-md bg-background-tertiary border ${
-                  errors.email ? 'border-red-500' : 'border-border'
-                } text-foreground placeholder-foreground-muted focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent`}
-                placeholder="your.email@example.com"
-              />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-400">{errors.email}</p>
-              )}
-            </div>
-
-            {/* Inquiry Type Field */}
-            <div>
-              <label htmlFor="inquiryType" className="block text-sm font-medium mb-2 text-foreground">
-                Inquiry Type
-              </label>
-              <select
-                id="inquiryType"
-                name="inquiryType"
-                value={formData.inquiryType}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-md bg-background-tertiary border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              >
-                {inquiryTypes.map(type => (
-                  <option key={type.value} value={type.value}>
+              <label htmlFor="inquiryType" className="mb-2 block text-sm font-bold text-slate-200">Inquiry Type</label>
+              <select id="inquiryType" name="inquiryType" value={formData.inquiryType} onChange={handleInputChange} className={inputClass()}>
+                {inquiryTypes.map((type) => (
+                  <option key={type.value} value={type.value} className="bg-slate-950 text-white">
                     {type.label}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Message Field */}
             <div>
-              <label htmlFor="message" className="block text-sm font-medium mb-2 text-foreground">
-                Message *
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                required
-                rows={5}
-                className={`w-full px-4 py-3 rounded-md bg-background-tertiary border ${
-                  errors.message ? 'border-red-500' : 'border-border'
-                } text-foreground placeholder-foreground-muted focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-vertical`}
-                placeholder="Tell me about your project or inquiry..."
-              />
-              {errors.message && (
-                <p className="mt-1 text-sm text-red-400">{errors.message}</p>
-              )}
+              <label htmlFor="message" className="mb-2 block text-sm font-bold text-slate-200">Message *</label>
+              <textarea id="message" name="message" value={formData.message} onChange={handleInputChange} required rows={6} className={`${inputClass(Boolean(errors.message))} resize-y`} placeholder="Tell me about your project or inquiry..." />
+              {errors.message && <p className="mt-2 text-sm text-red-300">{errors.message}</p>}
             </div>
 
-            {/* Submit Button */}
-            <motion.button
+            <button
               type="submit"
               disabled={isSubmitting}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className={`px-6 py-3 rounded-md font-medium transition-colors ${
-                isSubmitting 
-                  ? 'bg-foreground-muted cursor-not-allowed' 
-                  : 'bg-primary-600 hover:bg-primary-700'
-              } text-primary-foreground`}
+              className={`rounded-2xl px-6 py-4 font-black transition focus:outline-none focus:ring-2 focus:ring-cyan-200 focus:ring-offset-2 focus:ring-offset-slate-950 ${
+                isSubmitting
+                  ? "cursor-not-allowed bg-slate-600 text-slate-300"
+                  : "bg-white text-slate-950 shadow-[0_22px_90px_rgba(255,255,255,0.16)] hover:-translate-y-1 hover:bg-cyan-100"
+              }`}
             >
-              {isSubmitting ? 'Sending...' : 'Send Message'}
-            </motion.button>
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
 
-            {/* Status Messages */}
-            {submitStatus === 'success' && (
-                          <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-3 rounded-md bg-secondary-600 text-secondary-foreground text-sm"
-              role="status"
-              aria-live="polite"
-            >
+            {submitStatus === "success" && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm font-bold text-emerald-100" role="status" aria-live="polite">
                 ✅ Your message has been sent! I&apos;ll get back to you soon.
               </motion.div>
             )}
 
-            {submitStatus === 'error' && (
-                          <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-3 rounded-md bg-red-600 text-red-foreground text-sm"
-              role="status"
-              aria-live="polite"
-            >
+            {submitStatus === "error" && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-red-300/20 bg-red-400/10 p-4 text-sm font-bold text-red-100" role="status" aria-live="polite">
                 ❌ Something went wrong. Please try again or reach out via email.
               </motion.div>
             )}
           </form>
         </motion.div>
-
-        {/* Social Links */}
-        <motion.div 
-          variants={itemVariants}
-          className="flex justify-center gap-6"
-        >
-          <motion.a
-            href="https://github.com/humzamalak"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub profile"
-            custom={0}
-            variants={socialVariants}
-            whileHover={{ scale: 1.1, y: -2 }}
-            className="w-8 h-8 text-foreground-muted hover:text-primary-500 transition-colors"
-          >
-            <FaGithub className="w-full h-full" />
-          </motion.a>
-          
-          <motion.a
-            href="https://linkedin.com/in/humzamalak"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn profile"
-            custom={1}
-            variants={socialVariants}
-            whileHover={{ scale: 1.1, y: -2 }}
-            className="w-8 h-8 text-foreground-muted hover:text-primary-500 transition-colors"
-          >
-            <FaLinkedin className="w-full h-full" />
-          </motion.a>
-        </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 };
