@@ -78,15 +78,6 @@ Object.defineProperty(window, 'gtag', {
 // Mock fetch globally
 global.fetch = jest.fn()
 
-// Mock Resend for API tests
-jest.mock('resend', () => ({
-  Resend: jest.fn().mockImplementation(() => ({
-    emails: {
-      send: jest.fn(),
-    },
-  })),
-}))
-
 // Mock Next.js Request/Response for API tests
 global.Request = class Request {
   constructor(input, init) {
