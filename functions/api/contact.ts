@@ -7,16 +7,16 @@ interface Env {
 
 type PagesContext = { request: Request; env: Env };
 
+// Same-origin only: the form posts from this site, so no CORS headers are sent.
 const json = (data: Record<string, unknown>, status = 200) =>
-  new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } });
-
-export const onRequestOptions = () => new Response(null, { status: 204, headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Content-Type", "Access-Control-Allow-Methods": "POST, OPTIONS" } });
+  new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json" } });
 
 export const onRequestPost = async ({ request, env }: PagesContext) => {
   try {
     const body = await request.json() as { name?: string; email?: string; message?: string };
     if (!body.name?.trim() || !body.email?.trim() || !body.message?.trim()) return json({ error: "Name, email, and message are required." }, 400);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) return json({ error: "Please enter a valid email address." }, 400);
+    if (body.name.length > 200 || body.email.length > 320 || body.message.length > 5000) return json({ error: "The message is too long." }, 400);
     if (!env.RESEND_API_KEY) return json({ error: "Email service is not configured." }, 503);
 
     const response = await fetch("https://api.resend.com/emails", {
