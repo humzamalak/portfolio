@@ -1,8 +1,9 @@
 import ProjectsSection from "@/app/(sections)/projects/ProjectsSection";
 
 export const metadata = {
-  title: "Projects | Humza Malak",
-  description: "A collection of projects showcasing work across frontend, backend, and cloud.",
+  alternates: { canonical: "/projects/" },
+  title: "Projects",
+  description: "DevOps and platform projects by Humza Malak: CI/CD pipelines, automation tooling, Kubernetes and cloud infrastructure.",
 };
 
 export default function ProjectsPage() {

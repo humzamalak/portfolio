@@ -1,0 +1,5 @@
+# Cloudflare Pages Redirects Configuration
+# Redirects for URL routing
+
+# Redirect /home to homepage
+/home / 301

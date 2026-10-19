@@ -13,139 +13,92 @@ interface MediumFeedProps {
 export default async function MediumFeed({ username, limit = 3, showProfile = true }: MediumFeedProps) {
   const [posts, profile] = await Promise.all([
     fetchMediumPosts(username, limit),
-    showProfile ? fetchMediumProfile(username) : null
+    showProfile ? fetchMediumProfile(username) : null,
   ]);
 
   const profileUrl = getMediumProfileUrl(username);
 
   return (
-    <Section id="blog" className="py-20 bg-background-secondary/30">
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-            Latest on Medium
-            {profile?.displayName && (
-              <span className="block text-lg font-normal text-foreground-muted mt-2">
-                by {profile.displayName}
-              </span>
-            )}
-          </h2>
-          <p className="text-foreground-muted">Thoughts on DevOps, cloud, automation, and reliability</p>
+    <Section id="blog" className="relative overflow-hidden bg-slate-950 py-28 text-white">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_26%_20%,rgba(168,85,247,0.12),transparent_28rem),radial-gradient(circle_at_76%_76%,rgba(34,211,238,0.10),transparent_28rem)]" aria-hidden="true" />
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+          <div>
+            <p className="font-mono text-sm uppercase tracking-[0.34em] text-fuchsia-200">thinking layer</p>
+            <h2 className="mt-4 text-balance text-5xl font-black leading-[0.92] tracking-[-0.07em] text-white md:text-7xl">
+              Latest on Medium
+              {profile?.displayName && <span className="block text-xl font-bold tracking-normal text-slate-400">by {profile.displayName}</span>}
+            </h2>
+          </div>
+          <p className="max-w-2xl text-lg leading-8 text-slate-300 lg:justify-self-end">
+            Notes on DevOps, cloud automation, reliability, and the practical judgment behind operating production systems.
+          </p>
         </div>
 
         {posts.length > 0 ? (
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
             {posts.map((post) => {
               const readingTime = post.description ? extractReadingTime(post.description) : null;
               const formattedDate = formatMediumDate(post.pubDate);
-              
+
               return (
-                <article key={post.link} className="bg-background rounded-xl border border-border p-6 transition-all duration-200 hover:border-primary-500/50 hover:shadow-lg group">
-                  {/* Categories */}
+                <article key={post.link} className="premium-card group flex min-h-[22rem] flex-col rounded-[2rem] p-6 transition hover:-translate-y-1">
                   {post.categories && post.categories.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-3">
+                    <div className="mb-4 flex flex-wrap gap-2">
                       {post.categories.slice(0, 2).map((category) => (
-                        <span 
-                          key={category} 
-                          className="text-xs px-2 py-1 bg-primary-100 text-primary-700 rounded-full"
-                        >
+                        <span key={category} className="rounded-full border border-fuchsia-300/20 bg-fuchsia-300/10 px-3 py-1 text-xs font-bold text-fuchsia-100">
                           {category}
                         </span>
                       ))}
                     </div>
                   )}
-                  
-                  <h3 className="text-lg font-semibold mb-3 text-foreground group-hover:text-primary transition-colors">
-                    <Link 
-                      href={post.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
-                    >
+                  <h3 className="text-2xl font-black tracking-[-0.04em] text-white transition group-hover:text-cyan-100">
+                    <Link href={post.link} target="_blank" rel="noopener noreferrer" className="rounded focus:outline-none focus:ring-2 focus:ring-cyan-200">
                       {post.title}
                     </Link>
                   </h3>
-                  
-                  {/* Description preview */}
                   {post.description && (
-                    <p className="text-sm text-foreground-muted mb-4 line-clamp-3">
-                      {post.description.replace(/<[^>]*>/g, '').substring(0, 120)}...
+                    <p className="mt-4 line-clamp-3 text-sm leading-6 text-slate-400">
+                      {post.description.replace(/<[^>]*>/g, '').substring(0, 140)}...
                     </p>
                   )}
-                  
-                  <div className="flex items-center justify-between text-xs text-foreground-muted mb-4">
+                  <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-5 text-xs font-bold text-slate-500">
                     <span>{formattedDate}</span>
-                    {readingTime && (
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {readingTime}
-                      </span>
-                    )}
+                    {readingTime && <span>{readingTime}</span>}
                   </div>
-                  
-                  <Link 
-                    href={post.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="inline-flex items-center text-sm text-primary hover:text-primary/80 font-medium group-hover:underline"
-                  >
-                    Read on Medium 
-                    <svg className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
+                  <Link href={post.link} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex font-bold text-cyan-100 transition hover:text-cyan-200">
+                    Read on Medium →
                   </Link>
                 </article>
               );
             })}
           </div>
         ) : (
-          <div className="text-center py-12">
-            <div className="mb-6">
-              <svg className="w-16 h-16 mx-auto text-foreground-muted mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="premium-card mt-12 grid gap-6 rounded-[2.4rem] p-7 md:grid-cols-[0.75fr_1.25fr] md:items-center md:p-10">
+            <div className="grid aspect-square max-w-[12rem] place-items-center rounded-[2rem] border border-white/10 bg-white/[0.045]">
+              <svg className="h-14 w-14 text-cyan-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
               </svg>
-              <h3 className="text-lg font-semibold text-foreground mb-2">No posts available</h3>
-              <p className="text-foreground-muted mb-6">
-                Couldn&apos;t load latest posts right now. This might be due to:
-              </p>
-              <ul className="text-sm text-foreground-muted space-y-1 mb-6">
-                <li>• RSS feed temporarily unavailable</li>
-                <li>• Network connectivity issues</li>
-                <li>• Medium API rate limiting</li>
-              </ul>
             </div>
-            <Link 
-              href={profileUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center px-6 py-3 bg-primary-600 text-primary-foreground rounded-lg hover:bg-primary-500 transition-colors font-medium"
-            >
-              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75S24 8.83 24 12z"/>
-              </svg>
-              Visit Medium Profile
-            </Link>
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.28em] text-slate-500">feed telemetry</p>
+              <h3 className="mt-3 text-3xl font-black tracking-[-0.045em] text-white">No posts available</h3>
+              <p className="mt-3 max-w-2xl text-slate-300">
+                Couldn&apos;t load latest posts right now. This usually means the RSS endpoint is unavailable, network access is blocked, or Medium is rate limiting the feed.
+              </p>
+              <Link href={profileUrl} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex rounded-2xl border border-white/10 bg-white px-5 py-3 font-black text-slate-950 transition hover:-translate-y-1 hover:bg-cyan-100">
+                Visit Medium Profile
+              </Link>
+            </div>
           </div>
         )}
 
-        <div className="text-center mt-10">
-          <Link 
-            href={profileUrl} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="inline-flex items-center text-sm text-foreground hover:text-primary font-medium transition-colors"
-          >
-            View all posts on Medium
-            <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
+        <div className="mt-10 text-center">
+          <Link href={profileUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-sm font-bold text-slate-200 transition hover:border-cyan-200/60 hover:text-cyan-100">
+            View all posts on Medium ↗
           </Link>
         </div>
       </div>
     </Section>
   );
 }
-
-

@@ -1,0 +1,8 @@
+name = "humza-portfolio"
+compatibility_date = "2026-03-01"
+pages_build_output_dir = "./out"
+
+[vars]
+CONTACT_TO_EMAIL = "humzatmalak@gmail.com"
+CONTACT_FROM_EMAIL = "onboarding@resend.dev"
+CONTACT_FROM_NAME = "Humza Portfolio"

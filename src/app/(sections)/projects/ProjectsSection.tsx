@@ -1,166 +1,148 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { Section } from "@/components/ui/section";
 
 interface DevOpsProject {
   title: string;
   description: string;
   techStack: string[];
-  technologies: string[];
   category: string;
+  impact: string;
+  signal: string;
   link?: string;
 }
 
 const devopsProjects: DevOpsProject[] = [
   {
     title: "Fully Automated Pipeline",
-    description: "End-to-end CI/CD pipeline with automated build, test, security scanning, and deploy stages.",
+    description: "End-to-end CI/CD path with build, test, security scanning, release automation, and deployment handoffs.",
     techStack: ["GitHub Actions", "Docker", "Terraform", "OWASP ZAP", "Snyk"],
-    technologies: ["GitHub Actions", "Docker", "Terraform", "OWASP ZAP", "Snyk"],
     category: "CI/CD & Automation",
+    impact: "Release confidence without ritual",
+    signal: "pipeline",
     link: "https://github.com/humzamalak/FullyAutomatedPipeline",
   },
   {
     title: "DevOps Bash Script Toolkit",
-    description: "Reusable Bash utilities for DevOps workflows: provisioning, deployments, logging, backups, and audits.",
+    description: "Reusable Bash utilities for provisioning, deployments, logging, backups, and operational audits.",
     techStack: ["Bash", "Linux", "AWS CLI", "kubectl", "Helm"],
-    technologies: ["Bash", "Linux", "AWS CLI", "kubectl", "Helm"],
     category: "Automation Tooling",
+    impact: "Sharp tools for repeatable ops",
+    signal: "toolkit",
     link: "https://github.com/humzamalak/DevOps-Bash-Script-Toolkit",
   },
   {
-    title: "DevSecOps CI/CD Pipeline with Security Scanning",
-    description: "Security-first pipeline integrating SAST/DAST, dependency and container scanning, and signed releases.",
+    title: "DevSecOps CI/CD Pipeline",
+    description: "Security-first delivery integrating SAST/DAST, dependency and container scanning, and signed-release thinking.",
     techStack: ["GitHub Actions", "Trivy", "Semgrep", "OWASP ZAP", "Cosign"],
-    technologies: ["GitHub Actions", "Trivy", "Semgrep", "OWASP ZAP", "Cosign"],
     category: "Security & Compliance",
+    impact: "Guardrails before production",
+    signal: "secure",
     link: "https://github.com/humzamalak/DevSecOps-CI-CD-Pipeline-with-Security-Scanning",
   },
   {
     title: "Production-Ready EKS Cluster with GitOps",
-    description: "Hardened EKS baseline with Terraform, GitOps (Argo CD), and observability stack for production workloads.",
+    description: "Hardened EKS baseline with Terraform, Argo CD, Helm and observability patterns for production workloads.",
     techStack: ["AWS EKS", "Terraform", "Argo CD", "Helm", "Prometheus", "Grafana"],
-    technologies: ["AWS EKS", "Terraform", "Argo CD", "Helm", "Prometheus", "Grafana"],
     category: "Cloud Infrastructure",
+    impact: "A platform teams can build on",
+    signal: "cluster",
     link: "https://github.com/humzamalak/Production-Ready-EKS-Cluster-with-GitOps",
   },
 ];
 
-export default function ProjectsSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
-  };
+const proofPoints = [
+  "Outcome before implementation",
+  "Safety gates before speed",
+  "Readable failure modes",
+];
 
+export default function ProjectsSection() {
   const projectVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.6, ease: "easeOut" as const } 
-    }
-  };
-
-  const getCategoryColor = (category: string) => {
-    const colors: Record<string, string> = {
-      "Containerisation & Orchestration": "bg-blue-500/10 text-blue-600 border-blue-500/20",
-      "Cloud Infrastructure": "bg-green-500/10 text-green-600 border-green-500/20",
-      "CI/CD & Automation": "bg-purple-500/10 text-purple-600 border-purple-500/20",
-      "Security & Compliance": "bg-red-500/10 text-red-600 border-red-500/20",
-      "Observability": "bg-teal-500/10 text-teal-600 border-teal-500/20",
-      "Infrastructure as Code": "bg-orange-500/10 text-orange-600 border-orange-500/20"
-    };
-    return colors[category] || "bg-gray-500/10 text-gray-600 border-gray-500/20";
+    visible: { opacity: 1, y: 0, transition: { duration: 0.58, ease: "easeOut" as const } },
   };
 
   return (
-    <Section id="projects" className="py-20">
-      <div className="max-w-7xl mx-auto px-4">
+    <Section id="projects" className="relative overflow-hidden bg-slate-950 py-28 text-white">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.16),transparent_28rem),radial-gradient(circle_at_82%_45%,rgba(244,114,182,0.12),transparent_28rem)]" aria-hidden="true" />
+      <div className="mx-auto max-w-7xl px-4">
         <motion.div
-          variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="space-y-16"
+          transition={{ staggerChildren: 0.1 }}
+          className="space-y-14"
         >
-          {/* Section Header */}
-          <motion.div variants={projectVariants} className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              DevOps Projects
-            </h2>
-            <p className="text-lg text-foreground-muted max-w-3xl mx-auto">
-              Real-world DevOps solutions showcasing infrastructure automation, scalability, and reliability improvements.
-            </p>
+          <motion.div variants={projectVariants} className="grid gap-8 lg:grid-cols-[1fr_0.82fr] lg:items-end">
+            <div>
+              <p className="font-mono text-sm uppercase tracking-[0.34em] text-violet-200">Selected builds</p>
+              <h2 className="mt-4 text-balance text-5xl font-black leading-[0.92] tracking-[-0.07em] text-white md:text-7xl">
+                Mission logs with receipts.
+              </h2>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+                Each project is framed like an operational case file: the pain it removes, the systems it touches,
+                and the platform habit it proves.
+              </p>
+            </div>
+            <div className="premium-card rounded-[2rem] p-5">
+              <p className="font-mono text-xs uppercase tracking-[0.28em] text-slate-500">review lens</p>
+              <div className="mt-4 space-y-3">
+                {proofPoints.map((point) => (
+                  <div key={point} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.045] px-3 py-3">
+                    <span className="h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_16px_rgba(103,232,249,0.9)]" />
+                    <span className="text-sm font-bold text-slate-200">{point}</span>
+                  </div>
+                ))}
+              </div>
+              <a
+                href="https://github.com/humzamalak"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white px-5 py-3 font-black text-slate-950 transition hover:-translate-y-1 hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-200 focus:ring-offset-2 focus:ring-offset-slate-950"
+              >
+                Explore all repos →
+              </a>
+            </div>
           </motion.div>
 
-          {/* Projects Grid */}
-          <div className="grid lg:grid-cols-2 gap-8">
-            {devopsProjects.map((project) => (
-              <motion.article
-                key={project.title}
-                variants={projectVariants}
-                className="group"
-              >
-                <div className="bg-background rounded-xl border border-border p-6 h-full transition-all duration-300 hover:border-primary-500/50 hover:shadow-lg">
-                  {/* Project Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getCategoryColor(project.category)}`}>
-                          {project.category}
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary-600 transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-foreground-muted text-sm leading-relaxed">
-                        {project.description}
+          <div className="grid gap-5 lg:grid-cols-2">
+            {devopsProjects.map((project, index) => (
+              <motion.article key={project.title} variants={projectVariants} className="group relative min-h-[25rem]">
+                <div className="premium-card relative flex h-full flex-col overflow-hidden rounded-[2rem] p-6 transition duration-300 hover:-translate-y-1 md:p-8">
+                  <div className="absolute right-0 top-0 h-52 w-52 translate-x-16 -translate-y-16 rounded-full bg-cyan-300/10 blur-3xl transition group-hover:scale-125" aria-hidden="true" />
+                  <div className="relative flex items-start justify-between gap-5">
+                    <div>
+                      <p className="font-mono text-xs uppercase tracking-[0.3em] text-slate-500">
+                        Log {String(index + 1).padStart(2, "0")} · {project.signal}
                       </p>
+                      <h3 className="mt-4 max-w-xl text-3xl font-black tracking-[-0.045em] text-white md:text-4xl">{project.title}</h3>
                     </div>
+                    <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-bold text-cyan-100">{project.category}</span>
                   </div>
 
-                  {/* Tech Stack Summary */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-foreground mb-3">Tech Stack</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {project.techStack.map((tech) => (
-                        <span key={tech} className="px-2 py-1 bg-background-secondary text-xs text-foreground-muted rounded-md border border-border">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
+                  <p className="relative mt-6 text-xl font-black text-emerald-100">{project.impact}</p>
+                  <p className="relative mt-3 text-base leading-7 text-slate-300">{project.description}</p>
+
+                  <div className="relative mt-7 flex flex-wrap gap-2">
+                    {project.techStack.map((tech) => (
+                      <span key={tech} className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 text-xs font-bold text-slate-200">
+                        {tech}
+                      </span>
+                    ))}
                   </div>
 
-                  {/* Technologies */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-foreground mb-3">Technologies</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech) => (
-                        <span key={tech} className="px-2 py-1 bg-background-secondary text-xs text-foreground-muted rounded-md border border-border">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Action Button */}
                   {project.link && (
-                    <div className="pt-4 border-t border-border">
+                    <div className="relative mt-auto border-t border-white/10 pt-6">
                       <a
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center text-primary-600 hover:text-primary-500 text-sm font-medium transition-colors"
+                        className="group/link inline-flex items-center rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 font-bold text-cyan-100 transition hover:border-cyan-200/60 hover:bg-cyan-200/10 focus:outline-none focus:ring-2 focus:ring-cyan-200"
                       >
-                        View Implementation
-                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
+                        Open implementation
+                        <span className="ml-2 transition-transform group-hover/link:translate-x-1">→</span>
                       </a>
                     </div>
                   )}
@@ -168,12 +150,8 @@ export default function ProjectsSection() {
               </motion.article>
             ))}
           </div>
-
-          
         </motion.div>
       </div>
     </Section>
   );
 }
-
-
