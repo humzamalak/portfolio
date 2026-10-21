@@ -1,4 +1,5 @@
 import ProjectsSection from "@/app/(sections)/projects/ProjectsSection";
+import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 
 export const metadata = {
   alternates: { canonical: "/projects/" },
@@ -8,12 +9,14 @@ export const metadata = {
 
 export default function ProjectsPage() {
   return (
-    <main className="min-h-screen bg-background pt-24 pb-20">
-      <div className="container mx-auto max-w-6xl px-4">
-        <ProjectsSection />
-      </div>
-    </main>
+    <>
+      <SiteHeader />
+      <main id="top" className="min-h-screen bg-background pt-24 pb-20">
+        <div className="container mx-auto max-w-6xl px-4">
+          <ProjectsSection />
+        </div>
+      </main>
+      <SiteFooter />
+    </>
   );
 }
-
-
