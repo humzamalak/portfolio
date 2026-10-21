@@ -27,6 +27,8 @@ npm run cloudflare:dev
 npm run cloudflare:deploy
 ```
 
+This publishes to production on humzamalak.dev. The Cloudflare project's production branch is `main`, so the script passes `--branch main`; without it, deploys from `master` become previews.
+
 The contact endpoint is `/api/contact`, implemented in `functions/api/contact.ts`. It calls Resend from the edge, so the API key never reaches the browser.
 
 ## Architecture

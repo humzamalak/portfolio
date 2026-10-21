@@ -10,7 +10,7 @@
     "test": "jest",
     "test:all": "jest",
     "cloudflare:dev": "npm run build && npx wrangler pages dev out",
-    "cloudflare:deploy": "npm run build && npx wrangler pages deploy out"
+    "cloudflare:deploy": "npm run build && npx wrangler pages deploy out --branch main"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
