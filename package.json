@@ -45,6 +45,6 @@
     "jest-environment-jsdom": "^30.4.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
-    "wrangler": "^4.11.1"
+    "wrangler": "^4.156.0"
   }
 }
