@@ -1,13 +1,35 @@
 # Humza Portfolio
 
-A static-first Next.js portfolio deployed on **Cloudflare Pages**, with one Cloudflare Pages Function for the contact form.
+The source for [humzamalak.dev](https://humzamalak.dev), the personal site of Humza Malak. It is a static-first Next.js site deployed on **Cloudflare Pages**, with one Cloudflare Pages Function for the contact form.
+
+## What the site contains
+
+| Path | Content | Source |
+| --- | --- | --- |
+| `/` | Home page: introduction, experience, projects, newest notes and contact form | `src/app/home-page.tsx`, `src/data/` |
+| `/work/<slug>/` | Case studies | `src/data/case-studies.ts` |
+| `/projects/` | Project list | `src/data/projects.ts` |
+| `/notes/` and `/notes/<slug>/` | Field notes written in Markdown | `content/notes/` |
+| `/rss.xml` | RSS feed of published notes | `src/app/rss.xml/` |
+| `/privacy/`, `/terms/` | Privacy policy and terms | `src/app/privacy/`, `src/app/terms/` |
+| `/api/contact` | Contact form endpoint (Pages Function) | `functions/api/contact.ts` |
+
+To change the experience, projects or case studies, edit the files in `src/data/`. To add a note, see "Writing field notes" below.
+
+## Requirements
+
+- Node.js 22 (the version CI uses) and npm.
+- For deployment: a Cloudflare account and a Resend API key.
 
 ## Local development
 
 ```bash
 npm install
 npm run dev
+# http://localhost:3000
 ```
+
+The contact form needs the Pages runtime, so it does not work under `npm run dev`. Use `npm run cloudflare:dev` to test it.
 
 To exercise the production build and Pages runtime locally:
 
@@ -39,12 +61,31 @@ The contact endpoint is `/api/contact`, implemented in `functions/api/contact.ts
 - **Pages Function**: handles `POST /api/contact` and validates the form before calling Resend.
 - **Wrangler**: local Pages runtime and deployment CLI, configured by `wrangler.toml`.
 
-## Verification
+## Checks
+
+CI (`.github/workflows/ci.yml`) runs these on each push and pull request. Run them before you open a PR:
 
 ```bash
-npm run lint
-npm run build
+npm run lint          # ESLint
+npm run typecheck     # TypeScript, app and Cypress
+npm test              # Jest unit tests (src/__tests__)
+npm run test:scripts  # tests for the chat-draft script
+npm run build         # static export to out/
+npm run check:links   # internal links in out/
 ```
+
+A weekly workflow (`.github/workflows/links.yml`) checks the external links.
+
+## Environment variables
+
+| Name | Where it is set | Used for |
+| --- | --- | --- |
+| `RESEND_API_KEY` | Cloudflare Pages secret | Contact form email |
+| `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, `CONTACT_FROM_NAME` | `wrangler.toml` | Contact form recipient and sender |
+| `NEXT_PUBLIC_CF_ANALYTICS_TOKEN` | `.env.production` | Cloudflare Web Analytics (after cookie consent) |
+| `NEXT_PUBLIC_GA_ID` | optional, build environment | Google Analytics (after cookie consent) |
+
+`env.example` also lists other variables. The code does not use them.
 
 ## Writing field notes
 
