@@ -21,7 +21,7 @@ npm run cloudflare:dev
 1. Create a Pages project connected to this repository, or use Wrangler.
 2. Set the build command to `npm run build` and the output directory to `out`.
 3. Add `RESEND_API_KEY` as a secret in the Pages project settings. The recipient and sender defaults live in `wrangler.toml` and can be overridden there.
-4. For analytics, create a site in Cloudflare Web Analytics with the manual JavaScript snippet (not automatic setup) and copy its token. Put `NEXT_PUBLIC_CF_ANALYTICS_TOKEN=<token>` in `.env.local` before a Wrangler deploy, or in the Pages build variables for Git builds. The value is read at build time. The beacon loads only after a visitor accepts the cookie banner.
+4. For analytics, create a site in Cloudflare Web Analytics with the manual JavaScript snippet (not automatic setup) and copy its token. The token for humzamalak.dev is in `.env.production` (it is public, not a secret). `next build` reads it, so a redeploy is needed after a change. The beacon loads only after a visitor accepts the cookie banner.
 5. Deploy with:
 
 ```bash

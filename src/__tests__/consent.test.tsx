@@ -35,6 +35,7 @@ describe('Cloudflare Web Analytics consent', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Accept' }))
     const script = beacon()
     expect(script?.src).toBe('https://static.cloudflareinsights.com/beacon.min.js')
+    expect(script?.type).toBe('module')
     expect(JSON.parse(script?.dataset.cfBeacon ?? '{}')).toEqual({ token: TOKEN })
     expect(localStorage.getItem('analytics-consent')).toBe('accepted')
   })
