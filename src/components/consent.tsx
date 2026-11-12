@@ -21,7 +21,8 @@ function loadAnalytics() {
   if (CF_TOKEN && !document.getElementById("cf-beacon")) {
     const script = document.createElement("script");
     script.id = "cf-beacon";
-    script.defer = true;
+    // Match Cloudflare's current snippet, which loads the beacon as a module.
+    script.type = "module";
     script.src = "https://static.cloudflareinsights.com/beacon.min.js";
     script.dataset.cfBeacon = JSON.stringify({ token: CF_TOKEN });
     document.body.appendChild(script);
