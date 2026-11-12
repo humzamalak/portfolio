@@ -27,6 +27,9 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: '0'
 
+      - name: Audit dependencies (fail on moderate or worse)
+        run: npm audit --audit-level=moderate
+
       - name: Run lint
         run: npm run lint
 
