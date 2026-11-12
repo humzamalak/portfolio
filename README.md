@@ -44,3 +44,11 @@ The contact endpoint is `/api/contact`, implemented in `functions/api/contact.ts
 npm run lint
 npm run build
 ```
+
+## Writing field notes
+
+1. Copy `content/notes/_template.md` to `content/notes/<slug>.md`. The file name is the URL: `/notes/<slug>/`.
+2. Write the note in Markdown. Keep `status: draft` until it is ready.
+3. Set `status: published`, open a PR, and merge. The note appears on `/notes/`, on the home page (newest 3), in `/rss.xml` and in the sitemap.
+4. On Medium, use **Import a story** with the note's URL, then publish. Medium links back to this site (canonical link).
+5. Add `medium: <Medium URL>` to the frontmatter and merge. The note then shows "Also on Medium".

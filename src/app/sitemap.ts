@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { getPublishedNotes } from '@/lib/notes'
 
 export const dynamic = 'force-static'
 
@@ -8,6 +9,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${baseUrl}/`, changeFrequency: 'monthly', priority: 1 },
     { url: `${baseUrl}/projects/`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${baseUrl}/notes/`, changeFrequency: 'weekly', priority: 0.8 },
+    ...getPublishedNotes().map(note => ({ url: `${baseUrl}/notes/${note.slug}/`, lastModified: note.date, changeFrequency: 'yearly' as const, priority: 0.7 })),
     { url: `${baseUrl}/privacy/`, changeFrequency: 'yearly', priority: 0.2 },
     { url: `${baseUrl}/terms/`, changeFrequency: 'yearly', priority: 0.2 },
   ]
