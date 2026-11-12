@@ -25,7 +25,7 @@ export default function PrivacyPage() {
       <ul>
         <li>Cloudflare (hosting, security, and analytics if you accept).</li>
         <li>Resend (sends the contact form to my inbox).</li>
-        <li>Google (my email inbox, the web fonts on this site, and Google Analytics if you accept).</li>
+        <li>Google (my email inbox, and Google Analytics if you accept).</li>
       </ul>
       <p>Some of these providers process data outside the UK under standard data protection safeguards.</p>
       <h2>How long I keep it</h2>
