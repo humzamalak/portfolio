@@ -38,3 +38,6 @@ jobs:
 
       - name: Check Cloudflare files are in the build
         run: test -f out/_headers && test -f out/_redirects && test -f out/robots.txt && test -f out/404.html
+
+      - name: Check internal links
+        run: npm run check:links
