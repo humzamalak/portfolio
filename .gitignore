@@ -159,3 +159,7 @@ yarn.lock
 pnpm-lock.yaml
 package-lock.json.bak
 .wrangler/
+
+# Chat exports and note sources (private, never commit)
+drafts/
+chat-exports/
