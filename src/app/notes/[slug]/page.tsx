@@ -9,7 +9,7 @@ type Params = { params: Promise<{ slug: string }> };
 export const dynamicParams = false;
 
 // A static export needs at least one path. Until a note is published, a placeholder path
-// is built; getNote() returns nothing for it, so it renders the 404 page and is not linked anywhere.
+// is built; scripts/postbuild.mjs deletes it from out/ so it is never deployed.
 export function generateStaticParams() {
   const notes = getPublishedNotes();
   return notes.length ? notes.map(note => ({ slug: note.slug })) : [{ slug: "none-yet" }];
