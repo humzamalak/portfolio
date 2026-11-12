@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GITHUB_URL, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { projects } from "@/data/projects";
+import { caseStudyForRepo } from "@/data/case-studies";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/projects/" },
@@ -18,11 +19,11 @@ export default function ProjectsPage() {
             <div className="section-label">Work <span>All projects</span></div>
             <h1>Every build,<br /><em>in the open.</em></h1>
           </div>
-          <p>Each project links to its source on GitHub. The README in each repo explains how to run it.</p>
+          <p>Projects with a case study open it here. The others link to their source on GitHub.</p>
         </div>
         <div className="project-list">
           {projects.map((project, index) => (
-            <a className="project-row" key={project.title} href={project.link} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} on GitHub`}>
+            <a className="project-row" key={project.title} {...(caseStudyForRepo(project.link) ? { href: `/work/${caseStudyForRepo(project.link)!.slug}/`, "aria-label": `${project.title}: case study` } : { href: project.link, target: "_blank", rel: "noopener noreferrer", "aria-label": `${project.title} on GitHub` })}>
               <span className="project-index">{String(index + 1).padStart(2, "0")}</span>
               <div>
                 <p className="project-type">{project.category}</p>

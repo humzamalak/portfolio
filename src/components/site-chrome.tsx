@@ -7,10 +7,11 @@ export const GITHUB_URL = "https://github.com/humzamalak";
 // On the home page the nav links scroll in place; elsewhere they go back to the home page.
 export function SiteHeader({ home = false }: { home?: boolean }) {
   const base = home ? "" : "/";
+  const hasNotes = process.env.NEXT_PUBLIC_HAS_NOTES === "1";
   return (
     <header className="site-header">
       {home ? <a className="wordmark" href="#top"><span>HM</span><small>platform engineering</small></a> : <Link className="wordmark" href="/"><span>HM</span><small>platform engineering</small></Link>}
-      <nav><a href={`${base}#work`}>Work</a><a href={home ? "#notes" : "/notes/"}>Field notes</a><a href={`${base}#experience`}>Experience</a><a className="nav-cta" href={`${base}#contact`}>Start a conversation <span>↗</span></a></nav>
+      <nav><a href={`${base}#work`}>Work</a>{hasNotes && <a href={home ? "#notes" : "/notes/"}>Field notes</a>}<a href={`${base}#experience`}>Experience</a><a className="nav-cta" href={`${base}#contact`}>Start a conversation <span>↗</span></a></nav>
     </header>
   );
 }
