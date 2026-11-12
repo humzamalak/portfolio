@@ -52,3 +52,20 @@ h1,h2,h3 { font-family:'Space Grotesk',sans-serif; letter-spacing:-.075em; line-
 .projects-page .section-heading h1 { font-size:clamp(52px,7vw,96px); margin:28px 0 0; }
 .project-row h2 { font-size:34px; letter-spacing:-.055em; margin:8px 0 15px; }
 @media (max-width:760px) { .projects-page { padding:56px 0 90px; } .project-row h2 { font-size:25px; } }
+
+/* Case-study pages: /work/<slug>/ */
+.case-summary { font-size:19px; line-height:1.6; color:var(--ink); }
+.case-flow { list-style:none; padding:0; margin:20px 0 10px; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:28px; counter-reset:stage; }
+.case-flow > li { position:relative; border:1px solid var(--line); background:#e8e5dc; padding:14px 14px 12px; font-size:13px; }
+.case-flow > li strong { display:block; font:11px 'DM Mono',monospace; text-transform:uppercase; letter-spacing:.08em; color:var(--orange); margin-bottom:6px; }
+.case-flow > li ul { margin:0; padding-left:16px; }
+.case-flow > li:not(:last-child)::after { content:"→"; position:absolute; right:-21px; top:50%; transform:translateY(-50%); color:var(--orange); font-weight:700; }
+.case-stack { margin-top:36px; }
+.simple-body:has(.case-flow) { max-width:880px; }
+@media (max-width:760px) {
+  .case-flow { grid-template-columns:1fr; gap:22px; }
+  .case-flow > li:not(:last-child)::after { content:"↓"; right:auto; left:50%; top:auto; bottom:-21px; transform:translateX(-50%); }
+}
+.simple-body:has(.case-flow) > ul { list-style:disc; padding-left:20px; }
+.simple-body:has(.case-flow) > ul li { margin:6px 0; }
+.simple-body:has(.case-flow) > ul li::marker { color:var(--orange); }
