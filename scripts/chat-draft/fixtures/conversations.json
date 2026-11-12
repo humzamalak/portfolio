@@ -1,0 +1,9 @@
+[
+  {"uuid":"1","name":"Cloudflare Pages migration","created_at":"2026-09-20T10:00:00Z","chat_messages":[
+    {"sender":"human","text":"How do I move my Next.js site to Cloudflare Pages? My key is sk-ant-api03-abcdefghijklmnop","content":[{"type":"text","text":"How do I move my Next.js site to Cloudflare Pages? My key is sk-ant-api03-abcdefghijklmnop"}]},
+    {"sender":"assistant","text":"Use output: export and wrangler pages deploy.","content":[{"type":"text","text":"Use output: export and wrangler pages deploy."}]}
+  ]},
+  {"uuid":"2","name":"Dinner ideas","created_at":"2026-09-21T10:00:00Z","chat_messages":[
+    {"sender":"human","text":"What should I cook?","content":[]}
+  ]}
+]

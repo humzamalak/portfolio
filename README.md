@@ -52,3 +52,20 @@ npm run build
 3. Set `status: published`, open a PR, and merge. The note appears on `/notes/`, on the home page (newest 3), in `/rss.xml` and in the sitemap.
 4. On Medium, use **Import a story** with the note's URL, then publish. Medium links back to this site (canonical link).
 5. Add `medium: <Medium URL>` to the frontmatter and merge. The note then shows "Also on Medium".
+
+## Turning chats into a note
+
+The `draft` script collects the chats about one topic into `drafts/<slug>/source.md`. Git ignores `drafts/`, so raw chats never leave your machine.
+
+1. Export the chats:
+   - **Claude (claude.ai or Desktop):** Settings > Privacy > Export data. Unzip the file from the email. The link expires after 24 hours.
+   - **Claude Code:** no export needed. Use the folder `~/.claude/projects/<project>`.
+   - **Hermes Agent:** `hermes sessions export --format md --redact --session-id <id>`. The files go to `~/.hermes/session-exports`.
+2. Collect the source:
+   ```bash
+   npm run draft -- --topic "Shipping a static-first portfolio" --keywords "cloudflare,wrangler,static export" \
+     ~/Downloads/claude-export ~/.claude/projects/-Users-humzamalak-Documents-Code-humza-portfolio ~/.hermes/session-exports
+   ```
+   Options: `--since YYYY-MM-DD`, `--slug <slug>`. The script replaces keys, tokens, emails and IP addresses with `[REDACTED:...]`.
+3. In Claude Code, in this repo, run `/draft-note <slug>`. It writes `content/notes/<slug>.md` with `status: draft` and lists the claims you must check.
+4. Edit the draft. Remove anything private. Then follow "Writing field notes" above to publish.
