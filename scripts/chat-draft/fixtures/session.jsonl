@@ -1,0 +1,6 @@
+{"type":"summary","summary":"Fix wrangler deploy branch"}
+{"type":"user","timestamp":"2026-10-01T09:00:00Z","message":{"role":"user","content":"wrangler deploys to preview, not production. Email me at someone@example.com"}}
+{"type":"user","isMeta":true,"timestamp":"2026-10-01T09:00:01Z","message":{"role":"user","content":"Caveat: meta"}}
+{"type":"assistant","timestamp":"2026-10-01T09:00:02Z","message":{"role":"assistant","content":[{"type":"text","text":"Add --branch main to the deploy command."},{"type":"tool_use","name":"Edit","input":{}}]}}
+{"type":"user","timestamp":"2026-10-01T09:00:03Z","message":{"role":"user","content":[{"type":"tool_result","content":"ok"}]}}
+not json

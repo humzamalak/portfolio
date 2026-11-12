@@ -9,7 +9,9 @@
     "lint": "eslint",
     "test": "jest",
     "test:all": "jest",
+    "test:scripts": "node --test scripts/chat-draft/lib.test.mjs",
     "check:links": "node scripts/check-links.mjs out",
+    "draft": "node scripts/chat-draft/cli.mjs",
     "cloudflare:dev": "npm run build && npx wrangler pages dev out",
     "cloudflare:deploy": "npm run build && npx wrangler pages deploy out --branch main"
   },
