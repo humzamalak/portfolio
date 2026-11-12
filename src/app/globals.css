@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
 @import "tailwindcss";
 
 :root { --ink:#171717; --paper:#f2f0ea; --muted:#77756e; --line:#d8d4ca; --orange:#ec6238; --blue:#dceaf0; }
@@ -47,3 +46,9 @@ h1,h2,h3 { font-family:'Space Grotesk',sans-serif; letter-spacing:-.075em; line-
 .note-body pre { overflow-x:auto; padding:16px; background:#e8e5dc; border:1px solid var(--line); font-size:13px; }
 .note-body code { font-family:'DM Mono',monospace; font-size:.9em; }
 .note-body blockquote { margin:24px 0; padding-left:18px; border-left:3px solid var(--orange); color:var(--muted); }
+
+/* /projects/ page: same layout as the home "Selected work" list, with h1/h2 for page structure */
+.projects-page { padding:90px 0 120px; }
+.projects-page .section-heading h1 { font-size:clamp(52px,7vw,96px); margin:28px 0 0; }
+.project-row h2 { font-size:34px; letter-spacing:-.055em; margin:8px 0 15px; }
+@media (max-width:760px) { .projects-page { padding:56px 0 90px; } .project-row h2 { font-size:25px; } }
