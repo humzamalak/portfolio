@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { experience } from "@/data/experience";
 import { featuredProjects } from "@/data/projects";
+import { caseStudyForRepo } from "@/data/case-studies";
 import Link from "next/link";
 import { CONTACT_EMAIL, SiteFooter, SiteHeader } from "@/components/site-chrome";
 
@@ -20,7 +21,7 @@ function validate(values: Record<Field, string>): FieldErrors {
   return errors;
 }
 
-const projects = featuredProjects.map(project => ({ name: project.title, type: project.category, description: project.description, tags: project.techStack.slice(0, 4), link: project.link }));
+const projects = featuredProjects.map(project => ({ name: project.title, type: project.category, description: project.description, tags: project.techStack.slice(0, 4), link: project.link, caseStudy: caseStudyForRepo(project.link)?.slug }));
 
 const capabilities = [
   ["01", "Cloud foundations", "AWS, Cloudflare, networking, IAM, and cost-aware runtime design."],
@@ -99,7 +100,7 @@ export default function HomePage({ notes }: { notes: HomeNote[] }) {
 
       <section className="capability-band"><div className="section-wrap capability-grid">{capabilities.map(([number, title, description]) => <article key={number}><span className="cap-number">{number}</span><h3>{title}</h3><p>{description}</p></article>)}</div></section>
 
-      <section id="work" className="work section-wrap"><div className="section-heading"><div><div className="section-label">02 <span>Selected work</span></div><h2>Built to hold<br /><em>under pressure.</em></h2></div><p>Small set of systems, migrations, and platform patterns built around the same question: how do we make the next change safer?</p></div><div className="project-list">{projects.map((project, index) => <a className="project-row" key={project.name} href={project.link} target="_blank" rel="noopener noreferrer" aria-label={`${project.name} on GitHub`}><span className="project-index">0{index + 1}</span><div><p className="project-type">{project.type}</p><h3>{project.name}</h3><p className="project-description">{project.description}</p><div className="tag-list">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div></div><span className="project-arrow" aria-hidden="true">↗</span></a>)}</div><a className="text-link work-all" href="/projects/">All projects and repos <span>↗</span></a></section>
+      <section id="work" className="work section-wrap"><div className="section-heading"><div><div className="section-label">02 <span>Selected work</span></div><h2>Built to hold<br /><em>under pressure.</em></h2></div><p>Small set of systems, migrations, and platform patterns built around the same question: how do we make the next change safer?</p></div><div className="project-list">{projects.map((project, index) => <a className="project-row" key={project.name} {...(project.caseStudy ? { href: `/work/${project.caseStudy}/`, "aria-label": `${project.name}: case study` } : { href: project.link, target: "_blank", rel: "noopener noreferrer", "aria-label": `${project.name} on GitHub` })}><span className="project-index">0{index + 1}</span><div><p className="project-type">{project.type}</p><h3>{project.name}</h3><p className="project-description">{project.description}</p><div className="tag-list">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div></div><span className="project-arrow" aria-hidden="true">↗</span></a>)}</div><a className="text-link work-all" href="/projects/">All projects and repos <span>↗</span></a></section>
 
       <section id="notes" className="notes-section"><div className="section-wrap"><div className="notes-heading"><div><div className="section-label">03 <span>Field notes</span></div><h2>Ideas worth<br /><em>shipping.</em></h2></div><p>Short, useful notes from the work: platform decisions, build logs, and the patterns I keep coming back to.</p></div><div className="notes-grid">{notes.slice(0, 3).map((note, index) => <article className="note-card" key={note.slug}><div className="note-card-top"><span>0{index + 1}</span><span>{note.readTime}</span></div><p className="note-category">{note.category}</p><h3>{note.title}</h3><p className="note-description">{note.excerpt}</p><Link className="note-link" href={`/notes/${note.slug}/`}>Read the note <span>↗</span></Link></article>)}{plannedNotes.filter(planned => !notes.some(note => note.title === planned.title)).slice(0, Math.max(0, 3 - notes.length)).map((planned, index) => <article className="note-card" key={planned.title}><div className="note-card-top"><span>0{Math.min(notes.length, 3) + index + 1}</span><span>Coming soon</span></div><p className="note-category">{planned.category}</p><h3>{planned.title}</h3><p className="note-description">{planned.description}</p><p className="note-link">In draft · not published yet</p></article>)}</div>{notes.length > 0 && <Link className="text-link work-all" href="/notes/">All notes <span>↗</span></Link>}</div></section>
 
