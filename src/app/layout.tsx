@@ -1,4 +1,15 @@
 import type { Metadata, Viewport } from "next";
+// Fonts are bundled with the site (no request to Google Fonts).
+import "@fontsource/manrope/400.css";
+import "@fontsource/manrope/500.css";
+import "@fontsource/manrope/600.css";
+import "@fontsource/manrope/700.css";
+import "@fontsource/manrope/800.css";
+import "@fontsource/space-grotesk/500.css";
+import "@fontsource/space-grotesk/600.css";
+import "@fontsource/space-grotesk/700.css";
+import "@fontsource/dm-mono/400.css";
+import "@fontsource/dm-mono/500.css";
 import "./globals.css";
 import { ConsentBanner } from "@/components/consent";
 
