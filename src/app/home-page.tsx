@@ -5,8 +5,11 @@ import { useRouter } from "next/navigation";
 import { experience } from "@/data/experience";
 import { featuredProjects } from "@/data/projects";
 import { caseStudyForRepo } from "@/data/case-studies";
-import Link from "next/link";
 import { CONTACT_EMAIL, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { Terminal } from "@/components/terminal";
+import { ProjectCarousel } from "@/components/project-carousel";
+import { Notebook, type NotebookEntry } from "@/components/notebook";
+import { mediumArticles, MEDIUM_URL } from "@/data/catalog";
 
 type Field = "name" | "email" | "message";
 type FieldErrors = Partial<Record<Field, string>>;
@@ -30,10 +33,16 @@ const capabilities = [
 ];
 
 
-export type HomeNote = { slug: string; title: string; excerpt: string; category: string; readTime: string };
+export type HomeNote = { slug: string; title: string; excerpt: string; category: string; readTime: string; date: string };
 
 export default function HomePage({ notes }: { notes: HomeNote[] }) {
   const router = useRouter();
+  // Notebook pages: the notes on this site and the Medium articles, newest first.
+  const notebook: NotebookEntry[] = [
+    ...notes.map(note => ({ id: `note-${note.slug}`, title: note.title, excerpt: note.excerpt, date: note.date, label: note.category, readTime: note.readTime, href: `/notes/${note.slug}/`, source: "site" as const })),
+    ...mediumArticles.map(article => ({ id: article.url, title: article.title, excerpt: article.excerpt, date: article.date, label: article.tags[0] ?? "Article", readTime: article.readTime, href: article.url, source: "medium" as const })),
+  ].sort((a, b) => b.date.localeCompare(a.date));
+  const hasNotebook = notebook.length > 0;
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [serverError, setServerError] = useState("");
@@ -86,32 +95,23 @@ export default function HomePage({ notes }: { notes: HomeNote[] }) {
           <p className="hero-lede">I&apos;m Humza, a DevOps Engineer who turns cloud complexity into calm, observable systems that teams can ship with confidence.</p>
           <div className="hero-actions"><a className="button button-dark" href="#work">See selected work <span>↓</span></a><a className="text-link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL} <span>↗</span></a></div>
         </div>
-        <aside className="hero-panel" aria-label="Summary">
-          <div className="hero-panel-bar"><i /><i /><i /><span>humza@platform: ~</span></div>
-          <p className="hero-panel-cmd"><span>$</span> humza status</p>
-          <dl>
-            <div><dt>role</dt><dd>DevOps / platform engineer</dd></div>
-            <div><dt>since</dt><dd>2020 · 4 roles, UK remote</dd></div>
-            <div><dt>cloud</dt><dd>AWS (EKS, EC2, S3, IAM) · Cloudflare</dd></div>
-            <div><dt>delivery</dt><dd>Terraform · Argo CD · GitHub Actions</dd></div>
-            <div><dt>observe</dt><dd>Prometheus · Grafana · ELK</dd></div>
-          </dl>
-          <p className="hero-panel-cmd"><span>$</span> <b className="cursor" aria-hidden="true" /></p>
-        </aside>
-        <div className="hero-meta"><span>01 / {notes.length > 0 ? "05" : "04"}</span><span>Based in the UK · working globally</span><span className="scroll-cue">Scroll to explore ↓</span></div>
+        <Terminal notes={notes} articles={mediumArticles} />
+        <div className="hero-meta"><span>01 / {hasNotebook ? "05" : "04"}</span><span>Based in the UK · working globally</span><span className="scroll-cue">Scroll to explore ↓</span></div>
       </section>
 
       <section id="approach" className="statement section-wrap"><div className="section-label">01 <span>Operating principle</span></div><div><h2>Good infrastructure should feel <strong>unremarkable.</strong></h2><p>When releases are predictable and the signal is clear, teams get their attention back. I design the layers in between: foundations, delivery, runtime, and the feedback loop that keeps them healthy.</p></div></section>
 
       <section className="capability-band"><div className="section-wrap capability-grid">{capabilities.map(([number, title, description]) => <article key={number}><span className="cap-number">{number}</span><h3>{title}</h3><p>{description}</p></article>)}</div></section>
 
-      <section id="work" className="work section-wrap"><div className="section-heading"><div><div className="section-label">02 <span>Selected work</span></div><h2>Built to hold<br /><em>under pressure.</em></h2></div><p>Small set of systems, migrations, and platform patterns built around the same question: how do we make the next change safer?</p></div><div className="project-list">{projects.map((project, index) => <a className="project-row" key={project.name} {...(project.caseStudy ? { href: `/work/${project.caseStudy}/`, "aria-label": `${project.name}: case study` } : { href: project.link, target: "_blank", rel: "noopener noreferrer", "aria-label": `${project.name} on GitHub` })}><span className="project-index">0{index + 1}</span><div><p className="project-type">{project.type}</p><h3>{project.name}</h3><p className="project-description">{project.description}</p><div className="tag-list">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div></div><span className="project-arrow" aria-hidden="true">↗</span></a>)}</div><a className="text-link work-all" href="/projects/">All projects and repos <span>↗</span></a></section>
+      <section id="work" className="work section-wrap"><div className="section-heading"><div><div className="section-label">02 <span>Selected work</span></div><h2>Built to hold<br /><em>under pressure.</em></h2></div><p>Small set of systems, migrations, and platform patterns built around the same question: how do we make the next change safer?</p></div><div className="project-list">{projects.map((project, index) => <a className="project-row" key={project.name} {...(project.caseStudy ? { href: `/work/${project.caseStudy}/`, "aria-label": `${project.name}: case study` } : { href: project.link, target: "_blank", rel: "noopener noreferrer", "aria-label": `${project.name} on GitHub` })}><span className="project-index">0{index + 1}</span><div><p className="project-type">{project.type}</p><h3>{project.name}</h3><p className="project-description">{project.description}</p><div className="tag-list">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div></div><span className="project-arrow" aria-hidden="true">↗</span></a>)}</div><a className="text-link work-all" href="/projects/">All projects as a list <span>↗</span></a></section>
 
-      {notes.length > 0 && <section id="notes" className="notes-section"><div className="section-wrap"><div className="notes-heading"><div><div className="section-label">03 <span>Field notes</span></div><h2>Ideas worth<br /><em>shipping.</em></h2></div><p>Short, useful notes from the work: platform decisions, build logs, and the patterns I keep coming back to.</p></div><div className="notes-grid">{notes.slice(0, 3).map((note, index) => <article className="note-card" key={note.slug}><div className="note-card-top"><span>0{index + 1}</span><span>{note.readTime}</span></div><p className="note-category">{note.category}</p><h3>{note.title}</h3><p className="note-description">{note.excerpt}</p><Link className="note-link" href={`/notes/${note.slug}/`}>Read the note <span>↗</span></Link></article>)}</div><Link className="text-link work-all" href="/notes/">All notes <span>↗</span></Link></div></section>}
+      <ProjectCarousel />
 
-      <section id="experience" className="experience-section"><div className="section-wrap"><div className="section-label">{notes.length > 0 ? "04" : "03"} <span>Experience</span></div><div className="experience-intro"><h2>Proof in the<br /><em>numbers.</em></h2><p>Across cloud migrations, delivery platforms, and reliability work, I care about measurable movement — not just a longer tool list.</p></div><div className="metric-strip"><div><strong>60<span>%</span></strong><small>shorter deployment time</small><em>Enterprise Architecture Solutions · 2023–25</em></div><div><strong>99.9<span>%</span></strong><small>uptime on AWS workloads</small><em>PA Consulting · 2021–23</em></div><div><strong>40<span>%</span></strong><small>faster incident resolution</small><em>Enterprise Architecture Solutions · 2023–25</em></div></div><div className="timeline">{experience.slice(0, 3).map(role => <article key={role.id}><div className="timeline-date">{role.startDate.slice(0, 4)} — {role.endDate?.slice(0, 4) ?? "now"}</div><div><h3>{role.role}</h3><p className="company">{role.company} · {role.location}</p><p>{role.description}</p><div className="tag-list">{role.highlights.slice(0, 4).map(item => <span key={item}>{item}</span>)}</div></div></article>)}</div></div></section>
+      {hasNotebook && <Notebook entries={notebook} sectionNumber="03" mediumUrl={MEDIUM_URL || undefined} />}
 
-      <section id="contact" className="contact-section section-wrap"><div className="section-label">{notes.length > 0 ? "05" : "04"} <span>Let&apos;s talk</span></div><div className="contact-grid"><div><h2>Have a system<br />that needs <em>calm?</em></h2><p>Tell me where the friction is. I&apos;ll reply with a clear next step, not a sales funnel.</p><a className="text-link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL} <span>↗</span></a></div><form onSubmit={submitContact} noValidate><label>Name<input {...fieldProps("name")} autoComplete="name" required placeholder="Your name" />{fieldError("name")}</label><label>Email<input {...fieldProps("email")} type="email" autoComplete="email" required placeholder="you@company.com" />{fieldError("email")}</label><label>What are you working on?<textarea {...fieldProps("message")} required rows={4} maxLength={5000} placeholder="A migration, a platform, a stubborn incident..." />{fieldError("message")}</label><button className="button button-orange" disabled={status === "sending"} aria-busy={status === "sending"}>{status === "sending" ? "Sending..." : "Send message ↗"}</button><p className="form-message error" role="alert">{status === "error" && <>{serverError} Please try again, or email me at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</>}</p></form></div></section>
+      <section id="experience" className="experience-section"><div className="section-wrap"><div className="section-label">{hasNotebook ? "04" : "03"} <span>Experience</span></div><div className="experience-intro"><h2>Proof in the<br /><em>numbers.</em></h2><p>Across cloud migrations, delivery platforms, and reliability work, I care about measurable movement — not just a longer tool list.</p></div><div className="metric-strip"><div><strong>60<span>%</span></strong><small>shorter deployment time</small><em>Enterprise Architecture Solutions · 2023–25</em></div><div><strong>99.9<span>%</span></strong><small>uptime on AWS workloads</small><em>PA Consulting · 2021–23</em></div><div><strong>40<span>%</span></strong><small>faster incident resolution</small><em>Enterprise Architecture Solutions · 2023–25</em></div></div><div className="timeline">{experience.slice(0, 3).map(role => <article key={role.id}><div className="timeline-date">{role.startDate.slice(0, 4)} — {role.endDate?.slice(0, 4) ?? "now"}</div><div><h3>{role.role}</h3><p className="company">{role.company} · {role.location}</p><p>{role.description}</p><div className="tag-list">{role.highlights.slice(0, 4).map(item => <span key={item}>{item}</span>)}</div></div></article>)}</div></div></section>
+
+      <section id="contact" className="contact-section section-wrap"><div className="section-label">{hasNotebook ? "05" : "04"} <span>Let&apos;s talk</span></div><div className="contact-grid"><div><h2>Have a system<br />that needs <em>calm?</em></h2><p>Tell me where the friction is. I&apos;ll reply with a clear next step, not a sales funnel.</p><a className="text-link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL} <span>↗</span></a></div><form onSubmit={submitContact} noValidate><label>Name<input {...fieldProps("name")} autoComplete="name" required placeholder="Your name" />{fieldError("name")}</label><label>Email<input {...fieldProps("email")} type="email" autoComplete="email" required placeholder="you@company.com" />{fieldError("email")}</label><label>What are you working on?<textarea {...fieldProps("message")} required rows={4} maxLength={5000} placeholder="A migration, a platform, a stubborn incident..." />{fieldError("message")}</label><button className="button button-orange" disabled={status === "sending"} aria-busy={status === "sending"}>{status === "sending" ? "Sending..." : "Send message ↗"}</button><p className="form-message error" role="alert">{status === "error" && <>{serverError} Please try again, or email me at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</>}</p></form></div></section>
 
       <SiteFooter home />
       <a className="mobile-cta" href="#contact" hidden={contactInView}>Start a conversation <span>↗</span></a>

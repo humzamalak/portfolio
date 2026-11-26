@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/sync-content.mjs",
     "build": "next build",
     "postbuild": "node scripts/postbuild.mjs",
     "start": "npx serve out",
@@ -11,7 +12,7 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p cypress",
     "test": "jest",
     "test:all": "jest",
-    "test:scripts": "node --test scripts/chat-draft/lib.test.mjs",
+    "test:scripts": "node --test scripts/chat-draft/lib.test.mjs scripts/sync-content.test.mjs",
     "check:links": "node scripts/check-links.mjs out",
     "draft": "node scripts/chat-draft/cli.mjs",
     "cloudflare:dev": "npm run build && npx wrangler pages dev out",
