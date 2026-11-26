@@ -33,6 +33,13 @@ describe("terminal", () => {
     expect(run("open 9", context).lines[0].tone).toBe("error");
   });
 
+  it("sends rack commands to the 3D scene", () => {
+    expect(run("kill eks", context).action).toEqual({ type: "rack", op: "kill", id: "server:production-ready-eks-cluster-with-gitops" });
+    expect(run("cat airsnap", context).action).toEqual({ type: "rack", op: "select", id: "tape:airsnap" });
+    expect(run("lights", context).action).toEqual({ type: "rack", op: "lights" });
+    expect(run("kill airsnap", context).lines[0].text).toContain("Usage"); // airsnap is a tape, not a server
+  });
+
   it("completes command and project names", () => {
     expect(complete("sea")).toBe("search ");
     expect(complete("cat airs")).toBe("cat airsnap");

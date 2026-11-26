@@ -2,7 +2,7 @@
 
 import { FormEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { buildIndex, complete, run, STATUS, type Line, type SearchItem, type TerminalNote } from "@/lib/terminal";
+import { buildIndex, complete, run, STATUS, type Action, type Line, type SearchItem, type TerminalNote } from "@/lib/terminal";
 import type { MediumArticle } from "@/data/catalog";
 
 type Entry = { id: number; command?: string; lines: Line[] };
@@ -14,11 +14,12 @@ const INTRO: Entry[] = [
     { text: "This terminal works. Type a command and press Enter, or click one:", tone: "muted" },
     { text: "help", run: "help" },
     { text: "search kubernetes", run: "search kubernetes" },
-    { text: "ls projects", run: "ls projects" },
+    { text: "kill eks", run: "kill eks" },
   ] },
 ];
 
-export function Terminal({ notes, articles }: { notes: TerminalNote[]; articles: MediumArticle[] }) {
+// onRack receives the commands that change the 3D rack ("cat", "kill", "lights").
+export function Terminal({ notes, articles, onRack }: { notes: TerminalNote[]; articles: MediumArticle[]; onRack?: (action: Extract<Action, { type: "rack" }>) => void }) {
   const router = useRouter();
   const index = useMemo(() => buildIndex(notes, articles), [notes, articles]);
   const [entries, setEntries] = useState<Entry[]>(INTRO);
@@ -51,6 +52,7 @@ export function Terminal({ notes, articles }: { notes: TerminalNote[]; articles:
     const entry = { id: nextId.current++, command: text, lines: result.lines };
     setEntries(current => (result.action?.type === "clear" ? [] : [...current, entry]));
     if (result.action?.type === "open") go(result.action.href, result.action.external);
+    if (result.action?.type === "rack") onRack?.(result.action);
   }
 
   function onSubmit(event: FormEvent) {

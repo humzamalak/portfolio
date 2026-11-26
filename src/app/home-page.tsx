@@ -6,7 +6,7 @@ import { experience } from "@/data/experience";
 import { featuredProjects } from "@/data/projects";
 import { caseStudyForRepo } from "@/data/case-studies";
 import { CONTACT_EMAIL, SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { Terminal } from "@/components/terminal";
+import { RackStage } from "@/components/rack-stage";
 import { ProjectCarousel } from "@/components/project-carousel";
 import { Notebook, type NotebookEntry } from "@/components/notebook";
 import { mediumArticles, MEDIUM_URL } from "@/data/catalog";
@@ -88,16 +88,7 @@ export default function HomePage({ notes }: { notes: HomeNote[] }) {
     <main>
       <SiteHeader home />
 
-      <section id="top" className="hero-shell section-wrap">
-        <div className="hero-copy">
-          <p className="eyebrow"><i /> Available for platform &amp; DevOps work</p>
-          <h1>Make the<br /><em>invisible</em> work.</h1>
-          <p className="hero-lede">I&apos;m Humza, a DevOps Engineer who turns cloud complexity into calm, observable systems that teams can ship with confidence.</p>
-          <div className="hero-actions"><a className="button button-dark" href="#work">See selected work <span>↓</span></a><a className="text-link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL} <span>↗</span></a></div>
-        </div>
-        <Terminal notes={notes} articles={mediumArticles} />
-        <div className="hero-meta"><span>01 / {hasNotebook ? "05" : "04"}</span><span>Based in the UK · working globally</span><span className="scroll-cue">Scroll to explore ↓</span></div>
-      </section>
+      <RackStage notes={notes} articles={mediumArticles} />
 
       <section id="approach" className="statement section-wrap"><div className="section-label">01 <span>Operating principle</span></div><div><h2>Good infrastructure should feel <strong>unremarkable.</strong></h2><p>When releases are predictable and the signal is clear, teams get their attention back. I design the layers in between: foundations, delivery, runtime, and the feedback loop that keeps them healthy.</p></div></section>
 

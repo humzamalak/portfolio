@@ -11,7 +11,9 @@ export type Line = {
   external?: boolean;
   run?: string; // the line is a button that runs this command
 };
-export type Action = { type: "clear" } | { type: "open"; href: string; external: boolean };
+export type Action = { type: "clear" } | { type: "open"; href: string; external: boolean }
+  // Commands for the 3D rack. "id" is a rack part: "server:<project id>" or "tape:<project id>".
+  | { type: "rack"; op: "select" | "kill"; id: string } | { type: "rack"; op: "lights" };
 export type Result = { lines: Line[]; action?: Action; results?: SearchItem[] };
 
 export type SearchItem = { kind: "project" | "case study" | "role" | "note" | "article"; title: string; text: string; href: string; external: boolean };
@@ -21,8 +23,10 @@ export const COMMANDS: [name: string, usage: string, explanation: string][] = [
   ["help", "help", "Show this list."],
   ["search", "search <words>", "Search projects, case studies, roles and notes."],
   ["ls", "ls [section]", "List projects, work, notes or experience."],
-  ["cat", "cat <project>", "Show one project. Example: cat airsnap"],
+  ["cat", "cat <project>", "Show one project and pull it out of the rack. Example: cat airsnap"],
   ["open", "open <number|project>", "Open a result by number, or a project by name."],
+  ["kill", "kill <project>", "Switch a server in the 3D rack off. Watch it recover. Example: kill eks"],
+  ["lights", "lights", "Switch the room lights of the 3D rack."],
   ["status", "status", "Show the summary that was here when the page loaded."],
   ["whoami", "whoami", "Who made this."],
   ["contact", "contact", "Go to the contact form."],
@@ -66,6 +70,7 @@ export function search(index: SearchItem[], query: string): SearchItem[] {
 }
 
 const resultLines = (items: SearchItem[]): Line[] => items.map((item, index) => ({ text: `${index + 1}  [${item.kind}] ${item.title}`, href: item.href, external: item.external }));
+export const rackId = (entry: { id: string; caseStudy?: string }) => `${entry.caseStudy ? "server" : "tape"}:${entry.id}`;
 const findProject = (name: string) => catalog.find(entry => entry.id === name) ?? catalog.find(entry => entry.id.includes(name) || entry.title.toLowerCase().includes(name));
 
 // Complete a command name, or a project name after "cat" or "open". Returns the input unchanged when there is no single match.
@@ -129,7 +134,7 @@ export function run(input: string, context: { index: SearchItem[]; lastResults: 
         { text: `${entry.language} · last push ${entry.pushed} · ${entry.tags.join(", ")}`, tone: "muted" },
         ...(entry.caseStudy ? [{ text: "Read the case study ↗", href: `/work/${entry.caseStudy}/` }] : []),
         { text: "Open the repository on GitHub ↗", href: entry.repoUrl, external: true },
-      ] };
+      ], action: { type: "rack", op: "select", id: rackId(entry) } };
     }
     case "open":
     case "cd": {
@@ -140,6 +145,13 @@ export function run(input: string, context: { index: SearchItem[]; lastResults: 
       if (!target) return { lines: [{ text: `open: ${argument}: not found. Run "search" or "ls projects" first.`, tone: "error" }] };
       return { lines: [{ text: `Opening ${target.title} ...`, tone: "muted" }], action: { type: "open", href: target.href, external: target.external } };
     }
+    case "kill": {
+      const entry = argument ? catalog.filter(item => item.caseStudy).find(item => item.id.includes(argument) || item.title.toLowerCase().includes(argument)) : undefined;
+      if (!entry) return { lines: [{ text: `Usage: kill <project>. Servers: ${catalog.filter(item => item.caseStudy).map(item => item.caseStudy!.split("-")[0]).join(", ")}.`, tone: "error" }] };
+      return { lines: [{ text: `SIGKILL sent to ${entry.title}.`, tone: "error" }, { text: "[argocd] drift found, self-heal started. Watch the rack.", tone: "muted" }], action: { type: "rack", op: "kill", id: rackId(entry) } };
+    }
+    case "lights":
+      return { lines: [{ text: "Room lights switched.", tone: "muted" }], action: { type: "rack", op: "lights" } };
     case "status":
       return { lines: STATUS };
     case "whoami":
