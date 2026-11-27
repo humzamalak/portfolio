@@ -14,6 +14,7 @@ export type RoomCallbacks = { onNear: (spot: SpotId | null) => void; onArrive: (
 export type RoomController = {
   setMove: (x: number, z: number) => void; // touch stick, each value -1 to 1
   goTo: (spot: SpotId) => void; // the robot drives there by itself
+  place: (spot: SpotId) => void; // put the robot at a spot, with no drive
   focus: (spot: SpotId | null) => void; // move the camera close to a spot, or back to the room view
   setRackDown: (down: boolean) => void;
   setLights: (on: boolean) => void; // room lights: on = day, off = night (the start state)
@@ -105,6 +106,7 @@ export async function createRoom(canvas: HTMLCanvasElement, callbacks: RoomCallb
   const keys = new Set<string>();
   const stick = { x: 0, z: 0 };
   let target: SpotId | null = null;
+  let driveTime = 0; // seconds since the automatic drive started
   let focused: SpotId | null = null;
   let rackDown = false;
   const typing = (event: KeyboardEvent) => ["INPUT", "TEXTAREA", "SELECT"].includes((event.target as HTMLElement)?.tagName);
@@ -155,7 +157,9 @@ export async function createRoom(canvas: HTMLCanvasElement, callbacks: RoomCallb
     if (target && Math.hypot(mx, mz) < 0.08) {
       const [tx, tz] = SPOTS[target].stand;
       const dx = tx - robot.position.x, dz = tz - robot.position.z, distance = Math.hypot(dx, dz);
-      if (distance < 0.12) { arrived = target; target = null; } else { mx = dx / distance; mz = dz / distance; }
+      driveTime += dt;
+      // The drive always arrives: if the way is blocked or too long, the robot is put at the spot.
+      if (distance < 0.12 || driveTime > 4) { robot.position.x = tx; robot.position.z = tz; arrived = target; target = null; } else { mx = dx / distance; mz = dz / distance; }
     }
     const length = Math.hypot(mx, mz);
     if (length > 0.08) {
@@ -164,7 +168,7 @@ export async function createRoom(canvas: HTMLCanvasElement, callbacks: RoomCallb
       const movedX = free(nx, robot.position.z); if (movedX) robot.position.x = nx;
       const movedZ = free(robot.position.x, nz); if (movedZ) robot.position.z = nz;
       // The automatic drive goes round an object: slide along the free axis.
-      if (target && !movedX && !movedZ) target = null;
+      if (target && !movedX && !movedZ) driveTime = 99;
       let delta = Math.atan2(mx, mz) - robot.rotation.y;
       while (delta > Math.PI) delta -= Math.PI * 2; while (delta < -Math.PI) delta += Math.PI * 2;
       robot.rotation.y += delta * Math.min(1, dt * 10);
@@ -210,7 +214,8 @@ export async function createRoom(canvas: HTMLCanvasElement, callbacks: RoomCallb
 
   return {
     setMove: (x, z) => { stick.x = x; stick.z = z; },
-    goTo: spot => { target = spot; },
+    goTo: spot => { target = spot; driveTime = 0; },
+    place: spot => { target = null; robot.position.x = SPOTS[spot].stand[0]; robot.position.z = SPOTS[spot].stand[1]; robot.rotation.y = SPOTS[spot].face; },
     focus: spot => { focused = spot; if (spot) target = null; },
     setRackDown: down => { rackDown = down; },
     setLights: on => { ambient.intensity = on ? 1.3 : 0.4; key.intensity = on ? 1.8 : 1.05; (scene.background as THREE.Color).set(on ? 0x2a3140 : 0x070a12); },

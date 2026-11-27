@@ -20,6 +20,16 @@ const SPOT_TEXT: Record<SpotId, { chip: string; prompt: string }> = {
 const TABS = ["About", "Work", "Experience", "Terminal", "Contact"] as const;
 type Tab = (typeof TABS)[number];
 const HEAL_MS = 2600;
+// The open window, tab and rack unit stay for this browser tab, so Back returns to the same window.
+const STATE_KEY = "hm-room";
+type Saved = { open: SpotId | null; tab: Tab; unit: string | null };
+function readSaved(): Saved | null {
+  try {
+    const saved = JSON.parse(window.sessionStorage.getItem(STATE_KEY) ?? "null") as Partial<Saved> | null;
+    if (!saved) return null;
+    return { open: saved.open && saved.open in SPOT_TEXT ? saved.open : null, tab: TABS.includes(saved.tab as Tab) ? (saved.tab as Tab) : "About", unit: typeof saved.unit === "string" ? saved.unit : null };
+  } catch { return null; }
+}
 const formatMonth = (date: string) => new Date(`${date}T00:00:00Z`).toLocaleDateString("en-GB", { month: "short", year: "numeric", timeZone: "UTC" });
 const work = featuredProjects.map(project => ({ title: project.title, type: project.category, description: project.description, link: project.link, caseStudy: caseStudyForRepo(project.link)?.slug }));
 
@@ -50,10 +60,21 @@ export function Room({ notes, articles, onStatic }: { notes: TerminalNote[]; art
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     import("@/lib/room-scene")
       .then(module => module.createRoom(canvasRef.current!, { onNear: spot => { nearRef.current = spot; setNear(spot); }, onArrive: spot => show(spot) }, reducedMotion))
-      .then(made => { if (cancelled) made.dispose(); else { controller.current = made; setPhase("ready"); } })
+      .then(made => {
+        if (cancelled) { made.dispose(); return; }
+        controller.current = made;
+        const saved = readSaved();
+        if (saved) { setTab(saved.tab); setUnit(saved.unit); if (saved.open) { made.place(saved.open); show(saved.open); } }
+        setPhase("ready");
+      })
       .catch(() => { if (!cancelled) setPhase("failed"); });
     return () => { cancelled = true; window.clearTimeout(healTimer.current); controller.current?.dispose(); controller.current = null; };
   }, [show]);
+
+  useEffect(() => {
+    if (phase !== "ready") return;
+    try { window.sessionStorage.setItem(STATE_KEY, JSON.stringify({ open, tab, unit })); } catch { /* storage is blocked */ }
+  }, [phase, open, tab, unit]);
 
   // E or Enter uses the object in reach. Escape closes the panel.
   useEffect(() => {

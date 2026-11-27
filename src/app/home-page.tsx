@@ -27,6 +27,8 @@ function validate(values: Record<Field, string>): FieldErrors {
 }
 
 const VIEW_KEY = "hm-view";
+// The address of the plain page. No element has this id, so the page opens at the top.
+const STATIC_HASH = "site";
 
 const projects = featuredProjects.map(project => ({ name: project.title, type: project.category, description: project.description, tags: project.techStack.slice(0, 4), link: project.link, caseStudy: caseStudyForRepo(project.link)?.slug }));
 
@@ -48,22 +50,33 @@ export default function HomePage({ notes }: { notes: HomeNote[] }) {
   // The home page opens as the 3D room. "static" shows the plain page, which is always in the HTML.
   const [view, setView] = useState<"room" | "static">("room");
 
-  // Stay on the plain page when the visitor chose it before, or when the link points at a section.
+  // The view follows the address: "/" is the room, "/#section" is the plain page.
+  // So the browser Back and Forward buttons move between the two views.
   useEffect(() => {
+    const sync = () => {
+      const hash = window.location.hash.slice(1);
+      setView(hash ? "static" : "room");
+      if (hash) window.requestAnimationFrame(() => { const section = document.getElementById(hash); if (section) section.scrollIntoView(); else window.scrollTo({ top: 0, behavior: "instant" }); });
+    };
     let saved: string | null = null;
     try { saved = window.localStorage.getItem(VIEW_KEY); } catch { /* storage is blocked */ }
-    if (saved !== "static" && window.location.hash.length <= 1) return;
-    const frame = window.requestAnimationFrame(() => setView("static"));
-    return () => window.cancelAnimationFrame(frame);
+    // A visitor who chose the plain page before gets it again on a new visit.
+    if (saved === "static" && window.location.hash.length <= 1) window.history.replaceState(window.history.state, "", `#${STATIC_HASH}`);
+    const frame = window.requestAnimationFrame(sync);
+    window.addEventListener("hashchange", sync);
+    window.addEventListener("popstate", sync);
+    return () => { window.cancelAnimationFrame(frame); window.removeEventListener("hashchange", sync); window.removeEventListener("popstate", sync); };
   }, []);
   useEffect(() => {
     document.documentElement.style.overflow = view === "room" ? "hidden" : "";
     return () => { document.documentElement.style.overflow = ""; };
   }, [view]);
-  function choose(next: "room" | "static", hash?: string) {
-    try { window.localStorage.setItem(VIEW_KEY, next); } catch { /* storage is blocked */ }
-    setView(next);
-    if (next === "static") window.requestAnimationFrame(() => (hash ? document.getElementById(hash)?.scrollIntoView() : window.scrollTo(0, 0)));
+  // remember: the visitor used a view button, so keep that view for the next visit.
+  function choose(next: "room" | "static", hash = STATIC_HASH, remember = true) {
+    if (remember) { try { window.localStorage.setItem(VIEW_KEY, next); } catch { /* storage is blocked */ } }
+    if (next === "static") { window.location.hash = hash; return; } // adds a history entry, then "hashchange" changes the view
+    window.history.pushState(null, "", window.location.pathname);
+    setView("room");
   }
 
   // Hide the sticky mobile CTA once the contact section it points to is on screen.
@@ -104,7 +117,7 @@ export default function HomePage({ notes }: { notes: HomeNote[] }) {
 
   return (
     <main>
-      {view === "room" && <Room notes={notes} articles={mediumArticles} onStatic={hash => choose("static", hash)} />}
+      {view === "room" && <Room notes={notes} articles={mediumArticles} onStatic={hash => choose("static", hash ?? STATIC_HASH, !hash)} />}
       <noscript><style>{".room-overlay { display: none; }"}</style></noscript>
 
       <SiteHeader home onRoom={() => choose("room")} />

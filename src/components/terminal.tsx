@@ -38,7 +38,7 @@ export function Terminal({ notes, articles, onRack }: { notes: TerminalNote[]; a
 
   function go(href: string, external: boolean) {
     if (external) window.open(href, "_blank", "noopener,noreferrer");
-    else if (href.startsWith("/#")) document.getElementById(href.slice(2))?.scrollIntoView();
+    else if (href.startsWith("/#") && window.location.pathname === "/") { const id = href.slice(2); if (window.location.hash !== `#${id}`) window.history.pushState(null, "", `#${id}`); window.dispatchEvent(new HashChangeEvent("hashchange")); document.getElementById(id)?.scrollIntoView(); }
     else router.push(href);
   }
 

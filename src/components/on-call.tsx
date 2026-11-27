@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import { useRouter } from "next/navigation";
 import type { CatalogEntry } from "@/data/catalog";
 import type { Near, OnCallController } from "@/lib/oncall-scene";
 import styles from "./on-call.module.css";
@@ -38,6 +39,12 @@ export function OnCall({ entries }: { entries: CatalogEntry[] }) {
   const controller = useRef<OnCallController | null>(null);
   const sound = useRef<ReturnType<typeof makeSound> | null>(null);
   const stickRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  // Exit returns to the page the visitor came from. With no earlier page on this site, the link opens the home page.
+  const leave = (event: MouseEvent) => {
+    const history = (window as unknown as { navigation?: { canGoBack?: boolean } }).navigation;
+    if (history?.canGoBack && !event.metaKey && !event.ctrlKey) { event.preventDefault(); router.back(); }
+  };
   const [phase, setPhase] = useState<Phase>("loading");
   const [near, setNear] = useState<Near>(null);
   const [progress, setProgress] = useState(0);
@@ -107,7 +114,7 @@ export function OnCall({ entries }: { entries: CatalogEntry[] }) {
               <p className={styles.small}>The game has sound. You can mute it at the top right.</p>
             </>
           )}
-          <Link href="/" className={styles.back}>Back to the site</Link>
+          <Link href="/" className={styles.back} onClick={leave}>Back to the site</Link>
         </div>
       ) : (
         <>
@@ -117,7 +124,7 @@ export function OnCall({ entries }: { entries: CatalogEntry[] }) {
           </div>
           <div className={styles.tools}>
             <button type="button" onClick={toggleMute} aria-pressed={muted}>{muted ? "Sound off" : "Sound on"}</button>
-            <Link href="/">Exit</Link>
+            <Link href="/" onClick={leave}>Exit</Link>
           </div>
           {toast ? <p className={styles.toast} role="status">{toast}</p> : null}
           {entry ? (
