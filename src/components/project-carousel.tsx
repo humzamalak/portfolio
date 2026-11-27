@@ -7,14 +7,16 @@ import { GITHUB_URL } from "@/components/site-chrome";
 
 const formatMonth = (date: string) => new Date(`${date}T00:00:00Z`).toLocaleDateString("en-GB", { month: "short", year: "numeric", timeZone: "UTC" });
 
-// All public GitHub repositories as a row of cards. The row is a native horizontal scroller with
+// The public GitHub repositories that have no case study, as a row of cards. The case-study
+// projects are in the "Selected work" list above, so they are not repeated here. The row is a native horizontal scroller with
 // scroll snap, so touch, trackpad, mouse wheel and keyboard all work without a carousel library.
 export function ProjectCarousel() {
-  const languages = useMemo(() => ["All", ...[...new Set(catalog.map(entry => entry.language))].sort()], []);
+  const others = useMemo(() => catalog.filter(entry => !entry.caseStudy), []);
+  const languages = useMemo(() => ["All", ...[...new Set(others.map(entry => entry.language))].sort()], [others]);
   const [language, setLanguage] = useState("All");
   const [position, setPosition] = useState(0);
   const track = useRef<HTMLUListElement>(null);
-  const shown = language === "All" ? catalog : catalog.filter(entry => entry.language === language);
+  const shown = language === "All" ? others : others.filter(entry => entry.language === language);
 
   // Go back to the first card when the filter changes.
   useEffect(() => {
@@ -45,8 +47,8 @@ export function ProjectCarousel() {
     <section id="repos" className="repos-section" aria-labelledby="repos-title">
       <div className="section-wrap">
         <div className="repos-heading">
-          <div><div className="section-label">GitHub <span>All public repositories</span></div><h2 id="repos-title">Everything,<br /><em>in the open.</em></h2></div>
-          <p>The list comes from GitHub when the site builds. Swipe, scroll, or use the arrow keys. Filter by language.</p>
+          <div><div className="section-label"><span>More on GitHub</span></div><h2 id="repos-title">The other <em>repositories.</em></h2></div>
+          <p>Smaller and older public work. The list comes from GitHub when the site builds.</p>
         </div>
         <div className="repos-controls">
           <div className="repos-filters" role="group" aria-label="Filter repositories by language">
@@ -62,7 +64,7 @@ export function ProjectCarousel() {
       <ul className="repos-track" ref={track} onScroll={onScroll} tabIndex={0} aria-label="Repositories. Use the left and right arrow keys to scroll." onKeyDown={event => { if (event.target !== event.currentTarget) return; if (event.key === "ArrowRight") { event.preventDefault(); step(1); } if (event.key === "ArrowLeft") { event.preventDefault(); step(-1); } }}>
         {shown.map((entry, index) => (
           <li className="repo-card" key={entry.id} data-current={index === current}>
-            <div className="repo-card-top"><span>{String(index + 1).padStart(2, "0")}</span><span>{entry.language} · {formatMonth(entry.pushed)}</span></div>
+            <div className="repo-card-top"><span>{entry.language} · {formatMonth(entry.pushed)}</span></div>
             <h3>{entry.title}</h3>
             <p className="repo-description">{entry.description}</p>
             <div className="tag-list">{entry.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
@@ -72,7 +74,7 @@ export function ProjectCarousel() {
             </div>
           </li>
         ))}
-        <li className="repo-card repo-card-end"><p>That is all of them.</p><a className="text-link" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub profile <span>↗</span></a></li>
+        <li className="repo-card repo-card-end"><p>That is all of them.</p><Link className="text-link" href="/projects/">All projects as a list <span>↗</span></Link><a className="text-link" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub profile <span>↗</span></a></li>
       </ul>
     </section>
   );

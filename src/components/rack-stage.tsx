@@ -5,7 +5,6 @@ import Link from "next/link";
 import { catalog, type MediumArticle } from "@/data/catalog";
 import { caseStudies } from "@/data/case-studies";
 import { projects } from "@/data/projects";
-import { CONTACT_EMAIL } from "@/components/site-chrome";
 import { Terminal } from "@/components/terminal";
 import { rackId, type Action, type TerminalNote } from "@/lib/terminal";
 import type { RackController } from "@/lib/rack-scene";
@@ -99,7 +98,7 @@ export function RackStage({ notes, articles }: { notes: TerminalNote[]; articles
           <p className="eyebrow"><i /> Available for platform &amp; DevOps work</p>
           <h1>Make the<br /><em>invisible</em> work.</h1>
           <p className="hero-lede">I&apos;m Humza, a DevOps Engineer who turns cloud complexity into calm, observable systems that teams can ship with confidence.</p>
-          <div className="hero-actions"><a className="button button-orange stage-cta" href="#work">See selected work <span>↓</span></a><a className="text-link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL} <span>↗</span></a></div>
+          <div className="hero-actions"><a className="button button-orange stage-cta" href="#work">See selected work <span>↓</span></a><Link className="text-link" href="/lab/">Play the on-call game <span>▶</span></Link></div>
           <Terminal notes={notes} articles={articles} onRack={onRack} />
         </div>
 
@@ -135,7 +134,8 @@ export function RackStage({ notes, articles }: { notes: TerminalNote[]; articles
       </div>
 
       <div className="rack-controls section-wrap">
-        <div role="group" aria-label="Rack units">
+        {/* The buttons are the fallback when the 3D rack cannot start. The "Selected work" list has the same projects. */}
+        <div role="group" aria-label="Rack units" hidden={state !== "failed"}>
           {servers.map(entry => <button type="button" key={entry.id} aria-pressed={selected === `server:${entry.id}`} data-bad={down.includes(entry.id)} onClick={() => select(selected === `server:${entry.id}` ? null : `server:${entry.id}`)}><i aria-hidden="true" />{entry.title}</button>)}
         </div>
         <button type="button" className="rack-lights" aria-pressed={lights} onClick={toggleLights}>Room lights: {lights ? "on" : "off"}</button>

@@ -11,7 +11,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
   return (
     <header className="site-header">
       {home ? <a className="wordmark" href="#top"><span>HM</span><small>platform engineering</small></a> : <Link className="wordmark" href="/"><span>HM</span><small>platform engineering</small></Link>}
-      <nav><a href={`${base}#work`}>Work</a>{hasNotes && <a href={home ? "#notes" : "/notes/"}>Field notes</a>}<a href={`${base}#experience`}>Experience</a><a className="nav-cta" href={`${base}#contact`}>Start a conversation <span>↗</span></a></nav>
+      <nav><a href={`${base}#work`}>Work</a>{hasNotes && <a href={home ? "#notes" : "/notes/"}>Field notes</a>}<a href={`${base}#experience`}>Experience</a><Link className="nav-game" href="/lab/"><span aria-hidden="true">▶</span> Play<b> On call</b></Link><a className={home ? "nav-cta nav-cta-home" : "nav-cta"} href={`${base}#contact`}>Start a conversation <span>↗</span></a></nav>
     </header>
   );
 }

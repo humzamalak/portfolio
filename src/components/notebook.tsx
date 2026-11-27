@@ -9,7 +9,7 @@ const formatDate = (date: string) => (date ? new Date(`${date}T00:00:00Z`).toLoc
 
 // An open notebook. The left page is the contents list; the right page shows one entry.
 // Entries are the notes on this site and the articles on Medium, newest first.
-export function Notebook({ entries, sectionNumber, mediumUrl }: { entries: NotebookEntry[]; sectionNumber: string; mediumUrl?: string }) {
+export function Notebook({ entries, mediumUrl }: { entries: NotebookEntry[]; mediumUrl?: string }) {
   const [page, setPage] = useState(0);
   const [turn, setTurn] = useState<"forward" | "back">("forward");
   const entry = entries[page];
@@ -28,7 +28,7 @@ export function Notebook({ entries, sectionNumber, mediumUrl }: { entries: Noteb
   return (
     <section id="notes" className="notes-section" aria-labelledby="notebook-title">
       <div className="section-wrap">
-        <div className="notes-heading"><div><div className="section-label">{sectionNumber} <span>Notebook</span></div><h2 id="notebook-title">Ideas worth<br /><em>shipping.</em></h2></div><p>Notes from the work: platform decisions, build logs, and the patterns I keep. Pick a page on the left, or turn the pages.</p></div>
+        <div className="notes-heading"><div><div className="section-label"><span>Notebook</span></div><h2 id="notebook-title">Ideas worth<br /><em>shipping.</em></h2></div><p>Notes from the work: platform decisions, build logs, and the patterns I keep. Pick a page on the left, or turn the pages.</p></div>
         <div className="notebook" onKeyDown={event => { if (event.key === "ArrowRight") show(page + 1); if (event.key === "ArrowLeft") show(page - 1); }}>
           <nav className="notebook-page notebook-contents" aria-label="Notebook contents">
             <p className="notebook-running-head">Contents</p>
