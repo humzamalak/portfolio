@@ -6,7 +6,9 @@ import { experience } from "@/data/experience";
 import { featuredProjects } from "@/data/projects";
 import { caseStudyForRepo } from "@/data/case-studies";
 import { CONTACT_EMAIL, SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { RackStage } from "@/components/rack-stage";
+import Link from "next/link";
+import { Room } from "@/components/room";
+import { Terminal } from "@/components/terminal";
 import { ProjectCarousel } from "@/components/project-carousel";
 import { Notebook, type NotebookEntry } from "@/components/notebook";
 import { mediumArticles, MEDIUM_URL } from "@/data/catalog";
@@ -23,6 +25,8 @@ function validate(values: Record<Field, string>): FieldErrors {
   else if (values.message.length > 5000) errors.message = "Please keep the message under 5,000 characters.";
   return errors;
 }
+
+const VIEW_KEY = "hm-view";
 
 const projects = featuredProjects.map(project => ({ name: project.title, type: project.category, description: project.description, tags: project.techStack.slice(0, 4), link: project.link, caseStudy: caseStudyForRepo(project.link)?.slug }));
 
@@ -41,6 +45,26 @@ export default function HomePage({ notes }: { notes: HomeNote[] }) {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [serverError, setServerError] = useState("");
   const [contactInView, setContactInView] = useState(false);
+  // The home page opens as the 3D room. "static" shows the plain page, which is always in the HTML.
+  const [view, setView] = useState<"room" | "static">("room");
+
+  // Stay on the plain page when the visitor chose it before, or when the link points at a section.
+  useEffect(() => {
+    let saved: string | null = null;
+    try { saved = window.localStorage.getItem(VIEW_KEY); } catch { /* storage is blocked */ }
+    if (saved !== "static" && window.location.hash.length <= 1) return;
+    const frame = window.requestAnimationFrame(() => setView("static"));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+  useEffect(() => {
+    document.documentElement.style.overflow = view === "room" ? "hidden" : "";
+    return () => { document.documentElement.style.overflow = ""; };
+  }, [view]);
+  function choose(next: "room" | "static", hash?: string) {
+    try { window.localStorage.setItem(VIEW_KEY, next); } catch { /* storage is blocked */ }
+    setView(next);
+    if (next === "static") window.requestAnimationFrame(() => (hash ? document.getElementById(hash)?.scrollIntoView() : window.scrollTo(0, 0)));
+  }
 
   // Hide the sticky mobile CTA once the contact section it points to is on screen.
   useEffect(() => {
@@ -80,9 +104,22 @@ export default function HomePage({ notes }: { notes: HomeNote[] }) {
 
   return (
     <main>
-      <SiteHeader home />
+      {view === "room" && <Room notes={notes} articles={mediumArticles} onStatic={hash => choose("static", hash)} />}
+      <noscript><style>{".room-overlay { display: none; }"}</style></noscript>
 
-      <RackStage notes={notes} articles={mediumArticles} />
+      <SiteHeader home onRoom={() => choose("room")} />
+
+      <section id="top" className="stage stage-static">
+        <div className="stage-inner section-wrap">
+          <div className="stage-copy">
+            <p className="eyebrow"><i /> Available for platform &amp; DevOps work</p>
+            <h1>Make the<br /><em>invisible</em> work.</h1>
+            <p className="hero-lede">I&apos;m Humza, a DevOps Engineer who turns cloud complexity into calm, observable systems that teams can ship with confidence.</p>
+            <div className="hero-actions"><a className="button button-orange stage-cta" href="#work">See selected work <span>↓</span></a><Link className="text-link" href="/lab/">Play the on-call game <span>▶</span></Link></div>
+          </div>
+          <div className="stage-terminal"><Terminal notes={notes} articles={mediumArticles} /></div>
+        </div>
+      </section>
 
       <section id="approach" className="statement section-wrap"><div className="section-label"><span>Operating principle</span></div><div><h2>Good infrastructure should feel <strong>unremarkable.</strong></h2><p>When releases are predictable and the signal is clear, teams get their attention back. I design the layers in between: foundations, delivery, runtime, and the feedback loop that keeps them healthy.</p></div></section>
 

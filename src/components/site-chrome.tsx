@@ -5,13 +5,14 @@ export const LINKEDIN_URL = "https://www.linkedin.com/in/humza-m-64607514b/";
 export const GITHUB_URL = "https://github.com/humzamalak";
 
 // On the home page the nav links scroll in place; elsewhere they go back to the home page.
-export function SiteHeader({ home = false }: { home?: boolean }) {
+// onRoom is set on the home page: it shows the button that goes back to the 3D room.
+export function SiteHeader({ home = false, onRoom }: { home?: boolean; onRoom?: () => void }) {
   const base = home ? "" : "/";
   const hasNotes = process.env.NEXT_PUBLIC_HAS_NOTES === "1";
   return (
     <header className="site-header">
       {home ? <a className="wordmark" href="#top"><span>HM</span><small>platform engineering</small></a> : <Link className="wordmark" href="/"><span>HM</span><small>platform engineering</small></Link>}
-      <nav><a href={`${base}#work`}>Work</a>{hasNotes && <a href={home ? "#notes" : "/notes/"}>Field notes</a>}<a href={`${base}#experience`}>Experience</a><Link className="nav-game" href="/lab/"><span aria-hidden="true">▶</span> Play<b> On call</b></Link><a className={home ? "nav-cta nav-cta-home" : "nav-cta"} href={`${base}#contact`}>Start a conversation <span>↗</span></a></nav>
+      <nav><a href={`${base}#work`}>Work</a>{hasNotes && <a href={home ? "#notes" : "/notes/"}>Field notes</a>}<a href={`${base}#experience`}>Experience</a>{onRoom && <button type="button" className="nav-game nav-room" onClick={onRoom}>3D room</button>}<Link className="nav-game" href="/lab/"><span aria-hidden="true">▶</span> Play<b> On call</b></Link><a className={home ? "nav-cta nav-cta-home" : "nav-cta"} href={`${base}#contact`}>Start a conversation <span>↗</span></a></nav>
     </header>
   );
 }
