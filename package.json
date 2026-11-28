@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/sync-content.mjs",
     "build": "next build",
     "postbuild": "node scripts/postbuild.mjs",
     "start": "npx serve out",
@@ -11,13 +12,14 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p cypress",
     "test": "jest",
     "test:all": "jest",
-    "test:scripts": "node --test scripts/chat-draft/lib.test.mjs",
+    "test:scripts": "node --test scripts/chat-draft/lib.test.mjs scripts/sync-content.test.mjs",
     "check:links": "node scripts/check-links.mjs out",
     "draft": "node scripts/chat-draft/cli.mjs",
     "cloudflare:dev": "npm run build && npx wrangler pages dev out",
     "cloudflare:deploy": "npm run build && npx wrangler pages deploy out --branch main"
   },
   "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
     "@fontsource/dm-mono": "^5.3.0",
     "@fontsource/manrope": "^5.3.0",
     "@fontsource/space-grotesk": "^5.3.0",
@@ -25,7 +27,8 @@
     "marked": "^18.2.0",
     "next": "^16.4.6",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
@@ -36,6 +39,7 @@
     "@types/node": "^26.1.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.187.0",
     "autoprefixer": "^10.5.4",
     "cypress": "^15.19.0",
     "eslint": "^9.39.5",

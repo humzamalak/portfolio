@@ -7,7 +7,7 @@ date: 2026-11-12          # YYYY-MM-DD, the publish date
 category: "Field note · Platform"
 tags: [DevOps, Cloudflare]
 status: draft             # draft = not built. Change to published to put it live.
-# medium: https://medium.com/@humzamalak/...   # add after you import the note to Medium
+# medium: https://medium.com/@humzatmalak/...   # add after you import the note to Medium
 ---
 
 Write the note in Markdown here.

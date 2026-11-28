@@ -1,0 +1,146 @@
+[
+  {
+    "name": "FDE-Trainer-",
+    "description": "",
+    "language": "JavaScript",
+    "topics": [],
+    "stars": 0,
+    "pushed": "2026-11-26",
+    "url": "https://github.com/humzamalak/FDE-Trainer-"
+  },
+  {
+    "name": "DevOps-Bash-Script-Toolkit",
+    "description": "Bash scripts for Terraform, Kubernetes, Docker, monitoring, S3 backups and CI/CD, tested with Bats and ShellCheck on Linux and macOS",
+    "language": "Shell",
+    "topics": [
+      "automation",
+      "aws",
+      "bash",
+      "bats",
+      "ci-cd",
+      "devops",
+      "docker",
+      "kubernetes",
+      "shell-scripts",
+      "shellcheck",
+      "sre",
+      "terraform"
+    ],
+    "stars": 0,
+    "pushed": "2026-11-12",
+    "url": "https://github.com/humzamalak/DevOps-Bash-Script-Toolkit"
+  },
+  {
+    "name": "DevSecOps-CI-CD-Pipeline-with-Security-Scanning",
+    "description": "DevSecOps CI/CD pipeline for a Python FastAPI app on AWS EKS, with Semgrep, Trivy, Checkov, Gitleaks, SBOM, Cosign signing and OPA Gatekeeper",
+    "language": "Python",
+    "topics": [
+      "aws",
+      "checkov",
+      "ci-cd",
+      "cosign",
+      "devsecops",
+      "eks",
+      "fastapi",
+      "github-actions",
+      "gitleaks",
+      "kubernetes",
+      "opa-gatekeeper",
+      "sbom",
+      "semgrep",
+      "supply-chain-security",
+      "terraform",
+      "trivy"
+    ],
+    "stars": 0,
+    "pushed": "2026-11-12",
+    "url": "https://github.com/humzamalak/DevSecOps-CI-CD-Pipeline-with-Security-Scanning"
+  },
+  {
+    "name": "portfolio",
+    "description": "Personal site: static-first Next.js on Cloudflare Pages, with a Pages Function for the contact form",
+    "language": "TypeScript",
+    "topics": [
+      "cloudflare-pages",
+      "nextjs",
+      "portfolio",
+      "static-site",
+      "tailwindcss",
+      "typescript"
+    ],
+    "stars": 0,
+    "pushed": "2026-11-12",
+    "url": "https://github.com/humzamalak/portfolio"
+  },
+  {
+    "name": "Production-Ready-EKS-Cluster-with-GitOps",
+    "description": "AWS EKS platform built with Terraform (VPC, EKS, IAM) and Argo CD GitOps, with HA Vault, Prometheus and Grafana. Minikube option for local use.",
+    "language": "Shell",
+    "topics": [
+      "argocd",
+      "aws",
+      "devops",
+      "eks",
+      "gitops",
+      "grafana",
+      "hashicorp-vault",
+      "helm",
+      "infrastructure-as-code",
+      "kubernetes",
+      "minikube",
+      "prometheus",
+      "terraform"
+    ],
+    "stars": 0,
+    "pushed": "2026-11-12",
+    "url": "https://github.com/humzamalak/Production-Ready-EKS-Cluster-with-GitOps"
+  },
+  {
+    "name": "airsnap",
+    "description": "Airsnap: camera-free scroll/gesture control for macOS via ultrasonic Doppler sensing (SoundWave technique)",
+    "language": "Python",
+    "topics": [],
+    "stars": 0,
+    "pushed": "2026-10-21",
+    "url": "https://github.com/humzamalak/airsnap"
+  },
+  {
+    "name": "K8-Wordpress-Project",
+    "description": "This is a simple wordpress cluster.",
+    "language": "",
+    "topics": [],
+    "stars": 0,
+    "pushed": "2021-07-27",
+    "url": "https://github.com/humzamalak/K8-Wordpress-Project"
+  },
+  {
+    "name": "Kubernetes",
+    "description": "This is a Repo on the Knowledge and Basics of K8 ",
+    "language": "",
+    "topics": [],
+    "stars": 0,
+    "pushed": "2020-09-21",
+    "url": "https://github.com/humzamalak/Kubernetes"
+  },
+  {
+    "name": "FullyAutomatedPipeline",
+    "description": "This is a fully automated CI/CD pipeline using Jenkins and DockerHub ",
+    "language": "HCL",
+    "topics": [
+      "docker",
+      "microservices"
+    ],
+    "stars": 0,
+    "pushed": "2020-09-07",
+    "url": "https://github.com/humzamalak/FullyAutomatedPipeline"
+  },
+  {
+    "name": "Improved-Rankings",
+    "description": "This is my 3rd year Project",
+    "language": "Python",
+    "topics": [],
+    "stars": 0,
+    "pushed": "2019-07-16",
+    "url": "https://github.com/humzamalak/Improved-Rankings"
+  }
+]
