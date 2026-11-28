@@ -10,6 +10,7 @@ import "@fontsource/space-grotesk/600.css";
 import "@fontsource/space-grotesk/700.css";
 import "@fontsource/dm-mono/400.css";
 import "@fontsource/dm-mono/500.css";
+import "@fontsource-variable/bricolage-grotesque/wdth.css";
 import "./globals.css";
 import { ConsentBanner } from "@/components/consent";
 
@@ -29,11 +30,15 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title, description: socialDescription, images: [ogImage.url] },
 };
 
-export const viewport: Viewport = { themeColor: "#f2f0ea" };
+export const viewport: Viewport = { themeColor: "#2b3ff2" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-GB">
+    <html lang="en-GB" suppressHydrationWarning>
+      <head>
+        {/* Set the saved colour scheme before the first paint. */}
+        <script dangerouslySetInnerHTML={{ __html: "try{var w=localStorage.getItem('hm-way');if(w)document.documentElement.dataset.way=w}catch(e){}" }} />
+      </head>
       <body>
         {children}
         <ConsentBanner />
